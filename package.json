@@ -1,0 +1,8 @@
+{
+  "name": "JDL-studio",
+  "devDependencies": {
+    "browser-sync": "*",
+    "gulp": "*"
+  },
+  "private": true
+}

@@ -1,0 +1,82 @@
+ng-cloak {
+    display: none;
+}
+html,
+body {
+    height: 100%;
+}
+* {
+    padding: 0;
+    margin: 0;
+}
+.definition {
+    vertical-align: top;
+    height: 100%;
+}
+textarea.form-control {
+    width: 100%;
+    height:75%;
+}
+svg {
+    width: 100%;
+    height: 100%;
+    /*border: 1px solid black;*/
+    box-sizing: border-box;
+}
+.fullH {
+    height: 100%;
+}
+.split-panes {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    position: absolute;
+}
+.split-panes > .split-handler {
+    background: #716c6c;
+    position: absolute;
+    z-index: 999;
+}
+/* Horizontal */
+.split-panes.horizontal > .split-handler {
+    width: 4px;
+    top: 0px;
+    left: 30%;
+    bottom: 0px;
+    cursor: ew-resize;
+}
+.split-panes.horizontal > .split-pane1,
+.split-panes.horizontal > .split-pane2 {
+    position: absolute;
+    height: 100%;
+}
+.split-panes.horizontal > .split-pane1 {
+    width: 30%;
+}
+.split-panes.horizontal > .split-pane2 {
+    left: 30%;
+    right: 0px;
+    border-left: 1px solid #aaa;
+}
+/* Vertical */
+.split-panes.vertical > .split-handler {
+    height: 4px;
+    top: 50%;
+    left: 0px;
+    right: 0px;
+    cursor: ns-resize;
+}
+.split-panes.vertical > .split-pane1,
+.split-panes.vertical > .split-pane2 {
+    position: absolute;
+    width: 100%;
+}
+.split-panes.vertical > .split-pane1 {
+    height: 50%;
+}
+.split-panes.vertical > .split-pane2 {
+    top: 50%;
+    bottom: 0px;
+    border-top: 1px solid #aaa;
+}

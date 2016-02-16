@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+    <title>JDL Studio</title>
+    <link href="css/style.css" type="text/css" rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="libs/joint.min.css" />
+</head>
+<body ng-app="JDLStudio">
+    <div ng-controller="AppController as vm">
+        <bg-splitter orientation="horizontal" class="row">
+            <bg-pane min-size="100" class="col-md-4">
+                <div class="definition fullH">
+                    <h3 style="margin:5px" class="badge label-success">Enter your definition:</h3>
+                    <textarea ng-model="vm.definition" class="form-control"></textarea>
+                    <hr>
+                    <label>
+                        <input type="checkbox" ng-model="vm.wantHandDraw" />Make it look like a hand drawn diagram</label>
+                    <!-- <button type="button" ng-click="draw()">Draw</button>-->
+                    <br>Download diagram as
+                    <select ng-options="s for s in vm.pageSizes" ng-model="vm.pageSize"></select>Image.
+                    <button class="btn btn-primary" type="button" ng-click="vm.print()">Download</button>
+                </div>
+            </bg-pane>
+            <bg-pane min-size="300" class="col-md-8">
+                <!--<uml-class data="data"></uml-class>-->
+                <div ng-cloak id="paper">
+                    <svg version="1.1" vbox="{{-vm.margin}} {{-vm.margin}} {{vm.width+2*vm.margin}} {{vm.height+2*vm.margin}}" id="svg_out" style="width:100%; height:100%;box-sizing: border-box;">
+                        <filter id="dropshadow" height="130%">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="3"/> <!-- stdDeviation is how much to blur -->
+                            <feOffset dx="3" dy="3" result="offsetblur"/> <!-- how much to offset -->
+                            <feMerge>
+                                <feMergeNode/> <!-- this contains the offset blurred image -->
+                                <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+                            </feMerge>
+                        </filter>
+                        <g stroke="#990033" font-family="Arial" text-anchor="middle">
+                            <!-- draw user boxes and the vertical lines -->
+                            <g ng-repeat="entity in vm.entities" transform="translate({{entity.x}}, {{entity.y}})" font-size="20">
+                                <polyline ng-attr-points="{{vm.rectByHand(0,0,100,50)}}" fill="#ffffcc" stroke-width="2" style="filter:url(#dropshadow)" width="100%"/>
+                                <text ng-bind="entity.name" x="50" y="25" stroke-width="0" dominant-baseline="middle"></text>
+                            </g>
+                            <!--<g class="line" ng-repeat="line in lines" transform="translate({{line.x}}, {{line.y}})" stroke-width="2">
+                                <polyline ng-attr-points="{{byHand(0,0,line.dx,line.dy)}}" fill="none" />
+                            </g>-->
+                            <!-- draw arrows between users -->
+                            <g class="arrow" ng-repeat="arrow in vm.arrows" stroke-width="2" transform="translate({{arrow.x}}, {{arrow.y}})">
+                                <rect ng-attr-x="{{vm.Math.min(3, arrow.length*arrow.direction+3)}}" y="-16" ng-attr-width="{{vm.Math.abs((arrow.length-6)*arrow.direction)}}" height="19" fill="white" stroke-width="0" stroke="white" />
+                                <polyline ng-attr-points="{{vm.byHand(0,0,arrow.length*arrow.direction,0)}}" fill="none" style="stroke-dasharray: {{arrow.dashed &amp;&amp; '9, 4' || '0'}}" />
+                                <polyline ng-attr-points="{{vm.byHand((arrow.length-11)*arrow.direction, -10*arrow.direction, (arrow.length-1)*arrow.direction, 0)+&quot; &quot;+vm.byHand((arrow.length-1)*arrow.direction, 0, (arrow.length-11)*arrow.direction, 10*arrow.direction)}}" fill="none" />
+                                <text ng-bind="arrow.text" ng-attr-x="{{arrow.length*arrow.direction/2}}" y="-8" stroke-width="0" dominant-baseline="middle" font-size="14"></text>
+                            </g>
+                            <!-- draw note boxes -->
+                            <!--<g class="note" ng-repeat="note in notes" stroke-width="1" transform="translate({{note.x}}, {{note.y}})">
+                                <polyline ng-attr-points="{{rectByHand(0,0,note_width,note_height)}}" fill="#ffff66" style="filter:url(#dropshadow)"/>
+                                <text ng-bind="note.text" ng-attr-x="{{note_width/2}}" ng-attr-y="{{note_height/2}}" stroke-width="0" dominant-baseline="middle" font-size="10"></text>
+                            </g>-->
+                        </g>
+                    </svg>
+                </div>
+                <div style="display:none">
+                    <canvas id="canvas_out"></canvas>
+                </div>
+            </bg-pane>
+        </bg-splitter>
+    </div>
+<!--    <script src="//d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="js/d3-services.js"></script>-->
+    <script src="libs/jquery.min.js"></script>
+    <script src="libs/lodash.min.js"></script>
+    <script src="libs/backbone-min.js"></script>
+    <script src="libs/joint.min.js"></script>
+    <script src="libs/joint.shapes.uml.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script type="text/javascript" src="js/splitter.js"></script>
+    <script type="text/javascript" src="js/parser.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/directives.js"></script>
+    <script type="text/javascript" src="js/services.js"></script>
+    <script type="text/javascript" src="js/controllers.js"></script>
+</body>
+</html>
