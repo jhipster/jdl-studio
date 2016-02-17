@@ -46,7 +46,7 @@ ul.options code, .highlighter-rouge pre{
 	position: absolute;
 	left: 0;
 	top: -30px;
-	width: 40px;
+	width: 45px;
 	height: 22px;
 	z-index: 4;
 }
@@ -116,12 +116,26 @@ ul.options code, .highlighter-rouge pre{
 	color:#D4CEBD
 }
 #linenumbers.error {
-	background: rgba(220,50,47,0.2);
+	background: rgba(220, 50, 47, 0.3);
 	z-index: 4;
 }
 #canvas {
 	position: absolute;
 	cursor: move
+}
+#error-tooltip {
+	font-size: 90%;
+	font-weight: bold;
+	color: rgb(245, 96, 96);
+	position: fixed;
+	top: 7px;
+	left: 45px;
+	text-align: right;
+	background: rgb(40, 44, 52);
+	border-radius: 2px;
+	padding: 0 5px;
+	font-family: Calibri, Helvetica, sans-serif;
+	z-index: 5
 }
 a, a:active {
 	color: #61afef;

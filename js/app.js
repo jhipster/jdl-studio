@@ -9,6 +9,8 @@ $(function (){
 	var lineNumbers = $('#linenumbers')
 	var lineMarker = $('#linemarker')
 	var storageStatusElement = $('#storage-status')
+	var tooltip = $('#tooltip')[0]
+	var errorTooltip = $('#error-tooltip')[0]
 	var textarea = document.getElementById('textarea')
 	var imgLink = document.getElementById('savebutton')
 	var linkLink = document.getElementById('linkbutton')
@@ -158,7 +160,6 @@ $(function (){
 	}
 
 	function initToolbarTooltips(){
-		var tooltip = $('#tooltip')[0]
 		$('.tools a').each(function (i, link){
 			link.onmouseover = function (){ tooltip.textContent  = $(link).attr('title') }
 			link.onmouseout = function (){ tooltip.textContent  = '' }
@@ -196,10 +197,22 @@ $(function (){
 		return editor.setValue(value)
 	}
 
+	function handleError(e){
+		lineNumbers.toggleClass('error', true)
+		if (e.location){
+			var lineHeight = parseFloat($(editorElement).css('line-height'))
+			lineMarker.css('top', 3 + lineHeight*e.location.start.line)
+			errorTooltip.textContent = e.message
+		} else {
+			throw e
+		}
+	}
+
 	function sourceChanged(){
 		try {
 			lineMarker.css('top', -30)
 			lineNumbers.toggleClass('error', false)
+			errorTooltip.textContent = ''
 			var superSampling = window.devicePixelRatio || 1
 			var scale = superSampling * Math.exp(zoomLevel/10)
 
@@ -208,14 +221,7 @@ $(function (){
 			setFilename(model.config.title)
 			storage.save(currentText())
 		} catch (e){
-			var matches = e.message.match('line ([0-9]*)')
-			lineNumbers.toggleClass('error', true)
-			if (matches){
-				var lineHeight = parseFloat($(editorElement).css('line-height'))
-				lineMarker.css('top', 3 + lineHeight*matches[1])
-			} else {
-				throw e
-			}
+			handleError(e)
 		}
 	}
 })
