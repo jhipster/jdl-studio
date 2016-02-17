@@ -13,11 +13,13 @@ $(function (){
 	var errorTooltip = $('#error-tooltip')[0]
 	var textarea = document.getElementById('textarea')
 	var imgLink = document.getElementById('savebutton')
+	var fileLink = document.getElementById('saveTextbutton')
 	var linkLink = document.getElementById('linkbutton')
 	var canvasElement = document.getElementById('canvas')
 	var canvasPanner = document.getElementById('canvas-panner')
 	var canvasTools = document.getElementById('canvas-tools')
 	var defaultSource = document.getElementById('defaultGraph').innerHTML
+	var fileName;
 	var zoomLevel = 0
 	var offset = {x:0, y:0}
 	var mouseDownPoint = false
@@ -46,6 +48,7 @@ $(function (){
 	canvasPanner.addEventListener('mouseleave', mouseUp)
 	canvasPanner.addEventListener('wheel', _.throttle(magnify, 50))
 	initImageDownloadLink(imgLink, canvasElement)
+	initFileDownloadLink(fileLink)
 	initToolbarTooltips()
 
 	reloadStorage()
@@ -159,6 +162,20 @@ $(function (){
 		}
 	}
 
+	function initFileDownloadLink(link){
+		link.addEventListener('click', downloadFile, false);
+		function downloadFile(){
+			var textToWrite = currentText()
+			var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'})
+			if (window.webkitURL != null) {
+		        link.href = window.webkitURL.createObjectURL(textFileAsBlob)
+		    }
+		    else {
+		        link.href = window.URL.createObjectURL(textFileAsBlob)
+		    }
+		}
+	}
+
 	function initToolbarTooltips(){
 		$('.tools a').each(function (i, link){
 			link.onmouseover = function (){ tooltip.textContent  = $(link).attr('title') }
@@ -178,6 +195,7 @@ $(function (){
 	}
 
 	function setFilename(filename){
+		fileLink.download = filename + '.jh'
 		imgLink.download = filename + '.png'
 	}
 
