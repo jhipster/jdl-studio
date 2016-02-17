@@ -1,0 +1,257 @@
+
+html, body {
+	height: 100%;
+    padding: 0;
+    margin: 0;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	background: rgb(40, 44, 52);
+}
+hr {
+	border: 0;
+	background: rgb(40, 44, 52);
+	height: 5px;
+}
+h1 {
+	font-size: 100%;
+	display: inline;
+	margin: 0;
+}
+img {
+    vertical-align: middle;
+    border: 0;
+}
+
+
+.wrap {
+	height: 100%;
+}
+
+ul.options {
+	list-style: none;
+	padding: 0 5px 0 15px;
+	margin: 2px 0;
+}
+ul.options li, ul.options li p{
+	margin: 2px;
+}
+ul.options code, .highlighter-rouge pre{
+	color: #c678dd;
+}
+.jhi-logo{
+	width: 30px;
+}
+#linemarker {
+	background: rgba(220,50,47,0.5);
+	position: absolute;
+	left: 0;
+	top: -30px;
+	width: 40px;
+	height: 22px;
+	z-index: 4;
+}
+#textarea {
+	outline: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0);
+	box-sizing: border-box;
+	border: 0;
+	font-family: Consolas, Menlo, monospace;
+	color: #657b83;
+	padding: 30px 0 0 40px;
+	resize: none;
+	opacity: 1;
+	transition: opacity 0.3s;
+}
+.CodeMirror {
+  height: 100%;
+  border: 0;
+  width: 100%;
+  padding: 22px 0 0 0;
+  line-height: 25px;
+  font-size: 16px;
+  font-family: Consolas, Monaco, monospace;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.CodeMirror .CodeMirror-linenumber {
+  color: #3E4350;
+  padding-left: 12px
+}
+.canvas-mode .CodeMirror {
+	opacity: 0;
+	transition: opacity 1s;
+}
+.tools i {
+	color: #fdf6e3;
+	font-size: 1.2em;
+}
+.canvas-tools i {
+	font-size: 1.5em;
+}
+.canvas-tools a {
+	line-height: 2.5em;
+}
+#canvas-panner {
+	position: absolute;
+	z-index: 2;
+	width: 33%;
+	height: 100%;
+	background: rgba(0,0,0,0);
+	top: 0;
+	right: 20px;
+	bottom: 0;
+	cursor: move;
+}
+#linenumbers {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 45px;
+	height: 100%;
+	background: rgb(32, 36, 45);
+	color:#D4CEBD
+}
+#linenumbers.error {
+	background: rgba(220,50,47,0.2);
+	z-index: 4;
+}
+#canvas {
+	position: absolute;
+	cursor: move
+}
+a, a:active {
+	color: #61afef;
+	opacity: 0.75;
+	text-decoration: none
+}
+a:hover {
+	color: #61afef;
+	opacity: 1.0;
+	text-decoration: none
+}
+.invert{
+	-webkit-filter: grayscale(100%) brightness(1.5) invert(100%);
+	filter: grayscale(100%) brightness(1.5) invert(100%);
+}
+.tools {
+	display: block;
+	position: absolute;
+	z-index: 4;
+	top: 20px;
+	right: 20px;
+	font-family: Calibri, Helvetica, sans-serif;
+	font-weight: bold;
+	background: rgb(40, 44, 52);
+	border-radius: 5px;
+}
+.tools .canvas-tools {
+	display: block;
+	position: absolute;
+	top: 60px;
+	right: 0;
+	width: 24px;
+	opacity: 0;
+	transition: opacity 1s;
+}
+.canvas-mode .canvas-tools {
+	opacity: 1;
+	transition: opacity 0.3s;
+}
+.tools i {
+	width: 24px;
+	height: 24px;
+	margin-bottom: 5px;
+}
+.tools>a {
+	margin-left: 5px;
+}
+.tools>.logo {
+	color: #fdf6e3;
+	font-size: 150%;
+}
+.tools>#tooltip {
+	font-size: 90%;
+	color: #807C72;
+	position: fixed;
+	top: 7px;
+	right: 20px;
+	text-align: right;
+	background: rgb(40, 44, 52);
+	border-radius: 2px;
+	padding: 0 5px;
+}
+.tools > #storage-status {
+	display: none;
+	color: #fdf6e3;
+	opacity: 0.5;
+	font-style: italic;
+	position: fixed;
+	top: 7px;
+	right: 0;
+	width: 100%;
+	text-align: center;
+}
+.tools > #storage-status a {
+	border: 2px solid rgba(255, 246, 223, 0.63);
+	padding: 0 5px;
+	border-radius: 4px;
+	font-style: normal;
+	opacity: 1;
+}
+
+.sidebar {
+	display: none;
+	position: absolute;
+	z-index: 3;
+	top: 0px;
+	right:0;
+	bottom: 0;
+	width: 350px;
+	background-color: rgb(40, 44, 52);
+	box-shadow: -3px 0 6px rgba(0, 0, 0, 0.28);
+}
+.sidebar.visible {
+	display: block;
+	overflow: auto;
+}
+.sidebar .logo-background {
+	position: fixed;
+	top: 0;
+	right: 20px;
+	width: 300px;
+	height: 70px;
+	background: rgb(40, 44, 52)
+}
+.content {
+	display: block;
+	color: #9da5b4;
+	font-family: Consolas, Monaco, monospace;
+	padding: 70px 10px 200px 20px;
+}
+.content p {
+	font-family: Calibri, Helvetica, sans-serif
+}
+.content label{
+	display: block;
+	font-family: Calibri, Helvetica, sans-serif;
+	color: #93a1a1;
+	margin-top: 1em;
+}
+.content h2{
+	font-size: inherit;
+	display: block;
+	font-family: Calibri, Helvetica, sans-serif;
+	color: #93a1a1;
+	margin-top: 1em;
+}
+.content b {
+	display: inline-block;
+	font-weight: normal;
+	width: 40%;
+	font-family: Calibri, Helvetica, sans-serif;
+	color: #93a1a1;
+}
