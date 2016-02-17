@@ -27,7 +27,6 @@ nomnoml.parse = function (source){
 
 nomnoml.intermediateParse = function (source){
 	return nomnoml.convertToNomnoml(JDLParser.parse(source));
-	//return nomnomlCoreParser.parse(source)
 }
 
 nomnoml.convertToNomnoml = function(JDLObj){
@@ -104,10 +103,10 @@ nomnoml.convertToNomnoml = function(JDLObj){
 
 	_.each(JDLObj.relationships, function (p){
 		parts.push({
-			assoc: '->',//p.assoc,
+			assoc: '->',
 			start: setParts(p.from),
 			end: setParts(p.to),
-			startLabel: p.from.injectedfield,
+			startLabel: p.from.injectedfield ? p.from.injectedfield : '',
 			endLabel: (getCardinality(p.cardinality) + ' ' + (p.to.injectedfield ? p.to.injectedfield : ''))
 		})
 	})
