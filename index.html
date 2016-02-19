@@ -7,6 +7,7 @@
 <meta name="description" content="A tool for drawing sassy UML diagrams based on syntax. Provides instant feedback and has a customizable styling.">
 <title>JDL-Studio</title>
 <link rel="stylesheet" href="lib/font-awesome.min.css">
+<link rel="stylesheet" href="lib/magnific-popup.css">
 <link rel="stylesheet" href="codemirror/codemirror.css">
 <link rel="stylesheet" href="codemirror/show-hint.css">
 <link rel="stylesheet" href="codemirror/solarized.jdl.css">
@@ -15,7 +16,55 @@
 </head>
 <body>
 	<div class="wrap">
+		<header>
+			<div class="tools left">
+				<a href="https://jhipster.github.io" title="JHipster website" target="_blank"><img class="jhi-logo" src="img/logo-jhipster.png"></a>
+				<a class="logo" href="javascript:void(0)" onclick="app.toggleSidebar('about')" title="About JDL-Studio"><h1>JDL-Studio</h1> &nbsp;</a>
+			</div>
+			<div class="tools">
+				<a href="javascript:void(0)" onclick="app.toggleSidebar('about')" title="About JDL-Studio">
+					<i class="fa fa-info-circle"></i>
+				</a>
+				<a href="javascript:void(0)" onclick="app.toggleSidebar('reference')" title="Language reference">
+					<i class="fa fa-book"></i>
+				</a>
+				<a id="savebutton" href="javascript:void(0)" download="jdl.png" title="Download snapshot of this diagram">
+					<i class="fa fa-camera"></i>
+				</a>
+				<a id="saveTextbutton" href="javascript:void(0)" download="jdl.jh" title="Download text file of this JDL">
+					<i class="fa fa-download"></i>
+				</a>
+				<a id="uploadbutton" class="upload-dialog" href="#upload-dialog" title="Import text file of a JDL">
+					<i class="fa fa-upload"></i>
+				</a>
+				<a id="linkbutton" href="javascript:void(0)" target="_blank" title="Shareable link to this diagram">
+					<i class="fa fa-link"></i>
+				</a>
+				<a href="javascript:app.confirmDiscardCurrentGraph()" title="Discard this diagram">
+					<i class="fa fa-trash"></i>
+				</a>
+				<span id="tooltip"></span>
+				<span id="storage-status">
+					View mode, changes are not saved.
+					<a href="javascript:app.saveViewModeToStorage()"
+					   title="Save this diagram to localStorage">save</a>
+					<a href="javascript:app.exitViewMode()"
+					   title="Discard this diagram">close</a>
+				</span>
 
+				<div class="canvas-tools" id="canvas-tools">
+					<a href="javascript:app.magnifyViewport(2)" title="Zoom in">
+						<i class="fa fa-plus"></i>
+					</a>
+					<a href="javascript:app.resetViewport()" title="Reset zoom and panning">
+						<i class="fa fa-crosshairs"></i>
+					</a>
+					<a href="javascript:app.magnifyViewport(-2)" title="Zoom out">
+						<i class="fa fa-minus"></i>
+					</a>
+				</div>
+			</div>
+		</header>
 		<canvas id="canvas"></canvas>
 		<textarea id="textarea" spellcheck="false"></textarea>
 		<div id="linenumbers"></div>
@@ -144,6 +193,7 @@ relationship &lt;type&gt; {
 				</p>
 
 				<p>The editor supports a subset of <i>Sublime Text's</i> <a href="https://codemirror.net/demo/sublime.html" target="_blank">keymappings</a>.
+					Hit <code>Ctrl-Space</code> for auto suggestions.
 				</p>
 
 				<hr>
@@ -170,51 +220,23 @@ relationship &lt;type&gt; {
 		</div>
 
 		<div id="linemarker"></div>
-
-		<div class="tools">
-			<a class="logo" href="javascript:void(0)" onclick="app.toggleSidebar('about')" title="About JDL-Studio"><h1>JDL-Studio</h1> &nbsp;</a><a href="https://jhipster.github.io" title="JHipster website" target="_blank"><img class="jhi-logo" src="img/logo-jhipster.png"></a>
-			<a href="javascript:void(0)" onclick="app.toggleSidebar('about')" title="About JDL-Studio">
-				<i class="fa fa-info-circle"></i>
-			</a>
-			<a href="javascript:void(0)" onclick="app.toggleSidebar('reference')" title="Language reference">
-				<i class="fa fa-book"></i>
-			</a>
-			<a id="savebutton" href="javascript:void(0)" download="jdl.png" title="Download snapshot of this diagram">
-				<i class="fa fa-camera"></i>
-			</a>
-			<a id="saveTextbutton" href="javascript:void(0)" download="jdl.jh" title="Download text file of this JDL">
-				<i class="fa fa-download"></i>
-			</a>
-			<a id="linkbutton" href="javascript:void(0)" target="_blank" title="Shareable link to this diagram">
-				<i class="fa fa-link"></i>
-			</a>
-			<a href="javascript:app.discardCurrentGraph()" title="Discard this diagram">
-				<i class="fa fa-trash"></i>
-			</a>
-			<span id="tooltip"></span>
-			<span id="storage-status">
-				View mode, changes are not saved.
-				<a href="javascript:app.saveViewModeToStorage()"
-				   title="Save this diagram to localStorage">save</a>
-				<a href="javascript:app.exitViewMode()"
-				   title="Discard this diagram">close</a>
-			</span>
-
-			<div class="canvas-tools" id="canvas-tools">
-				<a href="javascript:app.magnifyViewport(2)" title="Zoom in">
-					<i class="fa fa-plus"></i>
-				</a>
-				<a href="javascript:app.resetViewport()" title="Reset zoom and panning">
-					<i class="fa fa-crosshairs"></i>
-				</a>
-				<a href="javascript:app.magnifyViewport(-2)" title="Zoom out">
-					<i class="fa fa-minus"></i>
-				</a>
-			</div>
-		</div>
+	</div>
+	<div id="discard-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
+		<h1>Discard</h1>
+		<p>Do you want to discard current diagram and load the default example?</p>
+		<button class="btn" onclick="app.discardCurrentGraph()">Yes</button>
+		<button class="btn" onclick="app.dismissDialog()">No</button>
+	</div>
+	<div id="upload-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
+		<h1>Import JDL</h1>
+		<p>Select a <code>.jh</code> or <code>.txt</code> file</p>
+		<input class="upload" accept=".jh,.txt" type="file" id="jdlFileInput" /><br>
+		<button class="btn" onclick="app.importJDL()">Import</button>
+		<button class="btn" onclick="app.dismissDialog()">Dismiss</button>
 	</div>
 
-	<script type="text/vnd.jdl.class" id="defaultGraph">entity Department {
+	<script type="text/vnd.jdl.class" id="defaultGraph">
+entity Department {
   departmentId Long,
   departmentName String required
 }
@@ -329,20 +351,24 @@ paginate Job with pagination
 
 dto Employee with mapstruct
 
-service Employee with serviceClass</script>
+service Employee with serviceClass
+</script>
 
 	<script src="lib/zepto.min.js"></script>
 	<script src="lib/lodash.min.js"></script>
 	<script src="lib/dagre.min.js"></script>
-	<script src="nomnoml/skanaar.canvas.js"></script>
+	<script src="lib/jquery.magnific-popup.min.js"></script>
+	<script src="js/jdl.parser.js"></script>
 	<script src="codemirror/codemirror-compressed.js"></script>
 	<script src="codemirror/show-hint.js"></script>
 	<script src="codemirror/jdl-hint.js"></script>
 	<script src="codemirror/closebrackets.js"></script>
+	<script src="codemirror/searchcursor.js"></script>
+	<script src="codemirror/dialog.js"></script>
 	<script src="codemirror/codemirror.jdl-mode.js"></script>
+	<script src="nomnoml/skanaar.canvas.js"></script>
 	<script src="nomnoml/skanaar.util.js"></script>
 	<script src="nomnoml/skanaar.vector.js"></script>
-	<script src="js/jdl.parser.js"></script>
 	<script src="nomnoml/nomnoml.parser.js"></script>
 	<script src="nomnoml/nomnoml.layouter.js"></script>
 	<script src="nomnoml/nomnoml.renderer.js"></script>

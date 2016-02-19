@@ -52,9 +52,22 @@ $(function (){
 	initImageDownloadLink(imgLink, canvasElement)
 	initFileDownloadLink(fileLink)
 	initToolbarTooltips()
-
+	initDialog('.upload-dialog')
 	reloadStorage()
 
+	function initDialog(className) {
+
+		$(className).magnificPopup({
+			type: 'inline',
+			fixedContentPos: false,
+			fixedBgPos: true,
+			overflowY: 'auto',
+			closeBtnInside: true,
+			preloader: false,
+			removalDelay: 300,
+			mainClass: 'my-mfp-slide-bottom'
+		});
+	}
 	function classToggler(element, className, state){
 		var jqElement = $(element)
 		return _.bind(jqElement.toggleClass, jqElement, className, state)
@@ -88,7 +101,7 @@ $(function (){
 	}
 
 	app.resetViewport = function (){
-		zoomLevel = 1
+		zoomLevel = 0
 		offset = {x: 0, y: 0}
 		sourceChanged()
 	}
@@ -101,17 +114,35 @@ $(function (){
 		$(document.getElementById(id)).toggleClass('visible')
 	}
 
+	app.confirmDiscardCurrentGraph = function (){
+		$.magnificPopup.open({
+			items: {
+				src: '#discard-dialog'
+			},
+			type: 'inline',
+			fixedContentPos: false,
+			fixedBgPos: true,
+			overflowY: 'auto',
+			closeBtnInside: true,
+			preloader: false,
+			removalDelay: 300,
+			mainClass: 'my-mfp-slide-bottom'
+		});
+	}
+	app.dismissDialog = function (){
+		$.magnificPopup.close();
+	}
+
 	app.discardCurrentGraph = function (){
-		if (confirm('Do you want to discard current diagram and load the default example?')){
-			setCurrentText(defaultSource)
-			sourceChanged()
-		}
+		app.dismissDialog()
+		setCurrentText(defaultSource)
+		sourceChanged()
 	}
 
 	app.saveViewModeToStorage = function (){
 		var question =
-			'Do you want to overwrite the diagram in ' +
-			'localStorage with the currently viewed diagram?'
+		'Do you want to overwrite the diagram in ' +
+		'localStorage with the currently viewed diagram?'
 		if (confirm(question)){
 			storage.moveToLocalStorage()
 			window.location = './'
@@ -120,6 +151,31 @@ $(function (){
 
 	app.exitViewMode = function (){
 		window.location = './'
+	}
+
+	app.importJDL = function() {
+		app.dismissDialog()
+		//Retrieve the first (and only!) File from the FileList object
+		var f = document.getElementById('jdlFileInput').files[0]
+
+		if(!f) {
+			alert("Failed to load file")
+		} else if (!f.type.match('text.*') && !f.name.endsWith('.jh')) {
+			alert(f.name + " is not a valid JDL or text file.")
+		} else {
+			var r = new FileReader()
+			r.onload = function(e) {
+				var contents = e.target.result;
+				console.log( "Got the file\n"
+					+"name: " + f.name + "\n"
+					+"type: " + f.type + "\n"
+					+"size: " + f.size + " bytes\n"
+					+ "starts with: " + contents.substr(0, contents.indexOf("\n"))
+				)
+				setCurrentText(contents)
+			}
+			r.readAsText(f)
+		}
 	}
 
 	// Adapted from http://meyerweb.com/eric/tools/dencoder/
@@ -139,12 +195,12 @@ $(function (){
 	function buildStorage(locationHash){
 		var key = 'nomnoml.lastSource'
 		if (locationHash.substring(0,6) === '#view/')
-			return {
-				read: function (){ return urlDecode(locationHash.substring(6)) },
-				save: function (){ setShareableLink(currentText()) },
-				moveToLocalStorage: function (){ localStorage[key] = currentText() },
-				isReadonly: true
-			}
+		return {
+			read: function (){ return urlDecode(locationHash.substring(6)) },
+			save: function (){ setShareableLink(currentText()) },
+			moveToLocalStorage: function (){ localStorage[key] = currentText() },
+			isReadonly: true
+		}
 		return {
 			read: function (){ return localStorage[key] || defaultSource },
 			save: function (source){
@@ -170,11 +226,11 @@ $(function (){
 			var textToWrite = currentText()
 			var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'})
 			if (window.webkitURL != null) {
-		        link.href = window.webkitURL.createObjectURL(textFileAsBlob)
-		    }
-		    else {
-		        link.href = window.URL.createObjectURL(textFileAsBlob)
-		    }
+				link.href = window.webkitURL.createObjectURL(textFileAsBlob)
+			}
+			else {
+				link.href = window.URL.createObjectURL(textFileAsBlob)
+			}
 		}
 	}
 
@@ -187,9 +243,9 @@ $(function (){
 
 	function positionCanvas(rect, superSampling, offset){
 		var w = rect.width / superSampling
-		var h = rect.height / superSampling
+		var h = (rect.height / superSampling) - 60
 		jqCanvas.css({
-			top: 300 * (1 - h/viewport.height()) + offset.y,
+			top: (300 * (1 - h/viewport.height()) + offset.y) + 50,
 			left: 150 + (viewport.width() - w)/2 + offset.x,
 			width: w,
 			height: h
