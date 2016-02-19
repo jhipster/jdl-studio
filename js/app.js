@@ -29,8 +29,10 @@ $(function (){
 		lineNumbers: true,
 		mode: 'jdl',
 		matchBrackets: true,
+		autoCloseBrackets: true,
 		theme: 'solarized dark',
-		keyMap: 'sublime'
+		keyMap: 'sublime',
+		extraKeys: {"Ctrl-Space": "autocomplete"}
 	});
 
 	var editorElement = editor.getWrapperElement()

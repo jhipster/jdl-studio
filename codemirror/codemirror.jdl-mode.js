@@ -39,3 +39,14 @@ CodeMirror.defineMode('jdl', function() {
     }
   };
 });
+var keywords = ['entity', 'enum', 'relationship',
+    'OneToOne', 'OneToMany', 'ManyToOne', 'ManyToMany',
+    'required', 'minlength', 'maxlength', 'pattern',
+    'with', 'all', 'except', 'to',
+    'paginate', 'pagination', 'pager', 'infinite-scroll',
+    'dto', 'mapstruct',
+    'service', 'serviceClass', 'serviceImpl',
+    'String', 'Integer', 'Long', 'BigDecimal', 'Float', 'Double', 'Boolean', 'LocalDate', 'ZonedDateTime', 'Blob', 'AnyBlob', 'ImageBlob'];
+CodeMirror.commands.autocomplete = function(cm) {
+    cm.showHint({hint: CodeMirror.hint.anyword, list: keywords});
+}
