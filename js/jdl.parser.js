@@ -1,4 +1,4 @@
-// This is the same parser used by Jhipster UML to parse JDL
+// This is the same parser used by JHipster UML to parse JDL
 var JDLParser = (function() {
   "use strict";
 
