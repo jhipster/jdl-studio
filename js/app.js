@@ -32,7 +32,17 @@ $(function (){
 		autoCloseBrackets: true,
 		theme: 'solarized dark',
 		keyMap: 'sublime',
-		extraKeys: {"Ctrl-Space": "autocomplete"}
+		extraKeys: {
+			"Ctrl-Space": "autocomplete"
+	   }
+	});
+
+	$(document).bind('keydown', function(e) {
+		if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+			e.preventDefault()
+			fileLink.click()
+			return false
+		}
 	});
 
 	var editorElement = editor.getWrapperElement()
@@ -221,16 +231,15 @@ $(function (){
 	}
 
 	function initFileDownloadLink(link){
-		link.addEventListener('click', downloadFile, false);
-		function downloadFile(){
-			var textToWrite = currentText()
-			var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'})
-			if (window.webkitURL != null) {
-				link.href = window.webkitURL.createObjectURL(textFileAsBlob)
-			}
-			else {
-				link.href = window.URL.createObjectURL(textFileAsBlob)
-			}
+		link.addEventListener('click', downloadFile(link), false);
+	}
+
+	function downloadFile(link){
+		var textToWrite = currentText()
+		var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'})
+		var URL = window.URL || window.webkitURL
+		if (URL != null) {
+			link.href = window.URL.createObjectURL(textFileAsBlob)
 		}
 	}
 

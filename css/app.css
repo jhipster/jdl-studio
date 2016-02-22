@@ -23,6 +23,9 @@ img {
     border: 0;
 }
 
+a:focus{
+    outline: none;
+}
 
 .wrap {
 	height: 98%;

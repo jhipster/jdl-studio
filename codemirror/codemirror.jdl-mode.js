@@ -1,52 +1,113 @@
-CodeMirror.defineMode('jdl', function() {
-  return {
-    startState: function() { return { inSymbol: false } },
-    token: function(stream, state) {
-      if (stream.sol()){
-        stream.eatSpace()
-        if (stream.peek() === '#'){
-          stream.skipToEnd()
-          return 'meta'
-        }
-        if (stream.match('//') || stream.peek() === '/' || stream.peek() === '*'){
-          stream.skipToEnd()
-          return 'comment'
-        }
-        if (stream.match(/^(entity|enum|relationship|paginate|dto|service)/g)){
-            stream.skipTo(' ')
-            return 'keyword'
+(function () {
+
+    var mainKeywords = ['entity', 'enum', 'relationship', 'paginate', 'dto', 'service'],
+    relationshipKws = ['OneToOne', 'OneToMany', 'ManyToOne', 'ManyToMany'],
+    validationKws = ['required', 'minlength', 'maxlength', 'pattern'],
+    generalKws = ['with', 'all', 'except', 'to'],
+    paginationKws = ['pagination', 'pager', 'infinite-scroll'],
+    dtoKws = ['mapstruct'],
+    serviceKws = ['serviceClass', 'serviceImpl'],
+    typeKws = ['String', 'Integer', 'Long', 'BigDecimal', 'Float', 'Double', 'Boolean', 'LocalDate', 'ZonedDateTime', 'Blob', 'AnyBlob', 'ImageBlob'];
+
+    CodeMirror.defineMode('jdl', function() {
+        var words = {};
+        function define(style, list) {
+            for(var i = 0; i < list.length; i++) {
+                words[list[i]] = style;
+            }
+        };
+
+        // relationships
+        define('relationship', relationshipKws);
+
+        // Keywords
+        define('keyword', mainKeywords);
+
+        // types
+        define('attribute', typeKws);
+
+        // types
+        define('qualifier', validationKws);
+
+        // types
+        define('special', generalKws.concat(paginationKws, serviceKws, dtoKws));
+
+        function tokenBase(stream, state) {
+            /*if (!stream.sol() && stream.match(/(\s*)([A-Z])/g)){
+                return tokenEntity(stream)
+            }*/
+            if (stream.eatSpace()) return null;
+
+            var sol = stream.sol();
+            var ch = stream.next();
+            var delimiters = '{ } |'.split(' ')
+
+            if (ch === '\\') {
+                stream.next();
+                return null;
+            }
+
+            if (sol && ch === '#') {
+                stream.skipToEnd();
+                return 'meta'; // 'directives'
+            }
+
+            if (stream.match('//') || ch === '/' || ch === '*'){
+                stream.skipToEnd()
+                return 'comment'
+            }
+
+            if (ch === '+' || ch === '=') {
+                return 'operator';
+            }
+            if (ch === '-') {
+                stream.eat('-');
+                stream.eatWhile(/\w/);
+                return 'attribute';
+            }
+            if (delimiters.some(function (c){ return stream.eat(c) }))
+                return 'bracket'
+
+            stream.eatWhile(/[\w-]/);
+            var cur = stream.current();
+            if (stream.peek() === '=' && /\w+/.test(cur)) return 'def';
+            if(words.hasOwnProperty(cur)) return words[cur];
+
+            if (/[A-Z]/.test(ch)) {
+                stream.eatWhile(/[a-z_]/);
+                if(stream.eol() || !/\s[\{\,]/.test(stream.peek())) {
+                    return 'def';
+                }
+            }
+
+            return null
         }
 
-      }
+        function tokenEntity(stream) {
+            var ch;
+            while ((ch = stream.next()) != null)
+                if (ch == " " && stream.peek() == "{"){
+                    return "def";
+                }
 
-      var delimiters = '{}|'.split('')
-      var operator = '>+-:;'.split('')
-      var all = [].concat(delimiters, operator)
-      var ch;
-      if (stream.match(/(\s*)([A-Z])/g)){
-          while ((ch = stream.next()) != null)
-			  if (ch == " " && stream.peek() == "{"){
-				return "def";
-			  }
-      }
+        }
 
-      if (delimiters.some(function (c){ return stream.eat(c) }))
-        return 'bracket'
-      if (operator.some(function (c){ return stream.eat(c) }))
-        return 'operator'
-      stream.eatWhile(function (c){ return all.indexOf(c) === -1 })
-      return null;
+        function tokenize(stream, state) {
+            return (state.tokens[0] || tokenBase) (stream, state);
+        };
+
+        return {
+            startState: function() {return {tokens:[]};},
+            token: function(stream, state) {
+                return tokenize(stream, state);
+            },
+            lineComment: '//',
+            fold: "brace"
+        };
+
+    });
+    var keywords = mainKeywords.concat(typeKws, relationshipKws, validationKws, generalKws, paginationKws, dtoKws, serviceKws);
+    CodeMirror.commands.autocomplete = function(cm) {
+        cm.showHint({hint: CodeMirror.hint.anyword, list: keywords});
     }
-  };
-});
-var keywords = ['entity', 'enum', 'relationship',
-    'OneToOne', 'OneToMany', 'ManyToOne', 'ManyToMany',
-    'required', 'minlength', 'maxlength', 'pattern',
-    'with', 'all', 'except', 'to',
-    'paginate', 'pagination', 'pager', 'infinite-scroll',
-    'dto', 'mapstruct',
-    'service', 'serviceClass', 'serviceImpl',
-    'String', 'Integer', 'Long', 'BigDecimal', 'Float', 'Double', 'Boolean', 'LocalDate', 'ZonedDateTime', 'Blob', 'AnyBlob', 'ImageBlob'];
-CodeMirror.commands.autocomplete = function(cm) {
-    cm.showHint({hint: CodeMirror.hint.anyword, list: keywords});
-}
+})();
