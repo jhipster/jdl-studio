@@ -1,7 +1,7 @@
 JDL-Studio
 =======
 
-Hello, this is [JDL-Studio](https://jhipster.github.io/jdl-studio/), a tool for drawing UML diagrams for [Jhipster](https://jhipster.github.io) based on the [JDL syntax](https://jhipster.github.io/jhipster-uml/#jdl). It tries to keep its syntax visually as close as possible to the generated UML diagram without resorting to ASCII drawings.
+Hello, this is [JDL-Studio](https://jhipster.github.io/jdl-studio/), a tool for drawing UML diagrams for [JHipster](https://jhipster.github.io) based on the [JDL syntax](https://jhipster.github.io/jhipster-uml/#jdl). It tries to keep its syntax visually as close as possible to the generated UML diagram without resorting to ASCII drawings.
 
 Created by [Deepu KS](https://github.com/deepu105). Heavily inspired and adapted from  [nomnoml](https://github.com/skanaar/nomnoml)
 
