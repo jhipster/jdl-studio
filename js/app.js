@@ -231,17 +231,18 @@ $(function (){
 	}
 
 	function initFileDownloadLink(link){
-		link.addEventListener('click', downloadFile(link), false);
-	}
-
-	function downloadFile(link){
-		var textToWrite = currentText()
-		var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'})
-		var URL = window.URL || window.webkitURL
-		if (URL != null) {
-			link.href = window.URL.createObjectURL(textFileAsBlob)
+		link.addEventListener('click', downloadFile, false);
+		function downloadFile(){
+			var textToWrite = currentText()
+			var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'})
+			var URL = window.URL || window.webkitURL
+			if (URL != null) {
+				link.href = window.URL.createObjectURL(textFileAsBlob)
+			}
 		}
 	}
+
+
 
 	function initToolbarTooltips(){
 		$('.tools a').each(function (i, link){
