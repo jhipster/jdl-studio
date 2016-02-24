@@ -14,7 +14,7 @@ Created by [Deepu KS](https://github.com/deepu105). Heavily inspired and adapted
 - [zepto](http://zeptojs.com/)
 - [codemirror](https://codemirror.net/)
 - [solarized](http://ethanschoonover.com/solarized)
-- [font-awesome](https://fortawesome.github.io)
+- [Linearicons](https://linearicons.com/free)
 
 ## Web application
 
