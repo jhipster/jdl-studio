@@ -230,7 +230,7 @@ $(function (){
 			var url = canvasElement.toDataURL('image/png')
 			link.href = url;
 			ga('send', 'event', 'JDL Image', 'download', 'JDL Image download');
-			ga('jdlTracker.send', 'JDL Image', 'File', 'download', 'JDL Image download');
+			ga('jdlTracker.send', 'event', 'JDL Image', 'download', 'JDL Image download');
 		}
 	}
 
