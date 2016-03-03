@@ -186,8 +186,8 @@ $(function (){
 			}
 			r.readAsText(f)
 		}
-		ga('send', 'event', 'File', 'upload', 'JDL File upload');
-		ga('jdlTracker.send', 'event', 'File', 'upload', 'JDL File upload');
+		ga('send', 'event', 'JDL File', 'upload', 'JDL File upload');
+		ga('jdlTracker.send', 'event', 'JDL File', 'upload', 'JDL File upload');
 	}
 
 	// Adapted from http://meyerweb.com/eric/tools/dencoder/
@@ -229,8 +229,8 @@ $(function (){
 		function downloadImage(){
 			var url = canvasElement.toDataURL('image/png')
 			link.href = url;
-			ga('send', 'event', 'Image', 'download', 'JDL Image download');
-			ga('jdlTracker.send', 'Image', 'File', 'download', 'JDL Image download');
+			ga('send', 'event', 'JDL Image', 'download', 'JDL Image download');
+			ga('jdlTracker.send', 'JDL Image', 'File', 'download', 'JDL Image download');
 		}
 	}
 
@@ -243,8 +243,8 @@ $(function (){
 			if (URL != null) {
 				link.href = window.URL.createObjectURL(textFileAsBlob)
 			}
-			ga('send', 'event', 'File', 'download', 'JDL File download');
-			ga('jdlTracker.send', 'event', 'File', 'download', 'JDL File download');
+			ga('send', 'event', 'JDL File', 'download', 'JDL File download');
+			ga('jdlTracker.send', 'event', 'JDL File', 'download', 'JDL File download');
 		}
 	}
 
