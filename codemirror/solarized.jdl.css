@@ -97,8 +97,7 @@ http://ethanschoonover.com/solarized/img/solarized-palette.png
 }
 
 .cm-s-solarized.cm-s-dark .CodeMirror-selected {
-  background: #073642;
-  background: rgba(7, 54, 66, 0.5);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .cm-s-solarized.cm-s-light .CodeMirror-selected {
