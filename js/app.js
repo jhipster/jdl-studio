@@ -293,8 +293,8 @@ $(function (){
 		lineNumbers.toggleClass('error', true)
 		if (e.location){
 			var lineHeight = parseFloat($(editorElement).css('line-height'))
-			lineMarker.css('top', 3 + lineHeight*e.location.start.line)
-			errorTooltip.textContent = e.message
+			lineMarker.css('top', 35 + lineHeight*e.location.start.line)
+			errorTooltip.textContent = e.message + ': line -> ' + e.location.start.line
 		} else {
 			throw e
 		}
@@ -302,7 +302,7 @@ $(function (){
 
 	function sourceChanged(){
 		try {
-			lineMarker.css('top', -30)
+			lineMarker.css('top', -35)
 			lineNumbers.toggleClass('error', false)
 			errorTooltip.textContent = ''
 			var superSampling = window.devicePixelRatio || 1
