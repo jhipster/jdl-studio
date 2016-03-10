@@ -294,7 +294,7 @@ $(function (){
 		if (e.location){
 			var lineHeight = parseFloat($(editorElement).css('line-height'))
 			lineMarker.css('top', 35 + lineHeight*e.location.start.line)
-			errorTooltip.textContent = e.message + ': line -> ' + e.location.start.line
+			errorTooltip.textContent = e.message + ' -> line: ' + e.location.start.line
 		} else {
 			throw e
 		}
