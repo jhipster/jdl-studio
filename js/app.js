@@ -97,7 +97,7 @@ $(function (){
 
 	function mouseUp(){
 		mouseDownPoint = false
-		$(canvasPanner).css({width: '33%'})
+		$(canvasPanner).css({width: '45%'})
 	}
 
 	function magnify(e){
