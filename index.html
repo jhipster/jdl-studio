@@ -242,114 +242,114 @@ relationship &lt;type&gt; {
 	</div>
 
 	<script type="text/vnd.jdl.class" id="defaultGraph">
+entity Region {
+	regionId Long,
+	regionName String
+}
+
+entity Country {
+	countryId Long,
+	countryName String
+}
+
+entity Location {
+	locationId Long,
+	streetAddress String,
+	postalCode String,
+	city String,
+	stateProvince String
+}
+
 entity Department {
-  departmentId Long,
-  departmentName String required
+	departmentId Long,
+	departmentName String required
 }
 
-entity JobHistory {
-  startDate ZonedDateTime,
-  endDate ZonedDateTime,
-  language Language
-}
-
-enum Language {
-    FRENCH, ENGLISH, SPANISH
-}
-
-entity Job {
-  jobId Long,
-  jobTitle String,
-  minSalary Long,
-  maxSalary Long
+entity Task {
+	taskId Long,
+	title String,
+	description String
 }
 
 /**
  * The Employee entity.
  */
 entity Employee {
-  employeeId Long,
-  /**
-   * The firstname attribute.
-   */
-  firstName String,
-  lastName String,
-  email String,
-  phoneNumber String,
-  hireDate ZonedDateTime,
-  salary Long,
-  commissionPct Long
+	employeeId Long,
+	/**
+	* The firstname attribute.
+	*/
+	firstName String,
+	lastName String,
+	email String,
+	phoneNumber String,
+	hireDate ZonedDateTime,
+	salary Long,
+	commissionPct Long
 }
 
-entity Location {
-  locationId Long,
-  streetAddress String,
-  postalCode String,
-  city String,
-  stateProvince String
+entity Job {
+	jobId Long,
+	jobTitle String,
+	minSalary Long,
+	maxSalary Long
 }
 
-entity Task {
-  taskId Long,
-  title String,
-  description String
+entity JobHistory {
+	startDate ZonedDateTime,
+	endDate ZonedDateTime,
+	language Language
 }
 
-entity Country {
-  countryId Long,
-  countryName String
-}
-
-entity Region {
-  regionId Long,
-  regionName String
+enum Language {
+    FRENCH, ENGLISH, SPANISH
 }
 
 relationship OneToOne {
-  JobHistory{department} to Department
+	Country{region} to Region
 }
 
 relationship OneToOne {
-  JobHistory{job} to Job
+	Location{country} to Country
 }
 
 relationship OneToOne {
-  JobHistory{employee} to Employee
+	Department{location} to Location
 }
 
 relationship ManyToMany {
-  Job{task(title)} to Task{job}
-}
-
-relationship OneToOne {
-  Department{location} to Location
+	Job{task(title)} to Task{job}
 }
 
 relationship OneToMany {
-  /**
-   * A relationship
-   */
-  Department{employee} to
-  /**
-   * Another side of the same relationship
-   */
-  Employee
+	Employee{job} to Job
+}
+
+relationship OneToMany {
+	/**
+	* A relationship
+	*/
+	Department{employee} to
+	/**
+	* Another side of the same relationship
+	*/
+	Employee
 }
 
 relationship ManyToOne {
-  Employee{manager} to Employee
-}
-
-relationship OneToMany {
-  Employee{job} to Job
+	Employee{manager} to Employee
 }
 
 relationship OneToOne {
-  Location{country} to Country
+	JobHistory{job} to Job
 }
 
 relationship OneToOne {
-  Country{region} to Region
+	JobHistory{department} to Department
+}
+
+relationship OneToOne {
+	JobHistory{employee} to Employee
 }
 
 paginate JobHistory, Employee with infinite-scroll
@@ -358,6 +358,7 @@ paginate Job with pagination
 dto Employee with mapstruct
 
 service Employee with serviceClass
+
 	</script>
 	<script>
 		(function (i, s, o, g, r, a, m) {
