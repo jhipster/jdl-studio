@@ -26,7 +26,7 @@ The canvas can be panned and zoomed by dragging and scrolling in the right hand 
 
 ### syntax
 
-refer [JDL syntax](https://jhipster.github.io/jhipster-uml/#jdl)
+The JDL syntax is explained here [JDL syntax](https://jhipster.github.io/jdl/#jdllanguage).
 
 ### Directives
 
