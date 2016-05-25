@@ -8,17 +8,18 @@
   ],
   "license": "MIT",
   "keywords": [
-    "uml", "jdl", "jhipster"
+    "uml",
+    "jdl",
+    "jhipster"
   ],
   "dependencies": {
     "lodash": "~3.7.0",
-    "zepto" : "~1.1.6",
+    "zepto": "~1.1.6",
     "font-awesome": "^4.5.0",
     "magnific-popup": "~1.0.1",
-    "dagre": "0.7.4"
-  },
-  "devDependencies": {
-    "requirejs": "~2.1.17"
+    "dagre": "0.4.5",
+    "jhipster-domain-language": "https://github.com/jhipster/jhipster-domain-language.git#1.0.1",
+    "icon-font.min": "https://cdn.linearicons.com/free/1.0.0/icon-font.min.css"
   },
   "moduleType": [
     "amd",
@@ -39,5 +40,8 @@
     "img/",
     "lib/",
     "design/"
-  ]
+  ],
+  "resolutions": {
+    "lodash": "^3.10.0"
+  }
 }
