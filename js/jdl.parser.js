@@ -77,7 +77,6 @@ var JDLParser = (function() {
         peg$c37 = "relationship",
         peg$c38 = { type: "literal", value: "relationship", description: "\"relationship\"" },
         peg$c39 = function(rt, bodies) {
-          console.log(bodies);
           addCardinalityToRelationships(rt, bodies);
           return concat([], bodies);
         },
