@@ -1,4 +1,5 @@
-module.exports = (function() {
+// This is the same parser used by JHipster UML to parse JDL
+var JDLParser = (function() {
   "use strict";
 
   /*
