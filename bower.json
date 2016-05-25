@@ -1,20 +1,21 @@
 {
-  "name": "nomnoml",
+  "name": "jdl-studio",
   "version": "0.0.0",
-  "description": "The sassy UML renderer that generates diagrams from text",
-  "homepage": "http://www.nomnoml.com",
+  "description": "The sassy UML renderer that generates diagrams from JDL text",
+  "homepage": "https://jhipster.github.io/jdl-studio",
   "authors": [
-    "Daniel Kallin <daniel.kallin@gmail.com>"
+    "Deepu KS <d4udts@gmail.com>"
   ],
   "license": "MIT",
   "keywords": [
-    "uml"
+    "uml", "jdl", "jhipster"
   ],
-  "main": "dist/nomnoml.js",
   "dependencies": {
     "lodash": "~3.7.0",
+    "zepto" : "~1.1.6",
     "font-awesome": "^4.5.0",
-    "magnific-popup": "^1.0.1"
+    "magnific-popup": "~1.0.1",
+    "dagre": "0.7.4"
   },
   "devDependencies": {
     "requirejs": "~2.1.17"
