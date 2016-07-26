@@ -16,6 +16,18 @@ Created by [Deepu KS](https://github.com/deepu105). Heavily inspired and adapted
 - [solarized](http://ethanschoonover.com/solarized)
 - [Linearicons](https://linearicons.com/free)
 
+## Docker image
+
+The official Docker image is available at https://hub.docker.com/r/jhipster/jdl-studio/
+
+You can use JDL-Studio offline with :
+
+```
+docker run --rm -it -p 8888:80 jhipster/jdl-studio
+```
+
+The JDL-Studio should be available at: http://localhost:8888 or http://docker-ip:8888
+
 ## Web application
 
 The JDL-Studio web application is a simple editor with a live preview. It is purely client side and changes are saved to the browser's _localStorage_, so your diagram should be here the next time, (but no guarantees).
