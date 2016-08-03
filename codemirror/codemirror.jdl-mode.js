@@ -51,8 +51,9 @@
                 stream.skipToEnd();
                 return 'meta'; // 'directives'
             }
-
-            if (stream.match('//') || ch === '/' || ch === '*'){
+            
+            lastCh = stream.string.charAt(stream.start-1);
+            if (stream.match('//') || (ch === '/') || (lastCh+ch === '/*') ){
                 stream.skipToEnd()
                 return 'comment'
             }
@@ -73,7 +74,11 @@
             if (stream.peek() === '=' && /\w+/.test(cur)) return 'def';
             if(words.hasOwnProperty(cur)) return words[cur];
 
+<<<<<<< abd20b729b5dc03dbcf0c2bd6e0ca8a66b18c6de
             if (/[A-Z]/.test(ch)) {
+=======
+            if (/[A-Z*]/.test(ch) || (lastCh !== '/' && ch === '*') || (lastCh === '*' && ch !== '/')) {
+>>>>>>> fixed comment highlighting issue
                 stream.eatWhile(/[a-z_]/);
                 if(stream.eol() || !/\s[\{\,]/.test(stream.peek())) {
                     return 'def';
