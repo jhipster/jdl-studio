@@ -51,8 +51,8 @@
                 stream.skipToEnd();
                 return 'meta'; // 'directives'
             }
-            
-            lastCh = stream.string.charAt(stream.start-1);
+
+            var lastCh = stream.string.charAt(stream.start-1);
             if (stream.match('//') || (ch === '/') || (lastCh+ch === '/*') ){
                 stream.skipToEnd()
                 return 'comment'
