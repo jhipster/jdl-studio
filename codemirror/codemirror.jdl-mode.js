@@ -52,8 +52,7 @@
                 return 'meta'; // 'directives'
             }
 
-            var lastCh = stream.string.charAt(stream.start-1);
-            if (stream.match('//') || (ch === '/') || (lastCh+ch === '/*') ){
+            if (stream.match('//') || ch === '/' || ch === '*'){
                 stream.skipToEnd()
                 return 'comment'
             }
@@ -74,7 +73,7 @@
             if (stream.peek() === '=' && /\w+/.test(cur)) return 'def';
             if(words.hasOwnProperty(cur)) return words[cur];
 
-            if (/[A-Z*]/.test(ch) || (lastCh !== '/' && ch === '*') || (lastCh === '*' && ch !== '/')) {
+            if (/[A-Z]/.test(ch)) {
                 stream.eatWhile(/[a-z_]/);
                 if(stream.eol() || !/\s[\{\,]/.test(stream.peek())) {
                     return 'def';
