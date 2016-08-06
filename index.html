@@ -141,6 +141,34 @@ relationship &lt;type&gt; {
 					</li>
 				</ul>
 				<p>The possible types and validations are those described <a href="https://jhipster.github.io/jdl/#annexes">here</a>, if the validation requires a value, simply add <code class="highlighter-rouge">(&lt;value&gt;)</code> right after the name of the validation.</p>
+				<h2>Option Declaration</h2>
+				<p>It is possible to declare some of the supported options via JDL, supported options are:</p>
+				<ul class="options">
+					<li>
+						<p><code class="highlighter-rouge">paginate</code> enable pagination for the entity with pager | pagination | infinite-scroll</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">service</code> enable service layer for the entity with serviceClass | serviceImpl</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">dto</code> enable DTO for the entity with Mapstruct</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">skipClient</code> skip client side code for entity</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">skipServer</code> skip server side code for entity</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">angularSuffix</code> add a suffix to angular route names</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">microservice</code> specify the app name of entity from another microservice</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">search</code> specify search option for entity from another microservice</p>
+					</li>
+				</ul>
 				<p>Refer <a target="_blank" href="https://jhipster.github.io/jdl/">JDL</a> documentation for more details.</p>
 
 				<h2>Directives</h2>
@@ -176,8 +204,8 @@ relationship &lt;type&gt; {
 				<a target="_blank" href="http://pegjs.org/">peg.js</a>,
 				<a target="_blank" href="https://github.com/cpettitt/dagre">dagre</a>,
 				<a target="_blank" href="http://lodash.com">lodash</a>,
-				<a target="_blank" href="https://linearicons.com/free">Linearicons</a> ,
-				<a target="_blank" href="http://zeptojs.com/">zepto</a>,
+				<a target="_blank" href="https://linearicons.com/free">Linearicons</a>,
+				<a target="_blank" href="https://jquery.com/">JQuery</a>,
 				<a target="_blank" href="https://codemirror.net/">codemirror</a> and
 				<a target="_blank" href="http://ethanschoonover.com/solarized">solarized</a>.
 				</p>
@@ -237,125 +265,6 @@ relationship &lt;type&gt; {
 		<button class="btn" onclick="app.dismissDialog()">Dismiss</button>
 	</div>
 
-	<script type="text/vnd.jdl.class" id="defaultGraph">
-entity Region {
-	regionId Long,
-	regionName String
-}
-
-entity Country {
-	countryId Long,
-	countryName String
-}
-
-entity Location {
-	locationId Long,
-	streetAddress String,
-	postalCode String,
-	city String,
-	stateProvince String
-}
-
-entity Department {
-	departmentId Long,
-	departmentName String required
-}
-
-entity Task {
-	taskId Long,
-	title String,
-	description String
-}
-
-/**
- * The Employee entity.
- */
-entity Employee {
-	employeeId Long,
-	/**
-	* The firstname attribute.
-	*/
-	firstName String,
-	lastName String,
-	email String,
-	phoneNumber String,
-	hireDate ZonedDateTime,
-	salary Long,
-	commissionPct Long
-}
-
-entity Job {
-	jobId Long,
-	jobTitle String,
-	minSalary Long,
-	maxSalary Long
-}
-
-entity JobHistory {
-	startDate ZonedDateTime,
-	endDate ZonedDateTime,
-	language Language
-}
-
-enum Language {
-    FRENCH, ENGLISH, SPANISH
-}
-
-relationship OneToOne {
-	Country{region} to Region
-}
-
-relationship OneToOne {
-	Location{country} to Country
-}
-
-relationship OneToOne {
-	Department{location} to Location
-}
-
-relationship ManyToMany {
-	Job{task(title)} to Task{job}
-}
-
-relationship OneToMany {
-	Employee{job} to Job
-}
-
-relationship OneToMany {
-	/**
-	* A relationship
-	*/
-	Department{employee} to
-	/**
-	* Another side of the same relationship
-	*/
-	Employee
-}
-
-relationship ManyToOne {
-	Employee{manager} to Employee
-}
-
-relationship OneToOne {
-	JobHistory{job} to Job
-}
-
-relationship OneToOne {
-	JobHistory{department} to Department
-}
-
-relationship OneToOne {
-	JobHistory{employee} to Employee
-}
-
-paginate JobHistory, Employee with infinite-scroll
-paginate Job with pagination
-
-dto Employee with mapstruct
-
-service Employee with serviceClass
-
-	</script>
 	<script>
 		(function (i, s, o, g, r, a, m) {
 			i['GoogleAnalyticsObject'] = r;
@@ -379,6 +288,6 @@ service Employee with serviceClass
 	// temp hack to use jdl parser from jhipster-core
 	var module = module || {};
 	</script>
-	<script src="dist/js/main-0f0e8e8053.js"></script>
+	<script src="dist/js/main-fe35942e05.js"></script>
 </body>
 </html>
