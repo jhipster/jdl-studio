@@ -1,17 +1,14 @@
 entity Region {
-	regionId Long,
 	regionName String
 }
 
 entity Country {
-	countryId Long,
 	countryName String
 }
 
 // an ignored comment
 /** not an ignored comment */
 entity Location {
-	locationId Long,
 	streetAddress String,
 	postalCode String,
 	city String,
@@ -19,7 +16,6 @@ entity Location {
 }
 
 entity Department {
-	departmentId Long,
 	departmentName String required
 }
 
@@ -28,7 +24,6 @@ entity Department {
  * @author The JHipster team.
  */
 entity Task {
-	taskId Long,
 	title String,
 	description String
 }
@@ -37,7 +32,6 @@ entity Task {
  * The Employee entity.
  */
 entity Employee {
-	employeeId Long,
 	/**
 	* The firstname attribute.
 	*/
@@ -51,7 +45,6 @@ entity Employee {
 }
 
 entity Job {
-	jobId Long,
 	jobTitle String,
 	minSalary Long,
 	maxSalary Long
@@ -111,7 +104,7 @@ relationship OneToOne {
 paginate JobHistory, Employee with infinite-scroll
 paginate Job with pagination
 
-dto * with mapstruct except Job
+dto * with mapstruct
 
 // Set service options to all except few
 service all with serviceImpl except Employee, Job
