@@ -13,11 +13,12 @@
     "lodash": "~3.7.0"
   },
   "devDependencies": {
-    "browser-sync": "*",
-    "gulp": "*"
+    "browser-sync": "2.12.5",
+    "gulp": "3.9.1",
+    "main-bower-files": "2.11.1"
   },
   "scripts": {
-    "prepublish": "node build.js",
+    "prepublish": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "directories": {
