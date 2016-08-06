@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "browser-sync": "2.12.5",
+    "del": "2.2.0",
     "gulp": "3.9.1",
     "gulp-cssnano": "2.1.2",
     "gulp-if": "2.0.0",

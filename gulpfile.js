@@ -1,7 +1,10 @@
 var gulp = require("gulp"),
     inject = require('gulp-inject'),
+    del = require('del'),
     browserSync = require('browser-sync').create(),
     reload      = browserSync.reload;
+
+var build = require('./build');
 
 var bowerLibFiles = require('main-bower-files');
 
@@ -31,16 +34,14 @@ var depJsFiles = [
 ];
 
 var config = {
-    lib: 'lib/'
+    dist: 'dist/'
 }
 
-gulp.task('copy:lib', function () {
-
+gulp.task('clean', function () {
+    return del([config.dist], { dot: true });
 });
 
-gulp.task('build', ['inject'], function () {
-
-});
+gulp.task('build', ['clean', 'inject'], build);
 
 gulp.task('inject', function () {
     return gulp.src('index.html')
