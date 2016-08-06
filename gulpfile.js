@@ -8,30 +8,7 @@ var build = require('./build');
 
 var bowerLibFiles = require('main-bower-files');
 
-var depCssFiles = [
-    'codemirror/codemirror.css',
-    'codemirror/show-hint.css',
-    'codemirror/solarized.jdl.css',
-    'css/app.css'
-];
-var depJsFiles = [
-    'lib/dagre.min.js',
-    'codemirror/codemirror-compressed.js',
-    'codemirror/closebrackets.js',
-    'codemirror/dialog.js',
-    'codemirror/jdl-hint.js',
-    'codemirror/searchcursor.js',
-    'codemirror/show-hint.js',
-    'codemirror/codemirror.jdl-mode.js',
-    'nomnoml/skanaar.canvas.js',
-    'nomnoml/skanaar.util.js',
-    'nomnoml/skanaar.vector.js',
-    'nomnoml/nomnoml.parser.custom.js',
-    'nomnoml/nomnoml.layouter.custom.js',
-    'nomnoml/nomnoml.renderer.custom.js',
-    'nomnoml/nomnoml.custom.js',
-    'js/app.js'
-];
+const lib = require('./lib');
 
 var config = {
     dist: 'dist/'
@@ -41,16 +18,17 @@ gulp.task('clean', function () {
     return del([config.dist], { dot: true });
 });
 
+
 gulp.task('build', ['clean', 'inject'], build);
 
 gulp.task('inject', function () {
-    return gulp.src('index.html')
+    return gulp.src('index-dev.html')
         .pipe(inject(gulp.src(bowerLibFiles(), {read: false}), {
             name: 'bower',
             relative: true
         }))
-        .pipe(inject(gulp.src(depJsFiles), {relative: true}))
-        .pipe(inject(gulp.src(depCssFiles), {relative: true}))
+        .pipe(inject(gulp.src(lib.JS), {relative: true}))
+        .pipe(inject(gulp.src(lib.CSS), {relative: true}))
         .pipe(gulp.dest(''));
 });
 
@@ -59,11 +37,12 @@ gulp.task('serve', ['inject'], function () {
     // Serve files from the root of this project
     browserSync.init({
         server: {
-            baseDir: "./"
+            baseDir: "./",
+            index: "index-dev.html"
         }
     });
 
-    gulp.watch("index.html").on("change", reload);
+    gulp.watch("index-dev.html").on("change", reload);
     gulp.watch("js/*.js").on("change", reload);
     gulp.watch("codemirror/*").on("change", reload);
     gulp.watch("nomnoml/*").on("change", reload);

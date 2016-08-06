@@ -7,6 +7,7 @@ var fs = require('fs'),
     uglify = require('gulp-uglify'),
     useref = require("gulp-useref"),
     revReplace = require("gulp-rev-replace")
+    rename = require("gulp-rename"),
     gulpIf = require('gulp-if');
 
 var config = {
@@ -23,12 +24,13 @@ var cssTask = lazypipe()
 module.exports = function() {
     var manifest = gulp.src('.tmp/rev-manifest.json');
 
-    return gulp.src('index.html')
+    return gulp.src('index-dev.html')
+        .pipe(rename("index.html"))
         //init sourcemaps
         .pipe(useref({}, initTask))
         .pipe(gulpIf('*.js', jsTask()))
         .pipe(gulpIf('*.css', cssTask()))
-        .pipe(gulpIf('**/*.[css,js]', rev()))
+        .pipe(gulpIf('**/*.!(html)', rev()))
         .pipe(revReplace({manifest: manifest}))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(''));
