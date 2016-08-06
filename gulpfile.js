@@ -1,68 +1,59 @@
 var gulp = require("gulp"),
+    inject = require('gulp-inject'),
     browserSync = require('browser-sync').create(),
     reload      = browserSync.reload;
 
 var bowerLibFiles = require('main-bower-files');
 
-var CodeMirrorFiles = [
-    'closebrackets.js',
-    'codemirror-compressed.js',
-    'codemirror.css',
-    'codemirror.jdl-mode.js',
-    'dialog.js',
-    'jdl-hint.js',
-    'searchcursor.js',
-    'show-hint.css',
-    'show-hint.js',
-    'solarized.jdl.css'
+var depCssFiles = [
+    'codemirror/codemirror.css',
+    'codemirror/show-hint.css',
+    'codemirror/solarized.jdl.css',
+    'css/app.css'
 ];
-var nomnomlFiles = [
-    'skanaar.canvas.js',
-    'skanaar.util.js',
-    'skanaar.vector.js',
-    'nomnoml.parser.custom.js',
-    'nomnoml.layouter.custom.js',
-    'nomnoml.renderer.custom.js',
-    'nomnoml.custom.js'
-];
-
-var appFiles = [
-    'css/app.css',
+var depJsFiles = [
+    'lib/dagre.min.js',
+    'codemirror/codemirror-compressed.js',
+    'codemirror/closebrackets.js',
+    'codemirror/dialog.js',
+    'codemirror/jdl-hint.js',
+    'codemirror/searchcursor.js',
+    'codemirror/show-hint.js',
+    'codemirror/codemirror.jdl-mode.js',
+    'nomnoml/skanaar.canvas.js',
+    'nomnoml/skanaar.util.js',
+    'nomnoml/skanaar.vector.js',
+    'nomnoml/nomnoml.parser.custom.js',
+    'nomnoml/nomnoml.layouter.custom.js',
+    'nomnoml/nomnoml.renderer.custom.js',
+    'nomnoml/nomnoml.custom.js',
     'js/app.js'
 ];
 
 var config = {
-    lib: 'lib'
+    lib: 'lib/'
 }
 
 gulp.task('copy:lib', function () {
-    gulp.src(bowerFiles(), {read: false})
-    .pipe(gulp.dest(config.lib))
-});
-
-gulp.task('build', function () {
 
 });
 
-gulp.task('inject', ['inject:dep', 'inject:app']);
-
-gulp.task('inject:app', function () {
+gulp.task('build', ['inject'], function () {
 
 });
 
-
-gulp.task('inject:dep', function () {
-    /*var stream = gulp.src('index.html')
-        .pipe(inject(gulp.src(bowerFiles(), {read: false}), {
+gulp.task('inject', function () {
+    return gulp.src('index.html')
+        .pipe(inject(gulp.src(bowerLibFiles(), {read: false}), {
             name: 'bower',
             relative: true
         }))
-        .pipe(gulp.dest(''));*/
-
-    //return stream;
+        .pipe(inject(gulp.src(depJsFiles), {relative: true}))
+        .pipe(inject(gulp.src(depCssFiles), {relative: true}))
+        .pipe(gulp.dest(''));
 });
 
-gulp.task('serve', function () {
+gulp.task('serve', ['inject'], function () {
 
     // Serve files from the root of this project
     browserSync.init({

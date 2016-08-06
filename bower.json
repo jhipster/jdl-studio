@@ -17,9 +17,8 @@
     "lodash": "3.9.3",
     "zepto": "1.1.3",
     "magnific-popup": "1.0.1",
-    "dagre": "0.4.5",
     "icon-font.min": "https://cdn.linearicons.com/free/1.0.0/icon-font.min.css",
-    "pegjs_parser": "https://raw.githubusercontent.com/jhipster/jhipster-core/v1.1.4/lib/dsl/pegjs_parser.js"
+    "pegjs_parser": "https://raw.githubusercontent.com/jhipster/jhipster-core/v1.1.5/lib/dsl/pegjs_parser.js"
   },
   "moduleType": [
     "amd",

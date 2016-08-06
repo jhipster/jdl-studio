@@ -12,12 +12,22 @@
 <!-- iOS Safari -->
 <meta name="apple-mobile-web-app-status-bar-style" content="#282C34">
 <title>JDL-Studio</title>
-<link rel="stylesheet" href="lib/icon-font.min.css">
-<link rel="stylesheet" href="lib/magnific-popup.css">
+
+<!-- build:css dist/css/main.css -->
+
+<!-- bower:css -->
+<link rel="stylesheet" href="bower_components/icon-font.min/index.css">
+<link rel="stylesheet" href="bower_components/magnific-popup/dist/magnific-popup.css">
+<!-- endinject -->
+
+<!-- inject:css -->
 <link rel="stylesheet" href="codemirror/codemirror.css">
 <link rel="stylesheet" href="codemirror/show-hint.css">
 <link rel="stylesheet" href="codemirror/solarized.jdl.css">
 <link rel="stylesheet" href="css/app.css">
+<!-- endinject -->
+
+<!-- endbuild -->
 <link rel="shortcut icon" href="favicon.ico">
 </head>
 <body>
@@ -383,17 +393,22 @@ service Employee with serviceClass
 	// temp hack to use jdl parser from jhipster-core
 	var module = module || {};
 	</script>
-	<script src="lib/zepto.min.js"></script>
-	<script src="lib/lodash.min.js"></script>
+	<!-- build:js dist/js/main.js -->
+    <!-- bower:js -->
+	<script src="bower_components/lodash/lodash.js"></script>
+	<script src="bower_components/zepto/zepto.js"></script>
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="bower_components/pegjs_parser/index.js"></script>
+	<script src="bower_components/magnific-popup/dist/jquery.magnific-popup.js"></script>
+	<!-- endinject -->
+	<!-- inject:js -->
 	<script src="lib/dagre.min.js"></script>
-	<script src="lib/jquery.magnific-popup.min.js"></script>
-	<script src="js/jdl.parser.js"></script>
 	<script src="codemirror/codemirror-compressed.js"></script>
-	<script src="codemirror/show-hint.js"></script>
-	<script src="codemirror/jdl-hint.js"></script>
 	<script src="codemirror/closebrackets.js"></script>
-	<script src="codemirror/searchcursor.js"></script>
 	<script src="codemirror/dialog.js"></script>
+	<script src="codemirror/jdl-hint.js"></script>
+	<script src="codemirror/searchcursor.js"></script>
+	<script src="codemirror/show-hint.js"></script>
 	<script src="codemirror/codemirror.jdl-mode.js"></script>
 	<script src="nomnoml/skanaar.canvas.js"></script>
 	<script src="nomnoml/skanaar.util.js"></script>
@@ -403,5 +418,7 @@ service Employee with serviceClass
 	<script src="nomnoml/nomnoml.renderer.custom.js"></script>
 	<script src="nomnoml/nomnoml.custom.js"></script>
 	<script src="js/app.js"></script>
+	<!-- endinject -->
+    <!-- endbuild -->
 </body>
 </html>
