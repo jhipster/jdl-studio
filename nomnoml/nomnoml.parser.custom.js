@@ -1,4 +1,5 @@
-var nomnoml = nomnoml || {}
+var nomnoml = nomnoml || {};
+var JDLParser = module.exports;
 
 nomnoml.parse = function (source){
 	function onlyCompilables(line){
