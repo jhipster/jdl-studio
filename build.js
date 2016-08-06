@@ -31,5 +31,5 @@ module.exports = function() {
         .pipe(gulpIf('**/*.[css,js]', rev()))
         .pipe(revReplace({manifest: manifest}))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(config.dist));
+        .pipe(gulp.dest(''));
 }
