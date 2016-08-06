@@ -10,16 +10,16 @@
   "keywords": [
     "uml",
     "jdl",
-    "jhipster"
+    "jhipster",
+    "jdl-studio"
   ],
   "dependencies": {
-    "lodash": "~3.7.0",
-    "zepto": "~1.1.6",
-    "font-awesome": "^4.5.0",
-    "magnific-popup": "~1.0.1",
+    "lodash": "3.9.3",
+    "zepto": "1.1.3",
+    "magnific-popup": "1.0.1",
     "dagre": "0.4.5",
-    "jhipster-domain-language": "https://github.com/jhipster/jhipster-domain-language.git#1.0.1",
-    "icon-font.min": "https://cdn.linearicons.com/free/1.0.0/icon-font.min.css"
+    "icon-font.min": "https://cdn.linearicons.com/free/1.0.0/icon-font.min.css",
+    "pegjs_parser": "https://raw.githubusercontent.com/jhipster/jhipster-core/v1.1.4/lib/dsl/pegjs_parser.js"
   },
   "moduleType": [
     "amd",
