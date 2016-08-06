@@ -11,7 +11,7 @@ Created by [Deepu KS](https://github.com/deepu105). Heavily inspired and adapted
 - [dagre](https://github.com/cpettitt/dagre)
 - [lodash](http://lodash.com)
 - [peg.js](http://pegjs.org/)
-- [zepto](http://zeptojs.com/)
+- [Jquery](https://jquery.com/)
 - [codemirror](https://codemirror.net/)
 - [solarized](http://ethanschoonover.com/solarized)
 - [Linearicons](https://linearicons.com/free)

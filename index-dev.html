@@ -1,0 +1,333 @@
+	<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A tool for drawing sassy UML diagrams based on JDL syntax. Provides instant feedback and has a customizable styling.">
+<!-- Chrome, Firefox OS and Opera -->
+<meta name="theme-color" content="#282C34">
+<!-- Windows Phone -->
+<meta name="msapplication-navbutton-color" content="#282C34">
+<!-- iOS Safari -->
+<meta name="apple-mobile-web-app-status-bar-style" content="#282C34">
+<title>JDL-Studio</title>
+
+<!-- build:css dist/css/main.css -->
+
+<!-- bower:css -->
+<link rel="stylesheet" href="bower_components/magnific-popup/dist/magnific-popup.css">
+<link rel="stylesheet" href="bower_components/icon-font.min/index.css">
+<!-- endinject -->
+
+<!-- inject:css -->
+<link rel="stylesheet" href="codemirror/codemirror.css">
+<link rel="stylesheet" href="codemirror/show-hint.css">
+<link rel="stylesheet" href="codemirror/solarized.jdl.css">
+<link rel="stylesheet" href="css/app.css">
+<!-- endinject -->
+
+<!-- endbuild -->
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<body>
+	<div class="wrap">
+		<header>
+			<div class="tools left">
+				<a href="https://jhipster.github.io" title="JHipster website" target="_blank"><img class="jhi-logo" src="img/logo-jhipster.png"></a>
+				<a class="logo" href="javascript:void(0)" onclick="app.toggleSidebar('about')" title="About JDL-Studio"><h1>JDL-Studio</h1> &nbsp;</a>
+			</div>
+			<div class="tools">
+				<a href="javascript:void(0)" onclick="app.toggleSidebar('about')" title="About JDL-Studio">
+					<i class="lnr lnr-question-circle"></i>
+				</a>
+				<a href="javascript:void(0)" onclick="app.toggleSidebar('reference')" title="Language reference">
+					<i class="lnr lnr-book"></i>
+				</a>
+				<a id="savebutton" href="javascript:void(0)" download="jdl.png" title="Download snapshot of this diagram">
+					<i class="lnr lnr-camera"></i>
+				</a>
+				<a id="saveTextbutton" href="javascript:void(0)" download="jdl.jh" title="Download text file of this JDL">
+					<i class="lnr lnr-download"></i>
+				</a>
+				<a id="uploadbutton" class="upload-dialog" href="#upload-dialog" title="Import text file of a JDL">
+					<i class="lnr lnr-upload"></i>
+				</a>
+				<a id="linkbutton" href="javascript:void(0)" target="_blank" title="Shareable link to this diagram">
+					<i class="lnr lnr-link"></i>
+				</a>
+				<a href="javascript:app.confirmDiscardCurrentGraph()" title="Discard this diagram">
+					<i class="lnr lnr-trash"></i>
+				</a>
+				<span id="tooltip"></span>
+				<span id="storage-status">
+					View mode, changes are not saved.
+					<a href="javascript:app.saveViewModeToStorage()"
+					   title="Save this diagram to localStorage">save</a>
+					<a href="javascript:app.exitViewMode()"
+					   title="Discard this diagram">close</a>
+				</span>
+
+				<div class="canvas-tools" id="canvas-tools">
+					<a href="javascript:app.magnifyViewport(2)" title="Zoom in">
+						<i class="lnr lnr-plus-circle"></i>
+					</a>
+					<a href="javascript:app.resetViewport()" title="Reset zoom and panning">
+						<i class="lnr lnr-frame-contract"></i>
+					</a>
+					<a href="javascript:app.magnifyViewport(-2)" title="Zoom out">
+						<i class="lnr lnr-circle-minus"></i>
+					</a>
+				</div>
+			</div>
+		</header>
+		<canvas id="canvas"></canvas>
+		<textarea id="textarea" spellcheck="false"></textarea>
+		<div id="linenumbers"></div>
+		<div id="canvas-panner"></div>
+		<span id="error-tooltip"></span>
+		<div id="reference" class="sidebar">
+			<div class="content">
+				<h2>Entity Declaration</h2>
+				<div class="highlighter-rouge">
+					<pre class="highlight">
+						<code>
+entity &lt;entity name&gt; {
+  &lt;field name&gt; &lt;type&gt; [&lt;validation&gt;*]
+}
+						</code>
+					</pre>
+				</div>
+				<ul class="options">
+					<li>
+						<p><code class="highlighter-rouge">&lt;entity name&gt;</code> is the name of the entity,</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">&lt;field name&gt;</code> the name of one field of the entity,</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">&lt;type&gt;</code> the JHipster supported type of the field,</p>
+					</li>
+					<li>
+						<p>and as an option <code class="highlighter-rouge">&lt;validation&gt;</code> the validations for the field.</p>
+					</li>
+				</ul>
+				<h2>Enum Declaration</h2>
+				<div class="highlighter-rouge">
+					<pre class="highlight">
+						<code>
+enum &lt;enum name&gt; {
+  &lt;enum values&gt;
+}
+						</code>
+					</pre>
+				</div>
+				<ul class="options">
+					<li>
+						<p><code class="highlighter-rouge">&lt;enum name&gt;</code> is the name of the enum,</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">&lt;enum values&gt;</code> the comma seperated values in uppercase</p>
+					</li>
+				</ul>
+				<h2>Relationship Declaration</h2>
+				<div class="highlighter-rouge">
+					<pre class="highlight">
+						<code>
+relationship &lt;type&gt; {
+  &lt;from entity&gt;[{&lt;relationship name&gt;}] to &lt;to entity&gt;[{&lt;relationship name&gt;}]
+}
+						</code>
+					</pre>
+				</div>
+				<ul class="options">
+					<li>
+						<p><code class="highlighter-rouge">&lt;type&gt;</code> is the type of your relationship (OneToMany | ManyToOne| OneToOne | ManyToMany)</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">&lt;from entity&gt;</code> is the name of the entity owner of the relationship,</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">&lt;to entity&gt;</code> is the name of the entity where the relationship goes to,</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">&lt;relationship name&gt;</code> is the name of the relationship in the entity.</p>
+					</li>
+				</ul>
+				<p>The possible types and validations are those described <a href="https://jhipster.github.io/jdl/#annexes">here</a>, if the validation requires a value, simply add <code class="highlighter-rouge">(&lt;value&gt;)</code> right after the name of the validation.</p>
+				<h2>Option Declaration</h2>
+				<p>It is possible to declare some of the supported options via JDL, supported options are:</p>
+				<ul class="options">
+					<li>
+						<p><code class="highlighter-rouge">paginate</code> enable pagination for the entity with pager | pagination | infinite-scroll</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">service</code> enable service layer for the entity with serviceClass | serviceImpl</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">dto</code> enable DTO for the entity with Mapstruct</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">skipClient</code> skip client side code for entity</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">skipServer</code> skip server side code for entity</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">angularSuffix</code> add a suffix to angular route names</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">microservice</code> specify the app name of entity from another microservice</p>
+					</li>
+					<li>
+						<p><code class="highlighter-rouge">search</code> specify search option for entity from another microservice</p>
+					</li>
+				</ul>
+				<p>Refer <a target="_blank" href="https://jhipster.github.io/jdl/">JDL</a> documentation for more details.</p>
+
+				<h2>Directives</h2>
+				<p>The rendered image style can be customized by setting these directives along with the JDL code</p>
+				#arrowSize: 1<br>
+				#bendSize: 0.3<br>
+				#direction: down | right<br>
+				#gutter: 5<br>
+				#edgeMargin: 0<br>
+				#edges: hard | rounded<br>
+				#fill: #eee8d5; #fdf6e3<br>
+				#fillArrows: false<br>
+				#font: Calibri<br>
+				#fontSize: 12<br>
+				#leading: 1.25<br>
+				#lineWidth: 3<br>
+				#padding: 8<br>
+				#spacing: 40<br>
+				#stroke: #33322E<br>
+				#title: filename<br>
+				#zoom: 1<br>
+			</div>
+
+			<div class="logo-background"></div>
+		</div>
+
+		<div id="about" class="sidebar">
+			<div class="content">
+				<p>Hello, this is JDL-Studio, a tool for drawing <a target="_blank" href="https://jhipster.github.io">JHipster</a> JDL diagrams based on the <a target="_blank" href="https://jhipster.github.io/jdl">JDL syntax</a>.
+				<p>Try and edit the code on the left and watch the diagram change. Any changes are saved to the browser's <i>localStorage</i>, so your diagram should be here the next time, (but no guarantees).</p>
+				<p>Created by <a href="mailto:daniel.kallin@gmail.com">Deepu KS</a> and hosted on <a href="https://github.com/jhipster/jdl-studio" target="_blank">GitHub</a> with <i class="lnr lnr-heart"></i>.</p>
+				<p>JDL-Studio was made possible by the cool project <a target="_blank" href="https://github.com/skanaar/nomnoml">nomnoml</a> by <a target="_blank" href="https://github.com/skanaar">Daniel Kallin</a> and also
+				<a target="_blank" href="http://pegjs.org/">peg.js</a>,
+				<a target="_blank" href="https://github.com/cpettitt/dagre">dagre</a>,
+				<a target="_blank" href="http://lodash.com">lodash</a>,
+				<a target="_blank" href="https://linearicons.com/free">Linearicons</a>,
+				<a target="_blank" href="https://jquery.com/">JQuery</a>,
+				<a target="_blank" href="https://codemirror.net/">codemirror</a> and
+				<a target="_blank" href="http://ethanschoonover.com/solarized">solarized</a>.
+				</p>
+
+				<hr>
+
+				<h2>Interaction</h2>
+
+				<p>The canvas can be panned and zoomed by dragging and scrolling in the right hand third of the canvas.
+				</p>
+
+				<img class="invert" src="img/interaction-tutorial.png" alt="interaction tutorial">
+
+				<p>Downloaded image files will be given the filename in the <tt>#title</tt> directive.
+				</p>
+
+				<p>The editor supports a subset of <i>Sublime Text's</i> <a href="https://codemirror.net/demo/sublime.html" target="_blank">keymappings</a>.
+					Hit <code>Ctrl-Space</code> for auto suggestions.
+				</p>
+
+				<hr>
+
+				<h2>Examples</h2>
+				<p>Refer <a target="_blank" href="https://jhipster.github.io/jdl">JDL</a> documentation for examples.</p>
+
+				<hr>
+
+				<h2>Usage</h2>
+
+				<p>Refer <a target="_blank" href="https://jhipster.github.io/jdl">JDL</a> documentation for more details.</p>
+
+				<label>Set font</label>
+				#font: Times
+
+				<label>Layout the diagram really tight</label>
+				#fontSize: 8<br>
+				#spacing: 12<br>
+				#padding: 3
+
+			</div>
+			<div class="logo-background"></div>
+		</div>
+
+		<div id="linemarker"></div>
+	</div>
+	<div id="discard-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
+		<h1>Discard</h1>
+		<p>Do you want to discard current diagram and load the default example?</p>
+		<button class="btn" onclick="app.discardCurrentGraph()">Yes</button>
+		<button class="btn" onclick="app.dismissDialog()">No</button>
+	</div>
+	<div id="upload-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
+		<h1>Import JDL</h1>
+		<p>Select a <code>.jh</code> or <code>.txt</code> file</p>
+		<input class="upload" accept=".jh,.txt" type="file" id="jdlFileInput" /><br>
+		<button class="btn" onclick="app.importJDL()">Import</button>
+		<button class="btn" onclick="app.dismissDialog()">Dismiss</button>
+	</div>
+
+	<script type="text/vnd.jdl.class" id="defaultGraph" src="sample.jdl"></script>
+	<script>
+		(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o),
+			m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-46075199-1', 'jhipster.github.io');
+		ga('create', 'UA-73986707-1', 'auto', 'jdlTracker');//specific for JDL studio
+		ga('send', 'pageview');
+		ga('jdlTracker.send', 'pageview');
+
+	</script>
+	<script>
+	// temp hack to use jdl parser from jhipster-core
+	var module = module || {};
+	</script>
+	<!-- build:js dist/js/main.js -->
+    <!-- bower:js -->
+	<script src="bower_components/lodash/lodash.js"></script>
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="bower_components/magnific-popup/dist/jquery.magnific-popup.js"></script>
+	<script src="bower_components/pegjs_parser/index.js"></script>
+	<!-- endinject -->
+	<!-- inject:js -->
+	<script src="lib/dagre.min.js"></script>
+	<script src="codemirror/codemirror-compressed.js"></script>
+	<script src="codemirror/closebrackets.js"></script>
+	<script src="codemirror/dialog.js"></script>
+	<script src="codemirror/jdl-hint.js"></script>
+	<script src="codemirror/searchcursor.js"></script>
+	<script src="codemirror/show-hint.js"></script>
+	<script src="codemirror/codemirror.jdl-mode.js"></script>
+	<script src="nomnoml/skanaar.canvas.js"></script>
+	<script src="nomnoml/skanaar.util.js"></script>
+	<script src="nomnoml/skanaar.vector.js"></script>
+	<script src="nomnoml/nomnoml.parser.custom.js"></script>
+	<script src="nomnoml/nomnoml.layouter.custom.js"></script>
+	<script src="nomnoml/nomnoml.renderer.custom.js"></script>
+	<script src="nomnoml/nomnoml.custom.js"></script>
+	<script src="js/app.js"></script>
+	<!-- endinject -->
+    <!-- endbuild -->
+</body>
+</html>

@@ -1,12 +1,13 @@
 (function () {
 
-    var mainKeywords = ['entity', 'enum', 'relationship', 'paginate', 'dto', 'service'],
+    var mainKeywords = ['entity', 'enum', 'relationship', 'paginate', 'dto', 'service', 'skipClient', 'skipServer', 'microservice', 'search', 'angularSuffix'],
     relationshipKws = ['OneToOne', 'OneToMany', 'ManyToOne', 'ManyToMany'],
-    validationKws = ['required', 'minlength', 'maxlength', 'pattern'],
+    validationKws = ['required', 'minlength', 'maxlength', 'min', 'max', 'minbytes', 'maxbytes', 'pattern'],
     generalKws = ['with', 'all', 'except', 'to'],
     paginationKws = ['pagination', 'pager', 'infinite-scroll'],
     dtoKws = ['mapstruct'],
     serviceKws = ['serviceClass', 'serviceImpl'],
+    searchKws = ['ElasticSearch'],
     typeKws = ['String', 'Integer', 'Long', 'BigDecimal', 'Float', 'Double', 'Boolean', 'LocalDate', 'ZonedDateTime', 'Blob', 'AnyBlob', 'ImageBlob'];
 
     CodeMirror.defineMode('jdl', function() {
@@ -30,7 +31,7 @@
         define('qualifier', validationKws);
 
         // types
-        define('special', generalKws.concat(paginationKws, serviceKws, dtoKws));
+        define('special', generalKws.concat(paginationKws, serviceKws, dtoKws, searchKws));
 
         function tokenBase(stream, state) {
             /*if (!stream.sol() && stream.match(/(\s*)([A-Z])/g)){
