@@ -18,7 +18,7 @@ $(function (){
 	canvasElement = document.getElementById('canvas'),
 	canvasPanner = document.getElementById('canvas-panner'),
 	canvasTools = document.getElementById('canvas-tools'),
-	defaultSource = document.getElementById('defaultGraph').innerHTML,
+	defaultSource,
 	fileName,
 	zoomLevel = 0,
 	offset = {x:0, y:0},
@@ -63,7 +63,7 @@ $(function (){
 	initFileDownloadLink(fileLink);
 	initToolbarTooltips();
 	initDialog('.upload-dialog');
-	reloadStorage();
+	loadSample(reloadStorage);
 
 	function initDialog(className) {
 
@@ -78,7 +78,14 @@ $(function (){
 			mainClass: 'my-mfp-slide-bottom'
 		});
 	}
-	
+
+	function loadSample(cb) {
+		$.get('sample.jdl', function(data) {
+			defaultSource = data;
+			cb();
+		});
+	}
+
 	function classToggler(element, className, state){
 		var jqElement = $(element);
 		return _.bind(jqElement.toggleClass, jqElement, className, state);
@@ -146,8 +153,11 @@ $(function (){
 
 	app.discardCurrentGraph = function (){
 		app.dismissDialog();
-		setCurrentText(defaultSource);
-		sourceChanged();
+		loadSample(function(data) {
+			setCurrentText(defaultSource);
+			sourceChanged();
+	    });
+
 	}
 
 	app.saveViewModeToStorage = function (){
