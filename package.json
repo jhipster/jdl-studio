@@ -1,6 +1,6 @@
 {
   "name": "jdl-studio",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "private": true,
   "description": "A UML visual editor for JHipster JDL",
   "homepage": "https://jhipster.github.io/jdl-studio/",
