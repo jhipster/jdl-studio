@@ -224,7 +224,6 @@ a:hover {
 	padding: 0 5px;
 }
 .tools > #storage-status {
-	display: none;
 	color: #fdf6e3;
 	opacity: 0.5;
 	font-style: italic;

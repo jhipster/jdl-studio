@@ -14,11 +14,8 @@
 		jqCanvas = $('#canvas'),
 		viewport = $(window),
 		jqBody = $('body'),
-		lineNumbers = $('#linenumbers'),
 		lineMarker = $('#linemarker'),
-		storageStatusElement = $('#storage-status'),
 		tooltip = $('#tooltip')[0],
-		textarea = document.getElementById('textarea'),
 		imgLink = document.getElementById('savebutton'),
 		fileLink = document.getElementById('saveTextbutton'),
 		linkLink = document.getElementById('linkbutton'),
@@ -45,6 +42,7 @@
 		app.importJDL = importJDL;
 
 		app.sidebarVisible = '';
+		app.showStorageStatus = false;
 
 		window.addEventListener('hashchange', reloadStorage);
 		window.addEventListener('resize', _.throttle(sourceChanged, 750, {leading: true}));
@@ -307,8 +305,11 @@
 			storage = buildStorage(location.hash);
 			setCurrentText(storage.read());
 			sourceChanged();
-			if (storage.isReadonly) storageStatusElement.show();
-			else storageStatusElement.hide();
+			$scope.$apply(function () {
+				if (storage.isReadonly) app.showStorageStatus = true;
+				else app.showStorageStatus = false;
+			});
+
 		}
 
 		function currentText(){
@@ -323,9 +324,9 @@
 
 		function sourceChanged(){
 			try {
-				lineMarker.css('top', -35);
-				lineNumbers.toggleClass('error', false);
 				$scope.$apply(function () {
+					app.lineMarkerTop = -35;
+					app.hasError = false;
 		            app.errorTooltip = '';
 		        });
 				var superSampling = window.devicePixelRatio || 1;
@@ -341,16 +342,19 @@
 		}
 
 		function handleError(e){
-			lineNumbers.toggleClass('error', true);
+			var msg = '', top = 0;
 			if (e.location){
 				var lineHeight = parseFloat($(editorElement).css('line-height'));
-				lineMarker.css('top', 35 + lineHeight*e.location.start.line);
-				$scope.$apply(function () {
-		            app.errorTooltip = e.message + ' -> line: ' + e.location.start.line;
-		        });
+				top = 35 + lineHeight * e.location.start.line;
+				msg = e.message + ' -> line: ' + e.location.start.line;
 			} else {
 				throw e;
 			}
+			$scope.$apply(function () {
+				app.lineMarkerTop = top;
+				app.hasError = true;
+				app.errorTooltip = msg;
+			});
 		}
 	}
 })();

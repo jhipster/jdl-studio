@@ -60,7 +60,7 @@
 					<i class="lnr lnr-trash"></i>
 				</a>
 				<span id="tooltip"></span>
-				<span id="storage-status">
+				<span id="storage-status" ng-show="app.showStorageStatus" ng-cloak>
 					View mode, changes are not saved.
 					<a href="javascript:void(0)" ng-click="app.saveViewModeToStorage()"
 					   title="Save this diagram to localStorage">save</a>
@@ -81,15 +81,19 @@
 				</div>
 			</div>
 		</header>
+		<!-- canvas holding the UML diagram-->
 		<canvas id="canvas"></canvas>
+		<!-- Text area used by code mirror editor-->
 		<textarea id="textarea" jdl-editor="{ onLoad : app.editorLoaded }" ng-model="app.jdlText" spellcheck="false"></textarea>
-		<div id="linenumbers"></div>
-		<div id="canvas-panner"></div>
-
+		<!-- editor line number, error markers-->
+		<div id="linenumbers" ng-class="{error: app.hasError}"></div>
+		<div id="linemarker" ng-style="{'top': app.lineMarkerTop}"></div>
 		<span id="error-tooltip" ng-cloak>{{ app.errorTooltip }}</span>
+		<!-- canvas pan/zomm handler-->
+		<div id="canvas-panner"></div>
+		<!-- sidebar -->
 		<div ng-include="app.sidebar" id="sidebar" class="sidebar {{app.sidebarVisible}}"></div>
 
-		<div id="linemarker"></div>
 	</div>
 	<div id="discard-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
 		<h1>Discard</h1>
