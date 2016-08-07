@@ -1,10 +1,17 @@
 var gulp = require("gulp"),
+    lazypipe = require('lazypipe'),
+    sourcemaps = require('gulp-sourcemaps'),
+    rev = require('gulp-rev'),
+    cssnano = require('gulp-cssnano'),
+    uglify = require('gulp-uglify'),
+    useref = require("gulp-useref"),
+    revReplace = require("gulp-rev-replace")
+    rename = require("gulp-rename"),
+    gulpIf = require('gulp-if'),
     inject = require('gulp-inject'),
     del = require('del'),
     browserSync = require('browser-sync').create(),
     reload      = browserSync.reload;
-
-var build = require('./build');
 
 var bowerLibFiles = require('main-bower-files');
 
@@ -14,12 +21,32 @@ var config = {
     dist: 'dist/'
 }
 
+var initTask = lazypipe()
+    .pipe(sourcemaps.init);
+var jsTask = lazypipe()
+    .pipe(uglify);
+var cssTask = lazypipe()
+    .pipe(cssnano);
+
 gulp.task('clean', function () {
     return del([config.dist], { dot: true });
 });
 
 
-gulp.task('build', ['clean', 'inject'], build);
+gulp.task('build', ['clean', 'inject'], function() {
+    var manifest = gulp.src('.tmp/rev-manifest.json');
+
+    return gulp.src('index-dev.html')
+        .pipe(rename("index.html"))
+        //init sourcemaps
+        .pipe(useref({}, initTask))
+        .pipe(gulpIf('*.js', jsTask()))
+        .pipe(gulpIf('*.css', cssTask()))
+        .pipe(gulpIf('**/*.!(html)', rev()))
+        .pipe(revReplace({manifest: manifest}))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(''));
+});
 
 gulp.task('inject', function () {
     return gulp.src('index-dev.html')
