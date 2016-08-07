@@ -11,7 +11,8 @@ module.exports = {
         'js/nomnoml/nomnoml.layouter.custom.js',
         'js/nomnoml/nomnoml.renderer.custom.js',
         'js/nomnoml/nomnoml.custom.js',
-        'js/app.js'
+        'js/app.js',
+        'js/jdl-editor.directive.js'
     ],
     CSS: [
         'css/codemirror/show-hint-jdl.css',
