@@ -14,7 +14,6 @@
 		jqCanvas = $('#canvas'),
 		viewport = $(window),
 		jqBody = $('body'),
-		lineMarker = $('#linemarker'),
 		tooltip = $('#tooltip')[0],
 		imgLink = document.getElementById('savebutton'),
 		fileLink = document.getElementById('saveTextbutton'),

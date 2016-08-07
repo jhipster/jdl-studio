@@ -1,34 +1,33 @@
 	<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="A tool for drawing sassy UML diagrams based on JDL syntax. Provides instant feedback and has a customizable styling.">
-<!-- Chrome, Firefox OS and Opera -->
-<meta name="theme-color" content="#282C34">
-<!-- Windows Phone -->
-<meta name="msapplication-navbutton-color" content="#282C34">
-<!-- iOS Safari -->
-<meta name="apple-mobile-web-app-status-bar-style" content="#282C34">
-<title>JDL-Studio</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="A tool for drawing sassy UML diagrams based on JDL syntax. Provides instant feedback and has a customizable styling.">
+	<meta name="authors" content="Deepu KS">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#282C34">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#282C34">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#282C34">
+	<title>JDL-Studio</title>
 
-<!-- build:css dist/css/main.css -->
+	<!-- build:css dist/css/main.css -->
+	<!-- bower:css -->
+	<link rel="stylesheet" href="bower_components/magnific-popup/dist/magnific-popup.css">
+	<link rel="stylesheet" href="bower_components/icon-font.min/index.css">
+	<link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
+	<!-- endinject -->
 
-<!-- bower:css -->
-<link rel="stylesheet" href="bower_components/magnific-popup/dist/magnific-popup.css">
-<link rel="stylesheet" href="bower_components/icon-font.min/index.css">
-<link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
-<!-- endinject -->
-
-<!-- inject:css -->
-<link rel="stylesheet" href="css/codemirror/show-hint-jdl.css">
-<link rel="stylesheet" href="css/codemirror/solarized.jdl.css">
-<link rel="stylesheet" href="css/app.css">
-<!-- endinject -->
-
-<!-- endbuild -->
-<link rel="shortcut icon" href="favicon.ico">
+	<!-- inject:css -->
+	<link rel="stylesheet" href="css/codemirror/show-hint-jdl.css">
+	<link rel="stylesheet" href="css/codemirror/solarized.jdl.css">
+	<link rel="stylesheet" href="css/app.css">
+	<!-- endinject -->
+	<!-- endbuild -->
+	<link rel="shortcut icon" href="favicon.ico">
 </head>
 <body ng-app="jdlStudio" ng-controller="workspaceController as app">
 	<div class="wrap">
@@ -109,25 +108,6 @@
 		<button class="btn" ng-click="app.dismissDialog()">Dismiss</button>
 	</div>
 	<script>
-		(function (i, s, o, g, r, a, m) {
-			i['GoogleAnalyticsObject'] = r;
-			i[r] = i[r] || function () {
-				(i[r].q = i[r].q || []).push(arguments)
-			}, i[r].l = 1 * new Date();
-			a = s.createElement(o),
-			m = s.getElementsByTagName(o)[0];
-			a.async = 1;
-			a.src = g;
-			m.parentNode.insertBefore(a, m)
-		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-		ga('create', 'UA-46075199-1', 'jhipster.github.io');
-		ga('create', 'UA-73986707-1', 'auto', 'jdlTracker');//specific for JDL studio
-		ga('send', 'pageview');
-		ga('jdlTracker.send', 'pageview');
-
-	</script>
-	<script>
 	// temp hack to use jdl parser from jhipster-core
 	var module = module || {};
 	</script>
@@ -161,5 +141,24 @@
 	<script src="js/jdl-editor.directive.js"></script>
 	<!-- endinject -->
     <!-- endbuild -->
+	<script>
+		(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o),
+			m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-46075199-1', 'jhipster.github.io');
+		ga('create', 'UA-73986707-1', 'auto', 'jdlTracker');//specific for JDL studio
+		ga('send', 'pageview');
+		ga('jdlTracker.send', 'pageview');
+
+	</script>
 </body>f
 </html>
