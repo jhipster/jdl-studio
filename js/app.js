@@ -10,8 +10,6 @@
 	function WorkspaceController($scope, $document) {
 		var app = this;
 
-		app.sidebarVisible = '';
-
 		var storage = null,
 		jqCanvas = $('#canvas'),
 		viewport = $(window),
@@ -20,7 +18,6 @@
 		lineMarker = $('#linemarker'),
 		storageStatusElement = $('#storage-status'),
 		tooltip = $('#tooltip')[0],
-		errorTooltip = $('#error-tooltip')[0],
 		textarea = document.getElementById('textarea'),
 		imgLink = document.getElementById('savebutton'),
 		fileLink = document.getElementById('saveTextbutton'),
@@ -46,6 +43,8 @@
 		app.saveViewModeToStorage = saveViewModeToStorage;
 		app.exitViewMode = exitViewMode;
 		app.importJDL = importJDL;
+
+		app.sidebarVisible = '';
 
 		window.addEventListener('hashchange', reloadStorage);
 		window.addEventListener('resize', _.throttle(sourceChanged, 750, {leading: true}));
@@ -115,7 +114,7 @@
 		}
 
 		function discardCurrentGraph(){
-			app.dismissDialog();
+			dismissDialog();
 			loadSample(function(data) {
 				setCurrentText(defaultSource);
 				sourceChanged();
@@ -138,7 +137,7 @@
 		}
 
 		function importJDL() {
-			app.dismissDialog();
+			dismissDialog();
 			//Retrieve the first (and only!) File from the FileList object
 			var f = document.getElementById('jdlFileInput').files[0];
 
@@ -313,20 +312,22 @@
 		}
 
 		function currentText(){
-			//return app.jdlText;
-			return editor.getValue();
+			return app.jdlText;
 		}
 
 		function setCurrentText(value){
-			//app.jdlText = value;
-			return editor.setValue(value);
+			$scope.$apply(function () {
+				app.jdlText = value;
+			});
 		}
 
 		function sourceChanged(){
 			try {
 				lineMarker.css('top', -35);
 				lineNumbers.toggleClass('error', false);
-				errorTooltip.textContent = '';
+				$scope.$apply(function () {
+		            app.errorTooltip = '';
+		        });
 				var superSampling = window.devicePixelRatio || 1;
 				var scale = superSampling * Math.exp(zoomLevel/10);
 
@@ -344,7 +345,9 @@
 			if (e.location){
 				var lineHeight = parseFloat($(editorElement).css('line-height'));
 				lineMarker.css('top', 35 + lineHeight*e.location.start.line);
-				errorTooltip.textContent = e.message + ' -> line: ' + e.location.start.line;
+				$scope.$apply(function () {
+		            app.errorTooltip = e.message + ' -> line: ' + e.location.start.line;
+		        });
 			} else {
 				throw e;
 			}

@@ -8,7 +8,7 @@
     function jdlEditor () {
         var directive = {
             restrict: 'AE',
-            //require: '?ngModel',
+            require: '?ngModel',
             compile: function compile() {
                 return postLink;
             }
@@ -19,12 +19,10 @@
         function postLink(scope, elm, attr, ngModel) {
 
             var codemirrorOptions = angular.extend(
-                { value: elm.text() },
                 scope.$eval(attr.jdlEditor)
             );
 
             var codemirror = window.CodeMirror.fromTextArea(elm[0], {
-                value: elm.text(),
                 lineNumbers: true,
                 mode: 'jdl',
                 matchBrackets: true,
@@ -36,8 +34,7 @@
                 }
             });
 
-            //TODO make this work with ng-model
-            //configNgModelLink(codemirror, ngModel, scope);
+            configNgModelLink(codemirror, ngModel, scope);
 
             // Allow access to the CodeMirror instance through a broadcasted event
             // eg: $broadcast('CodeMirror', function(cm){...});
