@@ -1,5 +1,24 @@
 var app = app || {};
 
+angular.module('jdlStudio', []);
+angular.module('jdlStudio').controller('workAreaController', WorkAreaController);
+
+WorkAreaController.$inject = ['$scope'];
+function WorkAreaController($scope) {
+	var vm = this;
+	vm.editorOptions = {
+		lineNumbers: true,
+		mode: 'jdl',
+		matchBrackets: true,
+		autoCloseBrackets: true,
+		theme: 'solarized dark',
+		keyMap: 'sublime',
+		extraKeys: {
+			"Ctrl-Space": "autocomplete"
+		}
+	};
+}
+
 $(function (){
 
 	var storage = null,
@@ -64,25 +83,6 @@ $(function (){
 	initToolbarTooltips();
 	initDialog('.upload-dialog');
 	loadSample(reloadStorage);
-
-	/*angular.module('jdlStudio', ['ui.codemirror']);
-	angular.module('jdlStudio').controller('workAreaController', WorkAreaController);
-
-	WorkAreaController.$inject = ['$scope'];
-	function WorkAreaController($scope) {
-		var vm = this;
-		vm.editorOptions = {
-			lineNumbers: true,
-			mode: 'jdl',
-			matchBrackets: true,
-			autoCloseBrackets: true,
-			theme: 'solarized dark',
-			keyMap: 'sublime',
-			extraKeys: {
-				"Ctrl-Space": "autocomplete"
-			}
-	    };
-	}*/
 
 	function initDialog(className) {
 

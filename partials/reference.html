@@ -1,0 +1,120 @@
+<div class="content">
+    <h2>Entity Declaration</h2>
+    <div class="highlighter-rouge">
+        <pre class="highlight">
+            <code>
+entity &lt;entity name&gt; {
+&lt;field name&gt; &lt;type&gt; [&lt;validation&gt;*]
+}
+            </code>
+        </pre>
+    </div>
+    <ul class="options">
+        <li>
+            <p><code class="highlighter-rouge">&lt;entity name&gt;</code> is the name of the entity,</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">&lt;field name&gt;</code> the name of one field of the entity,</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">&lt;type&gt;</code> the JHipster supported type of the field,</p>
+        </li>
+        <li>
+            <p>and as an option <code class="highlighter-rouge">&lt;validation&gt;</code> the validations for the field.</p>
+        </li>
+    </ul>
+    <h2>Enum Declaration</h2>
+    <div class="highlighter-rouge">
+        <pre class="highlight">
+            <code>
+enum &lt;enum name&gt; {
+&lt;enum values&gt;
+}
+            </code>
+        </pre>
+    </div>
+    <ul class="options">
+        <li>
+            <p><code class="highlighter-rouge">&lt;enum name&gt;</code> is the name of the enum,</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">&lt;enum values&gt;</code> the comma seperated values in uppercase</p>
+        </li>
+    </ul>
+    <h2>Relationship Declaration</h2>
+    <div class="highlighter-rouge">
+        <pre class="highlight">
+            <code>
+relationship &lt;type&gt; {
+&lt;from entity&gt;[{&lt;relationship name&gt;}]
+to
+&lt;to entity&gt;[{&lt;relationship name&gt;}]
+}
+            </code>
+        </pre>
+    </div>
+    <ul class="options">
+        <li>
+            <p><code class="highlighter-rouge">&lt;type&gt;</code> is the type of your relationship (OneToMany | ManyToOne| OneToOne | ManyToMany)</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">&lt;from entity&gt;</code> is the name of the entity owner of the relationship,</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">&lt;to entity&gt;</code> is the name of the entity where the relationship goes to,</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">&lt;relationship name&gt;</code> is the name of the relationship in the entity.</p>
+        </li>
+    </ul>
+    <p>The possible types and validations are those described <a href="https://jhipster.github.io/jdl/#annexes">here</a>, if the validation requires a value, simply add <code class="highlighter-rouge">(&lt;value&gt;)</code> right after the name of the validation.</p>
+    <h2>Option Declaration</h2>
+    <p>It is possible to declare some of the supported options via JDL, supported options are:</p>
+    <ul class="options">
+        <li>
+            <p><code class="highlighter-rouge">paginate</code> enable pagination for the entity with pager | pagination | infinite-scroll</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">service</code> enable service layer for the entity with serviceClass | serviceImpl</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">dto</code> enable DTO for the entity with Mapstruct</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">skipClient</code> skip client side code for entity</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">skipServer</code> skip server side code for entity</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">angularSuffix</code> add a suffix to angular route names</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">microservice</code> specify the app name of entity from another microservice</p>
+        </li>
+        <li>
+            <p><code class="highlighter-rouge">search</code> specify search option for entity from another microservice</p>
+        </li>
+    </ul>
+    <p>Refer <a target="_blank" href="https://jhipster.github.io/jdl/">JDL</a> documentation for more details.</p>
+
+    <h2>Directives</h2>
+    <p>The rendered image style can be customized by setting these directives along with the JDL code</p>
+    #arrowSize: 1<br>
+    #bendSize: 0.3<br>
+    #direction: down | right<br>
+    #gutter: 5<br>
+    #edgeMargin: 0<br>
+    #edges: hard | rounded<br>
+    #fill: #eee8d5; #fdf6e3<br>
+    #fillArrows: false<br>
+    #font: Calibri<br>
+    #fontSize: 12<br>
+    #leading: 1.25<br>
+    #lineWidth: 3<br>
+    #padding: 8<br>
+    #spacing: 40<br>
+    #stroke: #33322E<br>
+    #title: filename<br>
+    #zoom: 1<br>
+</div>

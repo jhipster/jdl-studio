@@ -70,6 +70,7 @@ gulp.task('serve', ['inject'], function () {
     });
 
     gulp.watch("index-dev.html").on("change", reload);
+    gulp.watch("partials/*.html").on("change", reload);
     gulp.watch("js/*.js").on("change", reload);
     gulp.watch("codemirror/*").on("change", reload);
     gulp.watch("nomnoml/*").on("change", reload);
