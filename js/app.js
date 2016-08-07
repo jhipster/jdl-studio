@@ -1,25 +1,12 @@
-var app = app || {};
 
 angular.module('jdlStudio', []);
-angular.module('jdlStudio').controller('workAreaController', WorkAreaController);
+angular.module('jdlStudio').controller('workspaceController', WorkspaceController);
 
-WorkAreaController.$inject = ['$scope'];
-function WorkAreaController($scope) {
-	var vm = this;
-	vm.editorOptions = {
-		lineNumbers: true,
-		mode: 'jdl',
-		matchBrackets: true,
-		autoCloseBrackets: true,
-		theme: 'solarized dark',
-		keyMap: 'sublime',
-		extraKeys: {
-			"Ctrl-Space": "autocomplete"
-		}
-	};
-}
+WorkspaceController.$inject = ['$scope'];
+function WorkspaceController($scope) {
+	var app = this;
 
-$(function (){
+	app.sidebarVisible = '';
 
 	var storage = null,
 	jqCanvas = $('#canvas'),
@@ -84,54 +71,6 @@ $(function (){
 	initDialog('.upload-dialog');
 	loadSample(reloadStorage);
 
-	function initDialog(className) {
-
-		$(className).magnificPopup({
-			type: 'inline',
-			fixedContentPos: false,
-			fixedBgPos: true,
-			overflowY: 'auto',
-			closeBtnInside: true,
-			preloader: false,
-			removalDelay: 300,
-			mainClass: 'my-mfp-slide-bottom'
-		});
-	}
-
-	function loadSample(cb) {
-		$.get('sample.jdl', function(data) {
-			defaultSource = data;
-			cb();
-		});
-	}
-
-	function classToggler(element, className, state){
-		var jqElement = $(element);
-		return _.bind(jqElement.toggleClass, jqElement, className, state);
-	}
-
-	function mouseDown(e){
-		$(canvasPanner).css({width: '100%'});
-		mouseDownPoint = vm.diff({ x: e.pageX, y: e.pageY }, offset);
-	}
-
-	function mouseMove(e){
-		if (mouseDownPoint){
-			offset = vm.diff({ x: e.pageX, y: e.pageY }, mouseDownPoint);
-			sourceChanged();
-		}
-	}
-
-	function mouseUp(){
-		mouseDownPoint = false;
-		$(canvasPanner).css({width: '45%'});
-	}
-
-	function magnify(e){
-		zoomLevel = Math.min(10, zoomLevel - (e.deltaY < 0 ? -1 : 1));
-		sourceChanged();
-	}
-
 	app.magnifyViewport = function (diff){
 		zoomLevel = Math.min(10, zoomLevel + diff);
 		sourceChanged();
@@ -143,12 +82,16 @@ $(function (){
 		sourceChanged();
 	}
 
-	app.toggleSidebar = function (id){
-		var sidebars = ['reference', 'about'];
-		_.each(sidebars, function (key){
-			if (id !== key) $(document.getElementById(key)).toggleClass('visible', false);
-		});
-		$(document.getElementById(id)).toggleClass('visible');
+	app.toggleSidebar = function (id) {
+		app.sidebar = 'partials/' + id + '.html';
+
+		if (app.sidebarContent == id) {
+			app.sidebarContent = null;
+			app.sidebarVisible = '';
+		} else {
+			app.sidebarContent = id;
+			app.sidebarVisible = 'visible';
+		}
 	}
 
 	app.confirmDiscardCurrentGraph = function (){
@@ -218,6 +161,54 @@ $(function (){
 		}
 		ga('send', 'event', 'JDL File', 'upload', 'JDL File upload');
 		ga('jdlTracker.send', 'event', 'JDL File', 'upload', 'JDL File upload');
+	}
+
+	function initDialog(className) {
+
+		$(className).magnificPopup({
+			type: 'inline',
+			fixedContentPos: false,
+			fixedBgPos: true,
+			overflowY: 'auto',
+			closeBtnInside: true,
+			preloader: false,
+			removalDelay: 300,
+			mainClass: 'my-mfp-slide-bottom'
+		});
+	}
+
+	function loadSample(cb) {
+		$.get('sample.jdl', function(data) {
+			defaultSource = data;
+			cb();
+		});
+	}
+
+	function classToggler(element, className, state){
+		var jqElement = $(element);
+		return _.bind(jqElement.toggleClass, jqElement, className, state);
+	}
+
+	function mouseDown(e){
+		$(canvasPanner).css({width: '100%'});
+		mouseDownPoint = vm.diff({ x: e.pageX, y: e.pageY }, offset);
+	}
+
+	function mouseMove(e){
+		if (mouseDownPoint){
+			offset = vm.diff({ x: e.pageX, y: e.pageY }, mouseDownPoint);
+			sourceChanged();
+		}
+	}
+
+	function mouseUp(){
+		mouseDownPoint = false;
+		$(canvasPanner).css({width: '45%'});
+	}
+
+	function magnify(e){
+		zoomLevel = Math.min(10, zoomLevel - (e.deltaY < 0 ? -1 : 1));
+		sourceChanged();
 	}
 
 	// Adapted from http://meyerweb.com/eric/tools/dencoder/
@@ -347,4 +338,4 @@ $(function (){
 			handleError(e);
 		}
 	}
-})
+}

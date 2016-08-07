@@ -30,18 +30,18 @@
 <!-- endbuild -->
 <link rel="shortcut icon" href="favicon.ico">
 </head>
-<body ng-app="jdlStudio">
+<body ng-app="jdlStudio" ng-controller="workspaceController as app">
 	<div class="wrap">
 		<header>
 			<div class="tools left">
 				<a href="https://jhipster.github.io" title="JHipster website" target="_blank"><img class="jhi-logo" src="img/logo-jhipster.png"></a>
-				<a class="logo" href="javascript:void(0)" onclick="app.toggleSidebar('about')" title="About JDL-Studio"><h1>JDL-Studio</h1> &nbsp;</a>
+				<a class="logo" href="javascript:void(0)" ng-click="app.toggleSidebar('about')" title="About JDL-Studio"><h1>JDL-Studio</h1> &nbsp;</a>
 			</div>
 			<div class="tools">
-				<a href="javascript:void(0)" onclick="app.toggleSidebar('about')" title="About JDL-Studio">
+				<a href="javascript:void(0)" ng-click="app.toggleSidebar('about')" title="About JDL-Studio">
 					<i class="lnr lnr-question-circle"></i>
 				</a>
-				<a href="javascript:void(0)" onclick="app.toggleSidebar('reference')" title="Language reference">
+				<a href="javascript:void(0)" ng-click="app.toggleSidebar('reference')" title="Language reference">
 					<i class="lnr lnr-book"></i>
 				</a>
 				<a id="savebutton" href="javascript:void(0)" download="jdl.png" title="Download snapshot of this diagram">
@@ -56,26 +56,26 @@
 				<a id="linkbutton" href="javascript:void(0)" target="_blank" title="Shareable link to this diagram">
 					<i class="lnr lnr-link"></i>
 				</a>
-				<a href="javascript:app.confirmDiscardCurrentGraph()" title="Discard this diagram">
+				<a href="javascript:void(0)" ng-click="app.confirmDiscardCurrentGraph()" title="Discard this diagram">
 					<i class="lnr lnr-trash"></i>
 				</a>
 				<span id="tooltip"></span>
 				<span id="storage-status">
 					View mode, changes are not saved.
-					<a href="javascript:app.saveViewModeToStorage()"
+					<a href="javascript:void(0)" ng-click="app.saveViewModeToStorage()"
 					   title="Save this diagram to localStorage">save</a>
-					<a href="javascript:app.exitViewMode()"
+					<a href="javascript:void(0)" ng-click="app.exitViewMode()"
 					   title="Discard this diagram">close</a>
 				</span>
 
 				<div class="canvas-tools" id="canvas-tools">
-					<a href="javascript:app.magnifyViewport(2)" title="Zoom in">
+					<a href="javascript:void(0)" ng-click="app.magnifyViewport(2)" title="Zoom in">
 						<i class="lnr lnr-plus-circle"></i>
 					</a>
-					<a href="javascript:app.resetViewport()" title="Reset zoom and panning">
+					<a href="javascript:void(0)" ng-click="app.resetViewport()" title="Reset zoom and panning">
 						<i class="lnr lnr-frame-contract"></i>
 					</a>
-					<a href="javascript:app.magnifyViewport(-2)" title="Zoom out">
+					<a href="javascript:void(0)" ng-click="app.magnifyViewport(-2)" title="Zoom out">
 						<i class="lnr lnr-circle-minus"></i>
 					</a>
 				</div>
@@ -85,80 +85,24 @@
 		<textarea id="textarea" spellcheck="false"></textarea>
 		<div id="linenumbers"></div>
 		<div id="canvas-panner"></div>
+
 		<span id="error-tooltip"></span>
-		<div id="reference" class="sidebar">
-			<div ng-include="'partials/reference.html'"></div>
-			<div class="logo-background"></div>
-		</div>
-
-		<div id="about" class="sidebar">
-			<div class="content">
-				<p>Hello, this is JDL-Studio, a tool for drawing <a target="_blank" href="https://jhipster.github.io">JHipster</a> JDL diagrams based on the <a target="_blank" href="https://jhipster.github.io/jdl">JDL syntax</a>.
-				<p>Try and edit the code on the left and watch the diagram change. Any changes are saved to the browser's <i>localStorage</i>, so your diagram should be here the next time, (but no guarantees).</p>
-				<p>Created by <a href="mailto:daniel.kallin@gmail.com">Deepu KS</a> and hosted on <a href="https://github.com/jhipster/jdl-studio" target="_blank">GitHub</a> with <i class="lnr lnr-heart"></i>.</p>
-				<p>JDL-Studio was made possible by the cool project <a target="_blank" href="https://github.com/skanaar/nomnoml">nomnoml</a> by <a target="_blank" href="https://github.com/skanaar">Daniel Kallin</a> and also
-				<a target="_blank" href="http://pegjs.org/">peg.js</a>,
-				<a target="_blank" href="https://github.com/cpettitt/dagre">dagre</a>,
-				<a target="_blank" href="http://lodash.com">lodash</a>,
-				<a target="_blank" href="https://linearicons.com/free">Linearicons</a>,
-				<a target="_blank" href="https://jquery.com/">JQuery</a>,
-				<a target="_blank" href="https://codemirror.net/">codemirror</a> and
-				<a target="_blank" href="http://ethanschoonover.com/solarized">solarized</a>.
-				</p>
-
-				<hr>
-
-				<h2>Interaction</h2>
-
-				<p>The canvas can be panned and zoomed by dragging and scrolling in the right hand third of the canvas.
-				</p>
-
-				<img class="invert" src="img/interaction-tutorial.png" alt="interaction tutorial">
-
-				<p>Downloaded image files will be given the filename in the <tt>#title</tt> directive.
-				</p>
-
-				<p>The editor supports a subset of <i>Sublime Text's</i> <a href="https://codemirror.net/demo/sublime.html" target="_blank">keymappings</a>.
-					Hit <code>Ctrl-Space</code> for auto suggestions.
-				</p>
-
-				<hr>
-
-				<h2>Examples</h2>
-				<p>Refer <a target="_blank" href="https://jhipster.github.io/jdl">JDL</a> documentation for examples.</p>
-
-				<hr>
-
-				<h2>Usage</h2>
-
-				<p>Refer <a target="_blank" href="https://jhipster.github.io/jdl">JDL</a> documentation for more details.</p>
-
-				<label>Set font</label>
-				#font: Times
-
-				<label>Layout the diagram really tight</label>
-				#fontSize: 8<br>
-				#spacing: 12<br>
-				#padding: 3
-
-			</div>
-			<div class="logo-background"></div>
-		</div>
+		<div ng-include="app.sidebar" id="sidebar" class="sidebar {{app.sidebarVisible}}"></div>
 
 		<div id="linemarker"></div>
 	</div>
 	<div id="discard-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
 		<h1>Discard</h1>
 		<p>Do you want to discard current diagram and load the default example?</p>
-		<button class="btn" onclick="app.discardCurrentGraph()">Yes</button>
-		<button class="btn" onclick="app.dismissDialog()">No</button>
+		<button class="btn" ng-click="app.discardCurrentGraph()">Yes</button>
+		<button class="btn" ng-click="app.dismissDialog()">No</button>
 	</div>
 	<div id="upload-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
 		<h1>Import JDL</h1>
 		<p>Select a <code>.jh</code> or <code>.txt</code> file</p>
 		<input class="upload" accept=".jh,.txt" type="file" id="jdlFileInput" /><br>
-		<button class="btn" onclick="app.importJDL()">Import</button>
-		<button class="btn" onclick="app.dismissDialog()">Dismiss</button>
+		<button class="btn" ng-click="app.importJDL()">Import</button>
+		<button class="btn" ng-click="app.dismissDialog()">Dismiss</button>
 	</div>
 
 	<script>
