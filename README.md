@@ -23,10 +23,10 @@ The official Docker image is available at https://hub.docker.com/r/jhipster/jdl-
 You can use JDL-Studio offline with :
 
 ```
-docker run --rm -it -p 8888:80 jhipster/jdl-studio
+docker run --rm -it -p 18080:80 jhipster/jdl-studio
 ```
 
-The JDL-Studio should be available at: http://localhost:8888 or http://docker-ip:8888
+The JDL-Studio should be available at: http://localhost:18080 or http://docker-ip:18080
 
 ## Web application
 
