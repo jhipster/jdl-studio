@@ -4,7 +4,7 @@ var JDLParser = module.exports;
 nomnoml.parse = function (source){
 	function onlyCompilables(line){
 		var ok = line[0] !== '#' && line[0] !== '/' && line[0] !== '*'
-		return ok ? line : ''
+		return ok ? line.replace(/\/\/[^\n\r]*/mg, '') : ''
 	}
 	var isDirective = function (line){ return line.text[0] === '#' }
 	var lines = source.split('\n').map(function (s, i){

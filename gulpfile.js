@@ -9,6 +9,7 @@ var gulp = require("gulp"),
     rename = require("gulp-rename"),
     gulpIf = require('gulp-if'),
     inject = require('gulp-inject'),
+    babel = require('gulp-babel'),
     del = require('del'),
     browserSync = require('browser-sync').create(),
     reload      = browserSync.reload;
@@ -21,6 +22,8 @@ var config = {
     dist: 'dist/'
 }
 
+var babelTask = lazypipe()
+    .pipe(babel, {presets: ['es2015']});
 var initTask = lazypipe()
     .pipe(sourcemaps.init);
 var jsTask = lazypipe()
@@ -32,14 +35,15 @@ gulp.task('clean', function () {
     return del([config.dist], { dot: true });
 });
 
-
 gulp.task('build', ['clean', 'inject'], function() {
     var manifest = gulp.src('.tmp/rev-manifest.json');
 
     return gulp.src('index-dev.html')
         .pipe(rename("index.html"))
         //init sourcemaps
-        .pipe(useref({}, initTask))
+        .pipe(useref({}
+            ,lazypipe().pipe(function () {return gulpIf('bower_components/pegjs_parser/index.js', babelTask())})
+            ,initTask))
         .pipe(gulpIf('*.js', jsTask()))
         .pipe(gulpIf('*.css', cssTask()))
         .pipe(gulpIf('**/*.!(html)', rev()))
