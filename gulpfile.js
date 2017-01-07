@@ -1,4 +1,4 @@
-var gulp = require("gulp"),
+const gulp = require("gulp"),
     lazypipe = require('lazypipe'),
     sourcemaps = require('gulp-sourcemaps'),
     rev = require('gulp-rev'),
@@ -14,36 +14,36 @@ var gulp = require("gulp"),
     browserSync = require('browser-sync').create(),
     reload      = browserSync.reload;
 
-var bowerLibFiles = require('main-bower-files');
+const bowerLibFiles = require('main-bower-files');
 
 const lib = require('./lib');
 
-var config = {
+const config = {
     dist: 'dist/'
 }
 
-var babelTask = lazypipe()
+const babelTask = lazypipe()
     .pipe(babel, {presets: ['es2015']});
-var initTask = lazypipe()
+const initTask = lazypipe()
     .pipe(sourcemaps.init);
-var jsTask = lazypipe()
+const jsTask = lazypipe()
     .pipe(uglify);
-var cssTask = lazypipe()
+const cssTask = lazypipe()
     .pipe(cssnano);
 
-gulp.task('clean', function () {
-    return del([config.dist], { dot: true });
-});
+gulp.task('clean', () => del([config.dist], { dot: true }));
 
-gulp.task('build', ['clean', 'inject'], function() {
-    var manifest = gulp.src('.tmp/rev-manifest.json');
+gulp.task('build', ['clean', 'inject'], () => {
+    const manifest = gulp.src('.tmp/rev-manifest.json');
 
     return gulp.src('index-dev.html')
         .pipe(rename("index.html"))
         //init sourcemaps
-        .pipe(useref({}
-            ,lazypipe().pipe(function () {return gulpIf('bower_components/pegjs_parser/index.js', babelTask())})
-            ,initTask))
+        .pipe(useref(
+            {},
+            lazypipe().pipe(() => gulpIf('bower_components/pegjs_parser/index.js', babelTask())),
+            initTask
+        ))
         .pipe(gulpIf('*.js', jsTask()))
         .pipe(gulpIf('*.css', cssTask()))
         .pipe(gulpIf('**/*.!(html)', rev()))
@@ -52,7 +52,7 @@ gulp.task('build', ['clean', 'inject'], function() {
         .pipe(gulp.dest(''));
 });
 
-gulp.task('inject', function () {
+gulp.task('inject', () => {
     return gulp.src('index-dev.html')
         .pipe(inject(gulp.src(bowerLibFiles(), {read: false}), {
             name: 'bower',
@@ -63,7 +63,7 @@ gulp.task('inject', function () {
         .pipe(gulp.dest(''));
 });
 
-gulp.task('serve', ['inject'], function () {
+gulp.task('serve', ['inject'], () => {
 
     // Serve files from the root of this project
     browserSync.init({
@@ -81,6 +81,6 @@ gulp.task('serve', ['inject'], function () {
     gulp.watch("css/*.css").on("change", reload);
 });
 
-gulp.task('default', function() {
+gulp.task('default', () => {
     gulp.start('serve');
 });
