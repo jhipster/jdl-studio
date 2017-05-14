@@ -8,7 +8,7 @@
     dtoKws = ['mapstruct'],
     serviceKws = ['serviceClass', 'serviceImpl'],
     searchKws = ['ElasticSearch'],
-    typeKws = ['String', 'Integer', 'Long', 'BigDecimal', 'Float', 'Double', 'Boolean', 'LocalDate', 'ZonedDateTime', 'Blob', 'AnyBlob', 'ImageBlob'];
+    typeKws = ['String', 'Integer', 'Long', 'BigDecimal', 'Float', 'Double', 'Boolean', 'LocalDate', 'ZonedDateTime', 'Instant', 'Blob', 'AnyBlob', 'ImageBlob'];
 
     CodeMirror.defineMode('jdl', function() {
         var words = {};
