@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "private": true,
   "description": "A UML visual editor for JHipster JDL",
-  "homepage": "https://jhipster.github.io/jdl-studio/",
+  "homepage": "http://www.jhipster.tech//jdl-studio/",
   "author": "Deepu KS <d4udts@gmail.com>",
   "license": "MIT",
   "keywords": [

@@ -2,7 +2,7 @@
     "name": "jdl-studio",
     "version": "0.0.0",
     "description": "The sassy UML renderer that generates diagrams from JDL text",
-    "homepage": "https://jhipster.github.io/jdl-studio",
+    "homepage": "http://www.jhipster.tech//jdl-studio",
     "authors": [
         "Deepu KS <d4udts@gmail.com>"
     ],
