@@ -1,6 +1,6 @@
 (function () {
 
-    var mainKeywords = ['entity', 'enum', 'relationship', 'paginate', 'dto', 'service', 'skipClient', 'skipServer', 'microservice', 'search', 'angularSuffix'],
+    var mainKeywords = ['entity', 'enum', 'relationship', 'paginate', 'dto', 'service', 'skipClient', 'skipServer', 'microservice', 'search', 'angularSuffix', 'filter'],
     relationshipKws = ['OneToOne', 'OneToMany', 'ManyToOne', 'ManyToMany'],
     validationKws = ['required', 'minlength', 'maxlength', 'min', 'max', 'minbytes', 'maxbytes', 'pattern'],
     generalKws = ['with', 'all', 'except', 'to'],
