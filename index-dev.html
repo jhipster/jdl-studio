@@ -29,14 +29,35 @@
 	<!-- endbuild -->
 	<link rel="shortcut icon" href="favicon.ico">
 </head>
-<body ng-app="jdlStudio" ng-controller="workspaceController as app">
+<body ng-app="jdlStudio" ng-controller="workspaceController as app" ng-cloak>
 	<div class="wrap">
 		<header>
 			<div class="tools left">
 				<a href="http://www.jhipster.tech/" title="JHipster website" target="_blank"><img class="jhi-logo" src="img/logo-jhipster.png"></a>
 				<a class="logo" href="javascript:void(0)" ng-click="app.toggleSidebar('about')" title="About JDL-Studio"><h1>JDL-Studio</h1> &nbsp;</a>
-			</div>
-			<div class="tools">
+      </div>
+      <div class="tools">
+        <a href="javascript:void(0)" ng-click="app.goToJHipsterOnline()" title="Go to the main JHipster Online page">
+          <i class="lnr lnr-home"></i>
+        </a>
+        <a id="signin" href="javascript:void(0)" ng-click="app.goToJHipsterOnline()" title="Sign in" ng-hide="app.authenticated">
+          Please sign in for more features!
+        </a>
+        <a href="javascript:void(0)" title="" ng-show="app.authenticated">
+          {{app.username}}
+        </a>
+        <a href="javascript:void(0)" title="Use existing JDL" ng-show="app.authenticated">
+          <select>
+            <option value="">&lt;Create new JDL&gt;</option>
+            <option ng-repeat="option in app.jdls" ng-value="option.id">{{option.name}}</option>
+          </select>
+        </a>
+        <a href="javascript:void(0)" title="Save JDL" ng-click="app.createJdl()" ng-show="app.authenticated">
+          <i class="lnr lnr-pencil"></i>
+        </a>
+        <a href="javascript:void(0)" title="Manage JDLs" ng-show="app.authenticated">
+           <i class="lnr lnr-cog"></i>
+        </a>
 				<a href="javascript:void(0)" ng-click="app.toggleSidebar('about')" title="About JDL-Studio">
 					<i class="lnr lnr-question-circle"></i>
 				</a>
@@ -51,9 +72,6 @@
 				</a>
 				<a id="uploadbutton" class="upload-dialog" href="#upload-dialog" title="Import text file of a JDL">
 					<i class="lnr lnr-upload"></i>
-				</a>
-				<a id="linkbutton" href="javascript:void(0)" target="_blank" title="Shareable link to this diagram">
-					<i class="lnr lnr-link"></i>
 				</a>
 				<a href="javascript:void(0)" ng-click="app.confirmDiscardCurrentGraph()" title="Discard this diagram">
 					<i class="lnr lnr-trash"></i>

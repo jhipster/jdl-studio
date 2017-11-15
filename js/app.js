@@ -4,24 +4,22 @@
   angular.module('jdlStudio', []);
   angular.module('jdlStudio').controller('workspaceController', WorkspaceController);
 
-  WorkspaceController.$inject = ['$scope', '$document'];
+  WorkspaceController.$inject = ['$scope', '$http'];
 
-  function WorkspaceController($scope, $document) {
-    var app = this;
+  function WorkspaceController($scope, $http) {
+    let app = this;
 
-    var storage = null,
+    let storage = null,
       jqCanvas = $('#canvas'),
       viewport = $(window),
       jqBody = $('body'),
       tooltip = $('#tooltip')[0],
       imgLink = document.getElementById('savebutton'),
       fileLink = document.getElementById('saveTextbutton'),
-      linkLink = document.getElementById('linkbutton'),
       canvasElement = document.getElementById('canvas'),
       canvasPanner = document.getElementById('canvas-panner'),
       canvasTools = document.getElementById('canvas-tools'),
       defaultSource,
-      fileName,
       zoomLevel = 0,
       offset = {
         x: 0,
@@ -42,9 +40,15 @@
     app.saveViewModeToStorage = saveViewModeToStorage;
     app.exitViewMode = exitViewMode;
     app.importJDL = importJDL;
+    app.goToJHipsterOnline = goToJHipsterOnline;
+    app.createJdl = createJdl;
 
     app.sidebarVisible = '';
     app.showStorageStatus = false;
+    app.authenticated = false;
+    app.username = '';
+    app.server_api = 'http://localhost:8080/';
+    app.jdls = {};
 
     window.addEventListener('hashchange', reloadStorage);
     window.addEventListener('resize', _.throttle(sourceChanged, 750, {leading: true}));
@@ -63,11 +67,12 @@
     initFileDownloadLink(fileLink);
     initToolbarTooltips();
     initDialog('.upload-dialog');
+    initAuthent();
 
     // Monkey patch to avoid '$apply already in progress' error
     $scope.safeApply = function(fn) {
       var phase = this.$root.$$phase;
-      if (phase == '$apply' || phase == '$digest') {
+      if (phase === '$apply' || phase === '$digest') {
         if (fn && (typeof(fn) === 'function')) {
           fn();
         }
@@ -100,7 +105,7 @@
     function toggleSidebar(id) {
       app.sidebar = 'partials/' + id + '.html';
 
-      if (app.sidebarContent == id) {
+      if (app.sidebarContent === id) {
         app.sidebarContent = null;
         app.sidebarVisible = '';
       } else {
@@ -138,7 +143,7 @@
     }
 
     function saveViewModeToStorage() {
-      var question = 'Do you want to overwrite the diagram in ' +
+      let question = 'Do you want to overwrite the diagram in ' +
       'localStorage with the currently viewed diagram?';
       if (confirm(question)) {
         storage.moveToLocalStorage();
@@ -153,14 +158,14 @@
     function importJDL() {
       dismissDialog();
       //Retrieve the first (and only!) File from the FileList object
-      var f = document.getElementById('jdlFileInput').files[0];
+      let f = document.getElementById('jdlFileInput').files[0];
 
       if (!f) {
         alert("Failed to load file");
       } else if (!f.type.match('text.*') && !f.name.endsWith('.jh')) {
         alert(f.name + " is not a valid JDL or text file.");
       } else {
-        var r = new FileReader();
+        let r = new FileReader();
         r.onload = function(e) {
           var contents = e.target.result;
           console.log("Got the file\n" +
@@ -195,7 +200,7 @@
     }
 
     function saveAs(e) {
-      if (e.keyCode == 83 && (navigator.platform.match("Mac")
+      if (e.keyCode === 83 && (navigator.platform.match("Mac")
         ? e.metaKey
         : e.ctrlKey)) {
         e.preventDefault();
@@ -248,11 +253,6 @@
       return decodeURIComponent(encoded.replace(/\+/g, ' '));
     }
 
-    function setShareableLink(str) {
-      var base = '#/view/';
-      linkLink.href = base + urlEncode(str);
-    }
-
     function initImageDownloadLink(link, canvasElement) {
       link.addEventListener('click', downloadImage, false);
       function downloadImage() {
@@ -266,10 +266,10 @@
     function initFileDownloadLink(link) {
       link.addEventListener('click', downloadFile, false);
       function downloadFile() {
-        var textToWrite = currentText();
-        var textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
-        var URL = window.URL || window.webkitURL;
-        if (URL != null) {
+        let textToWrite = currentText();
+        let textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
+        let URL = window.URL || window.webkitURL;
+        if (URL !== null) {
           link.href = window.URL.createObjectURL(textFileAsBlob);
         }
         ga('send', 'event', 'JDL File', 'download', 'JDL File download');
@@ -312,7 +312,6 @@
             return urlDecode(locationHash.substring(7))
           },
           save: function() {
-            setShareableLink(currentText())
           },
           moveToLocalStorage: function() {
             localStorage[key] = currentText()
@@ -325,7 +324,6 @@
           return localStorage[key] || defaultSource
         },
         save: function(source) {
-          setShareableLink(currentText());
           localStorage[key] = source;
         },
         moveToLocalStorage: function() {},
@@ -390,6 +388,38 @@
         app.lineMarkerTop = top;
         app.hasError = true;
         app.errorTooltip = msg;
+      });
+    }
+
+    // JHipster Online support
+    function goToJHipsterOnline() {
+      window.location.href = "/";
+    }
+
+    function initAuthent() {
+      let authToken = JSON.parse(localStorage.getItem("jhi-authenticationToken") || sessionStorage.getItem("jhi-authenticationToken"));
+      authToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTUxMzMzNjQxNH0.IeWYssIAvn86JUfw5lKMeXqVCCoaemqU7Nyocc0FjLcqwmQum89Vx3BCb9YIxR9LHzAjsA6qOwNIIxxZCoN36w";
+      if (app.authToken !== null) {
+        app.authenticated = true;
+        $http.defaults.headers.common.Authorization = 'Bearer ' + authToken;
+        $http.get(app.server_api + 'api/account').then(function successCallback(response) {
+          app.username = response.data.login;
+          $http.get(app.server_api + 'api/jdl').then(function successCallback(response) {
+            app.jdls = response.data;
+            }, function errorCallback() {
+            });
+          }, function errorCallback() {
+          app.authenticated = false;
+          app.username = '';
+        });
+      }
+    }
+
+    function createJdl() {
+      $http.post(app.server_api + 'api/jdl', app.jdlText).then(function successCallback(response) {
+        console.log("Ok");
+      }, function errorCallback(response) {
+        console.log(response);
       });
     }
   }

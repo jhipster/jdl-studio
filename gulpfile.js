@@ -20,7 +20,7 @@ const lib = require('./lib');
 
 const config = {
     dist: 'dist/'
-}
+};
 
 const babelTask = lazypipe()
     .pipe(babel, {presets: ['es2015']});
@@ -68,7 +68,7 @@ gulp.task('serve', ['inject'], () => {
     // Serve files from the root of this project
     browserSync.init({
         server: {
-            baseDir: "./",
+            baseDir: "../",
             index: "index-dev.html"
         }
     });
