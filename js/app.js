@@ -4,9 +4,9 @@
   angular.module('jdlStudio', []);
   angular.module('jdlStudio').controller('workspaceController', WorkspaceController);
 
-  WorkspaceController.$inject = ['$scope', '$http'];
+  WorkspaceController.$inject = ['$scope', '$http', '$location'];
 
-  function WorkspaceController($scope, $http) {
+  function WorkspaceController($scope, $http, $location) {
     let app = this;
 
     let storage = null,
@@ -391,7 +391,10 @@
       });
     }
 
-    // JHipster Online support
+    /***********************************************************************************
+     * JHipster Online support
+     ***********************************************************************************/
+
     function goToJHipsterOnline() {
       window.location.href = "/";
     }
@@ -404,7 +407,7 @@
         $http.defaults.headers.common.Authorization = 'Bearer ' + authToken;
         $http.get(app.server_api + 'api/account').then(function successCallback(response) {
           app.username = response.data.login;
-          $http.get(app.server_api + 'api/jdl').then(function successCallback(response) {
+          $http.get(app.server_api + 'api/jdl-metadata').then(function successCallback(response) {
             app.jdls = response.data;
             }, function errorCallback() {
             });
@@ -417,10 +420,14 @@
 
     function createJdl() {
       $http.post(app.server_api + 'api/jdl', app.jdlText).then(function successCallback(response) {
-        console.log("Ok");
+        setViewHash(response.data.id);
       }, function errorCallback(response) {
         console.log(response);
       });
+    }
+
+    function setViewHash(jdlId) {
+      $location.path('/view/' + jdlId);
     }
   }
 })();
