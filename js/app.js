@@ -41,14 +41,19 @@
     app.exitViewMode = exitViewMode;
     app.importJDL = importJDL;
     app.goToJHipsterOnline = goToJHipsterOnline;
-    app.createJdl = createJdl;
+    app.doCreateJdl = doCreateJdl;
+    app.confirmCreateNewJdl = confirmCreateNewJdl;
+    app.dismissCreateNewJdl = dismissCreateNewJdl;
+    app.changeJdl = changeJdl;
 
     app.sidebarVisible = '';
     app.showStorageStatus = false;
     app.authenticated = false;
     app.username = '';
     app.server_api = 'http://localhost:8080/';
+    app.selectedJdlId = '';
     app.jdls = {};
+    app.newJdlModelName = 'New JDL Model';
 
     window.addEventListener('hashchange', reloadStorage);
     window.addEventListener('resize', _.throttle(sourceChanged, 750, {leading: true}));
@@ -409,25 +414,87 @@
           app.username = response.data.login;
           $http.get(app.server_api + 'api/jdl-metadata').then(function successCallback(response) {
             app.jdls = response.data;
+            app.jdlId = '';
+            let viewHash = getViewHash();
+            if (viewHash === '') {
+              return;
+            }
+            for (let index = 0; index < app.jdls.length; ++index) {
+              if (viewHash === app.jdls[index].id) {
+                app.jdlId = viewHash;
+              }
+            }
             }, function errorCallback() {
-            });
-          }, function errorCallback() {
+          });
+        }, function errorCallback() {
           app.authenticated = false;
           app.username = '';
         });
       }
     }
 
-    function createJdl() {
-      $http.post(app.server_api + 'api/jdl', app.jdlText).then(function successCallback(response) {
+    function updateJdl() {
+      $http.put(app.server_api + 'api/jdl/' + app.jdlId, app.jdlText).then(function successCallback(response) {
         setViewHash(response.data.id);
       }, function errorCallback(response) {
         console.log(response);
       });
     }
 
+    function confirmCreateNewJdl() {
+      if (app.selectedJdlId !== '') { // existing JDL, just save it
+        this.updateJdl();
+        return;
+      }
+      $.magnificPopup.open({
+        items: {
+          src: '#create-dialog'
+        },
+        type: 'inline',
+        fixedContentPos: false,
+        fixedBgPos: true,
+        overflowY: 'auto',
+        closeBtnInside: true,
+        preloader: false,
+        mainClass: 'my-mfp-slide-bottom'
+      });
+    }
+
+    function doCreateJdl() {
+      vm = {'name': app.newJdlModelName, 'content': app.jdlText};
+      $http.post(app.server_api + 'api/jdl', vm).then(function successCallback(response) {
+        setViewHash(response.data.id);
+        dismissCreateNewJdl();
+      }, function errorCallback(response) {
+        console.log(response);
+      });
+    }
+
+    function dismissCreateNewJdl() {
+      $.magnificPopup.close();
+    }
+
+    function changeJdl() {
+      if (app.selectedJdlId === '') {
+        setViewHash('');
+        setCurrentText('');
+        return;
+      }
+      $http.get(app.server_api + 'api/jdl/' + app.selectedJdlId).then(function successCallback(response) {
+        setCurrentText(response.data.content);
+      }, function errorCallback() {
+      });
+    }
+
     function setViewHash(jdlId) {
       $location.path('/view/' + jdlId);
+    }
+
+    function getViewHash() {
+      if ($location.path().length < 7) {
+        return '';
+      }
+      return $location.path().substring(7, $location.path().length);
     }
   }
 })();

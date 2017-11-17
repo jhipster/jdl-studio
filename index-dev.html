@@ -47,12 +47,12 @@
           {{app.username}}
         </a>
         <a href="javascript:void(0)" title="Use existing JDL" ng-show="app.authenticated">
-          <select>
+          <select ng-model="app.selectedJdlId" ng-change="app.changeJdl()">
             <option value="">&lt;Create new JDL Model&gt;</option>
             <option ng-repeat="option in app.jdls" ng-value="option.id">{{option.name}}</option>
           </select>
         </a>
-        <a href="javascript:void(0)" title="Save JDL" ng-click="app.createJdl()" ng-show="app.authenticated">
+        <a href="javascript:void(0)" title="Save JDL" ng-click="app.confirmCreateNewJdl()" ng-show="app.authenticated">
           <i class="lnr lnr-pencil"></i>
         </a>
         <a href="javascript:void(0)" title="Manage JDLs" ng-show="app.authenticated">
@@ -125,6 +125,15 @@
 		<button class="btn" ng-click="app.importJDL()">Import</button>
 		<button class="btn" ng-click="app.dismissDialog()">Dismiss</button>
 	</div>
+  <div id="create-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
+    <h1>Save a new JDL Model</h1>
+    <p>Please give a name to your new JDL Model:</p>
+    <p>
+      <input type="text" ng-model="app.newJdlModelName" minlength="1" value="New JDL Model"/><br>
+    </p>
+    <button class="btn" ng-click="app.doCreateJdl()">Save</button>
+    <button class="btn" ng-click="app.dismissCreateNewJdl()">Cancel</button>
+  </div>
 	<script>
 	// temp hack to use jdl parser from jhipster-core
 	var module = module || {};
@@ -173,9 +182,7 @@
 		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
 		ga('create', 'UA-46075199-1', 'auto');
-		ga('create', 'UA-73986707-1', 'auto', 'jdlTracker');//specific for JDL studio
 		ga('send', 'pageview');
-		ga('jdlTracker.send', 'pageview');
 
 	</script>
 </body>
