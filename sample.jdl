@@ -39,7 +39,7 @@ entity Employee {
 	lastName String,
 	email String,
 	phoneNumber String,
-	hireDate ZonedDateTime,
+	hireDate Instant,
 	salary Long,
 	commissionPct Long
 }
@@ -51,8 +51,8 @@ entity Job {
 }
 
 entity JobHistory {
-	startDate ZonedDateTime,
-	endDate ZonedDateTime,
+	startDate Instant,
+	endDate Instant,
 	language Language
 }
 
