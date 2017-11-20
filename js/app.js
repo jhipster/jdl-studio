@@ -7,9 +7,9 @@
   WorkspaceController.$inject = ['$scope', '$http', '$location'];
 
   function WorkspaceController($scope, $http, $location) {
-    let app = this;
+    var app = this;
 
-    let storage = null,
+    var storage = null,
       jqCanvas = $('#canvas'),
       viewport = $(window),
       jqBody = $('body'),
@@ -150,7 +150,7 @@
     }
 
     function saveViewModeToStorage() {
-      let question = 'Do you want to overwrite the diagram in ' +
+      var question = 'Do you want to overwrite the diagram in ' +
       'localStorage with the currently viewed diagram?';
       if (confirm(question)) {
         storage.moveToLocalStorage();
@@ -165,14 +165,14 @@
     function importJDL() {
       dismissDialog();
       //Retrieve the first (and only!) File from the FileList object
-      let f = document.getElementById('jdlFileInput').files[0];
+      var f = document.getElementById('jdlFileInput').files[0];
 
       if (!f) {
         alert("Failed to load file");
       } else if (!f.type.match('text.*') && !f.name.endsWith('.jh')) {
         alert(f.name + " is not a valid JDL or text file.");
       } else {
-        let r = new FileReader();
+        var r = new FileReader();
         r.onload = function(e) {
           var contents = e.target.result;
           console.log("Got the file\n" +
@@ -273,9 +273,9 @@
     function initFileDownloadLink(link) {
       link.addEventListener('click', downloadFile, false);
       function downloadFile() {
-        let textToWrite = currentText();
-        let textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
-        let URL = window.URL || window.webkitURL;
+        var textToWrite = currentText();
+        var textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
+        var URL = window.URL || window.webkitURL;
         if (URL !== null) {
           link.href = window.URL.createObjectURL(textFileAsBlob);
         }
@@ -312,7 +312,7 @@
     }
 
     function buildStorage(locationHash) {
-      let key = 'jdlstudio.lastSource';
+      var key = 'jdlstudio.lastSource';
       if (locationHash.substring(0, 7) === '#/view/') {
         return {
           read: function() {
@@ -404,8 +404,7 @@
     }
 
     function initAuthent() {
-      let authToken = JSON.parse(localStorage.getItem("jhi-authenticationToken") || sessionStorage.getItem("jhi-authenticationToken"));
-      authToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTUxMzMzNjQxNH0.IeWYssIAvn86JUfw5lKMeXqVCCoaemqU7Nyocc0FjLcqwmQum89Vx3BCb9YIxR9LHzAjsA6qOwNIIxxZCoN36w";
+      var authToken = JSON.parse(localStorage.getItem("jhi-authenticationToken") || sessionStorage.getItem("jhi-authenticationToken"));
       if (app.authToken !== null) {
         app.authenticated = true;
         $http.defaults.headers.common.Authorization = 'Bearer ' + authToken;
@@ -425,11 +424,11 @@
     function fetchAllJDLsMetadata() {
       $http.get(app.server_api + 'api/jdl-metadata').then(function successCallback(response) {
         app.jdls = response.data;
-        let viewHash = getViewHash();
+        var viewHash = getViewHash();
         if (viewHash === '') {
           return;
         }
-        for (let index = 0; index < app.jdls.length; ++index) {
+        for (var index = 0; index < app.jdls.length; ++index) {
           if (viewHash === app.jdls[index].id) {
             app.jdlId = viewHash;
           }
@@ -440,8 +439,8 @@
 
     function updateJdl() {
       startLoading();
-      let currentJdlName = '';
-      for (let index = 0; index < app.jdls.length; ++index) {
+      var currentJdlName = '';
+      for (var index = 0; index < app.jdls.length; ++index) {
         if (app.jdlId === app.jdls[index].id) {
           currentJdlName = app.jdls[index].name;
         }
@@ -514,7 +513,7 @@
      */
     function loadJdl() {
       $http.get(app.server_api + 'api/jdl/' + app.jdlId).then(function successCallback(response) {
-        let content = '';
+        var content = '';
         if (response.data.content !== undefined) {
           content = response.data.content;
         }
@@ -538,7 +537,7 @@
       if ($location.path().length < 7) {
         return '';
       }
-      let hash = $location.path().substring(6, $location.path().length);
+      var hash = $location.path().substring(6, $location.path().length);
       return hash;
     }
 
