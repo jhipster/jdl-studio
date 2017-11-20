@@ -47,13 +47,16 @@
           {{app.username}}
         </a>
         <a href="javascript:void(0)" title="Use existing JDL" ng-show="app.authenticated">
-          <select ng-model="app.selectedJdlId" ng-change="app.changeJdl()">
+          <select ng-model="app.jdlId" ng-change="app.changeJdl()">
             <option value="">&lt;Create new JDL Model&gt;</option>
             <option ng-repeat="option in app.jdls" ng-value="option.id">{{option.name}}</option>
           </select>
         </a>
-        <a href="javascript:void(0)" title="Save JDL" ng-click="app.confirmCreateNewJdl()" ng-show="app.authenticated">
+        <a href="javascript:void(0)" title="Save JDL" ng-click="app.confirmCreateNewJdl()" ng-show="app.authenticated && !app.startLoadingFlag">
           <i class="lnr lnr-pencil"></i>
+        </a>
+        <a ng-show="app.authenticated && app.startLoadingFlag">
+          <i class="lnr lnr-sync"></i>
         </a>
         <a href="javascript:void(0)" title="Manage JDLs" ng-show="app.authenticated">
            <i class="lnr lnr-cog"></i>
@@ -129,7 +132,7 @@
     <h1>Save a new JDL Model</h1>
     <p>Please give a name to your new JDL Model:</p>
     <p>
-      <input type="text" ng-model="app.newJdlModelName" minlength="1" value="New JDL Model"/><br>
+      <input type="text" ng-model="app.newJdlModelName" minlength="1" value="" placeholder="New JDL Model"/><br>
     </p>
     <button class="btn" ng-click="app.doCreateJdl()">Save</button>
     <button class="btn" ng-click="app.dismissCreateNewJdl()">Cancel</button>

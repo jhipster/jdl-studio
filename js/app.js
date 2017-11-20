@@ -44,6 +44,7 @@
     app.doCreateJdl = doCreateJdl;
     app.confirmCreateNewJdl = confirmCreateNewJdl;
     app.dismissCreateNewJdl = dismissCreateNewJdl;
+    app.updateJdl = updateJdl;
     app.changeJdl = changeJdl;
 
     app.sidebarVisible = '';
@@ -51,9 +52,10 @@
     app.authenticated = false;
     app.username = '';
     app.server_api = 'http://localhost:8080/';
-    app.selectedJdlId = '';
+    app.startLoadingFlag = false;
+    app.jdlId = '';
     app.jdls = {};
-    app.newJdlModelName = 'New JDL Model';
+    app.newJdlModelName = '';
 
     window.addEventListener('hashchange', reloadStorage);
     window.addEventListener('resize', _.throttle(sourceChanged, 750, {leading: true}));
@@ -310,7 +312,7 @@
     }
 
     function buildStorage(locationHash) {
-      var key = 'jdlstudio.lastSource';
+      let key = 'jdlstudio.lastSource';
       if (locationHash.substring(0, 7) === '#/view/') {
         return {
           read: function() {
@@ -341,10 +343,7 @@
       setCurrentText(storage.read());
       sourceChanged();
       $scope.safeApply(function() {
-        if (storage.isReadonly)
-          app.showStorageStatus = true;
-        else
-          app.showStorageStatus = false;
+          app.showStorageStatus = storage.isReadonly;
         }
       );
 
@@ -412,20 +411,7 @@
         $http.defaults.headers.common.Authorization = 'Bearer ' + authToken;
         $http.get(app.server_api + 'api/account').then(function successCallback(response) {
           app.username = response.data.login;
-          $http.get(app.server_api + 'api/jdl-metadata').then(function successCallback(response) {
-            app.jdls = response.data;
-            app.jdlId = '';
-            let viewHash = getViewHash();
-            if (viewHash === '') {
-              return;
-            }
-            for (let index = 0; index < app.jdls.length; ++index) {
-              if (viewHash === app.jdls[index].id) {
-                app.jdlId = viewHash;
-              }
-            }
-            }, function errorCallback() {
-          });
+          fetchAllJDLsMetadata();
         }, function errorCallback() {
           app.authenticated = false;
           app.username = '';
@@ -433,16 +419,45 @@
       }
     }
 
+    /**
+     * Fetch all JDL metadatas and select the current one in the list.
+     */
+    function fetchAllJDLsMetadata() {
+      $http.get(app.server_api + 'api/jdl-metadata').then(function successCallback(response) {
+        app.jdls = response.data;
+        let viewHash = getViewHash();
+        if (viewHash === '') {
+          return;
+        }
+        for (let index = 0; index < app.jdls.length; ++index) {
+          if (viewHash === app.jdls[index].id) {
+            app.jdlId = viewHash;
+          }
+        }
+      }, function errorCallback() {
+      });
+    }
+
     function updateJdl() {
-      $http.put(app.server_api + 'api/jdl/' + app.jdlId, app.jdlText).then(function successCallback(response) {
+      startLoading();
+      let currentJdlName = '';
+      for (let index = 0; index < app.jdls.length; ++index) {
+        if (app.jdlId === app.jdls[index].id) {
+          currentJdlName = app.jdls[index].name;
+        }
+      }
+      vm = {'name': currentJdlName, 'content': app.jdlText};
+      $http.put(app.server_api + 'api/jdl/' + app.jdlId, vm).then(function successCallback(response) {
         setViewHash(response.data.id);
+        stopLoading();
       }, function errorCallback(response) {
         console.log(response);
+        stopLoading();
       });
     }
 
     function confirmCreateNewJdl() {
-      if (app.selectedJdlId !== '') { // existing JDL, just save it
+      if (app.jdlId !== '') { // existing JDL, just save it
         this.updateJdl();
         return;
       }
@@ -461,12 +476,18 @@
     }
 
     function doCreateJdl() {
+      startLoading();
       vm = {'name': app.newJdlModelName, 'content': app.jdlText};
       $http.post(app.server_api + 'api/jdl', vm).then(function successCallback(response) {
         setViewHash(response.data.id);
+        app.jdlId = response.data.id;
         dismissCreateNewJdl();
+        fetchAllJDLsMetadata();
+        loadJdl();
+        stopLoading();
       }, function errorCallback(response) {
         console.log(response);
+        stopLoading();
       });
     }
 
@@ -474,15 +495,35 @@
       $.magnificPopup.close();
     }
 
+    /**
+     * Change the selected JDL in the drop down list.
+     */
     function changeJdl() {
-      if (app.selectedJdlId === '') {
+      startLoading();
+      if (app.jdlId === '') {
         setViewHash('');
-        setCurrentText('');
+        stopLoading();
         return;
       }
-      $http.get(app.server_api + 'api/jdl/' + app.selectedJdlId).then(function successCallback(response) {
-        setCurrentText(response.data.content);
+      loadJdl();
+      stopLoading();
+    }
+
+    /**
+     * Load JDL file.
+     */
+    function loadJdl() {
+      $http.get(app.server_api + 'api/jdl/' + app.jdlId).then(function successCallback(response) {
+        let content = '';
+        if (response.data.content !== undefined) {
+          content = response.data.content;
+        }
+        setCurrentText(content);
+        storage.save(currentText());
+        setViewHash(app.jdlId);
       }, function errorCallback() {
+        fetchAllJDLsMetadata();
+        console.log(response);
       });
     }
 
@@ -491,10 +532,20 @@
     }
 
     function getViewHash() {
+
       if ($location.path().length < 7) {
         return '';
       }
-      return $location.path().substring(7, $location.path().length);
+      let hash = $location.path().substring(6, $location.path().length);
+      return hash;
+    }
+
+    function startLoading() {
+      app.startLoadingFlag = true;
+    }
+
+    function stopLoading() {
+      app.startLoadingFlag = false;
     }
   }
 })();
