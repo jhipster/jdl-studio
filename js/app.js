@@ -521,9 +521,11 @@
         setCurrentText(content);
         storage.save(currentText());
         setViewHash(app.jdlId);
-      }, function errorCallback() {
+      }, function errorCallback(response) {
         fetchAllJDLsMetadata();
         console.log(response);
+        app.jdlId = '';
+        setViewHash('');
       });
     }
 
