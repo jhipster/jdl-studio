@@ -58,7 +58,7 @@
         <a ng-show="app.authenticated && app.startLoadingFlag">
           <i class="lnr lnr-sync"></i>
         </a>
-        <a href="javascript:void(0)" title="Manage JDLs" ng-show="app.authenticated">
+        <a href="javascript:void(0)" ng-click="app.goToManageJdls()" title="Manage JDLs" ng-show="app.authenticated">
            <i class="lnr lnr-cog"></i>
         </a>
 				<a href="javascript:void(0)" ng-click="app.toggleSidebar('about')" title="About JDL-Studio">

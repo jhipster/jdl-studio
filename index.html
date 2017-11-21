@@ -46,7 +46,7 @@
         <a ng-show="app.authenticated && app.startLoadingFlag">
           <i class="lnr lnr-sync"></i>
         </a>
-        <a href="javascript:void(0)" title="Manage JDLs" ng-show="app.authenticated">
+        <a href="javascript:void(0)" ng-click="app.goToManageJdls()" title="Manage JDLs" ng-show="app.authenticated">
            <i class="lnr lnr-cog"></i>
         </a>
 				<a href="javascript:void(0)" ng-click="app.toggleSidebar('about')" title="About JDL-Studio">
@@ -129,7 +129,7 @@
 	// temp hack to use jdl parser from jhipster-core
 	var module = module || {};
 	</script>
-	<script src="dist/js/main-2e21f6f136.js"></script>
+	<script src="dist/js/main-4b9d7f90b9.js"></script>
 	<script>
 		(function (i, s, o, g, r, a, m) {
 			i['GoogleAnalyticsObject'] = r;

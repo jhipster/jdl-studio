@@ -41,6 +41,7 @@
     app.exitViewMode = exitViewMode;
     app.importJDL = importJDL;
     app.goToJHipsterOnline = goToJHipsterOnline;
+    app.goToManageJdls = goToManageJdls;
     app.doCreateJdl = doCreateJdl;
     app.confirmCreateNewJdl = confirmCreateNewJdl;
     app.dismissCreateNewJdl = dismissCreateNewJdl;
@@ -403,13 +404,21 @@
       window.location.href = "/";
     }
 
+    function goToManageJdls() {
+      window.location.href = "/#/design-entities";
+    }
+
     function initAuthent() {
-      var authToken = JSON.parse(localStorage.getItem("jhi-authenticationToken") || sessionStorage.getItem("jhi-authenticationToken"));
+      var authToken = JSON.parse(localStorage.getItem("jhi-authenticationtoken") || sessionStorage.getItem("jhi-authenticationtoken"));
       if (app.authToken !== null) {
         app.authenticated = true;
         $http.defaults.headers.common.Authorization = 'Bearer ' + authToken;
         $http.get(app.server_api + 'api/account').then(function successCallback(response) {
           app.username = response.data.login;
+          app.jdlId = getViewHash();
+          if (app.jdlId !== '') {
+            loadJdl();
+          }
           fetchAllJDLsMetadata();
         }, function errorCallback() {
           app.authenticated = false;
