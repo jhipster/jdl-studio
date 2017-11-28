@@ -52,7 +52,7 @@
     app.showStorageStatus = false;
     app.authenticated = false;
     app.username = '';
-    app.server_api = 'http://localhost:8080/';
+    app.server_api = '/';
     app.startLoadingFlag = false;
     app.jdlId = '';
     app.jdls = {};
