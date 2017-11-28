@@ -36,6 +36,7 @@
     app.magnifyViewport = magnifyViewport;
     app.resetViewport = resetViewport;
     app.confirmDiscardCurrentGraph = confirmDiscardCurrentGraph;
+    app.warnOldVersions = warnOldVersions;
     app.toggleSidebar = toggleSidebar;
     app.dismissDialog = dismissDialog;
     app.discardCurrentGraph = discardCurrentGraph;
@@ -77,6 +78,7 @@
     };
 
     function editorLoaded(_editor) {
+      warnOldVersions();
       loadSample(reloadStorage);
       editor = _editor;
       editor.on('changes', _.debounce(sourceChanged, 300));
@@ -107,6 +109,22 @@
         app.sidebarContent = id;
         app.sidebarVisible = 'visible';
       }
+    }
+
+    function warnOldVersions() {
+      $.magnificPopup.open({
+        items: {
+          src: '#old-version-dialog'
+        },
+        type: 'inline',
+        fixedContentPos: false,
+        fixedBgPos: true,
+        overflowY: 'auto',
+        closeBtnInside: true,
+        preloader: false,
+        removalDelay: 300,
+        mainClass: 'my-mfp-slide-bottom'
+      });
     }
 
     function confirmDiscardCurrentGraph() {
@@ -248,11 +266,6 @@
       return decodeURIComponent(encoded.replace(/\+/g, ' '));
     }
 
-    function setShareableLink(str) {
-      var base = '#/view/';
-      linkLink.href = base + urlEncode(str);
-    }
-
     function initImageDownloadLink(link, canvasElement) {
       link.addEventListener('click', downloadImage, false);
       function downloadImage() {
@@ -312,7 +325,6 @@
             return urlDecode(locationHash.substring(7))
           },
           save: function() {
-            setShareableLink(currentText())
           },
           moveToLocalStorage: function() {
             localStorage[key] = currentText()
@@ -325,7 +337,6 @@
           return localStorage[key] || defaultSource
         },
         save: function(source) {
-          setShareableLink(currentText());
           localStorage[key] = source;
         },
         moveToLocalStorage: function() {},
