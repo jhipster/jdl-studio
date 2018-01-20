@@ -20,7 +20,7 @@ const lib = require('./lib');
 
 const config = {
     dist: 'dist/'
-}
+};
 
 const babelTask = lazypipe()
     .pipe(babel, {presets: ['es2015']});
@@ -44,13 +44,19 @@ gulp.task('build', ['clean', 'inject'], () => {
             lazypipe().pipe(() => gulpIf('bower_components/pegjs_parser/index.js', babelTask())),
             initTask
         ))
-        .pipe(gulpIf('*.js', jsTask()))
-        .pipe(gulpIf('*.css', cssTask()))
-        .pipe(gulpIf('**/*.!(html)', rev()))
-        .pipe(revReplace({manifest: manifest}))
-        .pipe(sourcemaps.write('.'))
+        .pipe(gulpIf('*.js', jsTask())).on('error', createErrorHandler('jsTask'))
+        .pipe(gulpIf('*.css', cssTask())).on('error', createErrorHandler('cssTask'))
+        .pipe(gulpIf('**/*.!(html)', rev())).on('error', createErrorHandler('rev'))
+        .pipe(revReplace({manifest: manifest})).on('error', createErrorHandler('manifest'))
+        .pipe(sourcemaps.write('.')).on('error', createErrorHandler('sourcemaps'))
         .pipe(gulp.dest(''));
 });
+
+function createErrorHandler(name) {
+  return function (err) {
+    console.error('Error from ' + name + ' in compress task', err.toString());
+  };
+}
 
 gulp.task('inject', () => {
     return gulp.src('index-dev.html')
@@ -68,7 +74,7 @@ gulp.task('serve', ['inject'], () => {
     // Serve files from the root of this project
     browserSync.init({
         server: {
-            baseDir: "./",
+            baseDir: "../",
             index: "index-dev.html"
         }
     });

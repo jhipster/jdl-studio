@@ -29,14 +29,43 @@
 	<!-- endbuild -->
 	<link rel="shortcut icon" href="favicon.ico">
 </head>
-<body ng-app="jdlStudio" ng-controller="workspaceController as app">
+<body ng-app="jdlStudio" ng-controller="workspaceController as app" ng-cloak>
 	<div class="wrap">
 		<header>
 			<div class="tools left">
 				<a href="http://www.jhipster.tech/" title="JHipster website" target="_blank"><img class="jhi-logo" src="img/logo-jhipster.png"></a>
 				<a class="logo" href="javascript:void(0)" ng-click="app.toggleSidebar('about')" title="About JDL-Studio"><h1>JDL-Studio</h1> &nbsp;</a>
-			</div>
-			<div class="tools">
+      </div>
+      <div class="tools">
+        <a id="signin" href="javascript:void(0)" ng-show="app.insideJhOnline && !app.authenticated" ng-click="app.goToJHipsterOnline()" title="Sign in">
+          Please sign in for more features!
+        </a>
+        <a id="signin" href="https://start.jhipster.tech/jdl-studio/" ng-hide="app.insideJhOnline" title="Go to new JDL Studio with more features">
+          Go to new JDL Studio
+        </a>
+        <a href="javascript:void(0)" title="Logged in as" ng-show="app.authenticated">
+          {{app.username}}
+        </a>
+        <a href="javascript:void(0)" title="Use existing JDL" ng-show="app.authenticated">
+          <select ng-model="app.jdlId" ng-change="app.changeJdl()">
+            <option value="">&lt;Create new JDL Model&gt;</option>
+            <option value="">Test</option>
+            <option ng-repeat="option in app.jdls" ng-value="option.id">{{option.name}}</option>
+          </select>
+        </a>
+        <a href="javascript:void(0)" title="Save JDL" ng-click="app.confirmCreateNewJdl()" ng-show="app.authenticated && !app.startLoadingFlag">
+          <i class="lnr lnr-file-add"></i>
+        </a>
+        <a ng-show="app.authenticated && app.startLoadingFlag">
+          <i class="lnr lnr-sync"></i>
+        </a>
+        <a href="javascript:void(0)" ng-click="app.goToManageJdls()" title="Manage JDLs" ng-show="app.authenticated">
+           <i class="lnr lnr-cog"></i>
+        </a>
+        <a href="javascript:void(0)" ng-show="app.insideJhOnline" ng-click="app.goToJHipsterOnline()" title="Go to the main JHipster Online page">
+          <i class="lnr lnr-home"></i>
+        </a>
+        <span class="seperator"><i class="lnr">|</i></span>
 				<a href="javascript:void(0)" ng-click="app.toggleSidebar('about')" title="About JDL-Studio">
 					<i class="lnr lnr-question-circle"></i>
 				</a>
@@ -52,9 +81,6 @@
 				<a id="uploadbutton" class="upload-dialog" href="#upload-dialog" title="Import text file of a JDL">
 					<i class="lnr lnr-upload"></i>
 				</a>
-				<!-- <a id="linkbutton" href="javascript:void(0)" target="_blank" title="Shareable link to this diagram">
-					<i class="lnr lnr-link"></i>
-				</a> -->
 				<a href="javascript:void(0)" ng-click="app.confirmDiscardCurrentGraph()" title="Discard this diagram">
 					<i class="lnr lnr-trash"></i>
 				</a>
@@ -100,18 +126,27 @@
 		<button class="btn" ng-click="app.discardCurrentGraph()">Yes</button>
 		<button class="btn" ng-click="app.dismissDialog()">No</button>
 	</div>
-	<div id="upload-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
+	<div id="upload-dialog" class="mag-dialog zoom-anim-dialog mfp-hide" ng-show="app.insideJhOnline">
 		<h1>Import JDL</h1>
 		<p>Select a <code>.jh</code> or <code>.txt</code> file</p>
 		<input class="upload" accept=".jh,.txt" type="file" id="jdlFileInput" /><br>
 		<button class="btn" ng-click="app.importJDL()">Import</button>
 		<button class="btn" ng-click="app.dismissDialog()">Dismiss</button>
-	</div>
-	<div id="old-version-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
+  </div>
+  <div id="old-version-dialog" class="mag-dialog zoom-anim-dialog mfp-hide" ng-hide="app.insideJhOnline">
 		<h1>Warning!</h1>
 		<p>You are using an old version of JDL Studio. Please use our new URL at: <a href="https://start.jhipster.tech/jdl-studio/">https://start.jhipster.tech/jdl-studio/</a><br>
 		<button class="btn" ng-click="app.dismissDialog()">Dismiss</button>
 	</div>
+  <div id="create-dialog" class="mag-dialog zoom-anim-dialog mfp-hide" ng-show="app.insideJhOnline">
+    <h1>Save a new JDL Model</h1>
+    <p>Please give a name to your new JDL Model:</p>
+    <p>
+      <input type="text" ng-model="app.newJdlModelName" minlength="1" value="" placeholder="New JDL Model"/><br>
+    </p>
+    <button class="btn" ng-click="app.doCreateJdl()">Save</button>
+    <button class="btn" ng-click="app.dismissCreateNewJdl()">Cancel</button>
+  </div>
 	<script>
 	// temp hack to use jdl parser from jhipster-core
 	var module = module || {};
@@ -160,9 +195,7 @@
 		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
 		ga('create', 'UA-46075199-1', 'auto');
-		ga('create', 'UA-73986707-1', 'auto', 'jdlTracker');//specific for JDL studio
 		ga('send', 'pageview');
-		ga('jdlTracker.send', 'pageview');
 
 	</script>
 </body>

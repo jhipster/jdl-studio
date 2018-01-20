@@ -23,6 +23,20 @@ img {
     border: 0;
 }
 
+select {
+  color: white;
+  background: transparent;
+  padding: 5px;
+  border: 1px solid #ccc;
+  outline: transparent;
+}
+
+select > option {
+  background: #282B30;
+  color: white;
+  outline: transparent;
+}
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
@@ -177,14 +191,14 @@ a:hover {
 	display: block;
 	position: absolute;
 	z-index: 4;
-	top: 20px;
+	top: 10px;
 	right: 20px;
 	font-family: Calibri, Helvetica, sans-serif;
 	font-weight: bold;
 	background: transparent;
 	border-radius: 5px;
 }
-.tools.left{
+.tools.left {
 	left:20px;
 }
 .tools .canvas-tools {
@@ -239,6 +253,12 @@ a:hover {
 	border-radius: 4px;
 	font-style: normal;
 	opacity: 1;
+}
+
+.tools .seperator {
+  color: white;
+  font-size: 25px;
+  margin: 0 10px;
 }
 
 .sidebar {

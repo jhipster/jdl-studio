@@ -4,9 +4,9 @@
   angular.module('jdlStudio', []);
   angular.module('jdlStudio').controller('workspaceController', WorkspaceController);
 
-  WorkspaceController.$inject = ['$scope', '$document'];
+  WorkspaceController.$inject = ['$scope', '$http', '$location'];
 
-  function WorkspaceController($scope, $document) {
+  function WorkspaceController($scope, $http, $location) {
     var app = this;
 
     var storage = null,
@@ -16,12 +16,10 @@
       tooltip = $('#tooltip')[0],
       imgLink = document.getElementById('savebutton'),
       fileLink = document.getElementById('saveTextbutton'),
-      linkLink = document.getElementById('linkbutton'),
       canvasElement = document.getElementById('canvas'),
       canvasPanner = document.getElementById('canvas-panner'),
       canvasTools = document.getElementById('canvas-tools'),
       defaultSource,
-      fileName,
       zoomLevel = 0,
       offset = {
         x: 0,
@@ -43,9 +41,24 @@
     app.saveViewModeToStorage = saveViewModeToStorage;
     app.exitViewMode = exitViewMode;
     app.importJDL = importJDL;
+    app.goToJHipsterOnline = goToJHipsterOnline;
+    app.goToManageJdls = goToManageJdls;
+    app.doCreateJdl = doCreateJdl;
+    app.confirmCreateNewJdl = confirmCreateNewJdl;
+    app.dismissCreateNewJdl = dismissCreateNewJdl;
+    app.updateJdl = updateJdl;
+    app.changeJdl = changeJdl;
 
     app.sidebarVisible = '';
     app.showStorageStatus = false;
+    app.insideJhOnline = false;
+    app.authenticated = false;
+    app.username = '';
+    app.server_api = '/';
+    app.startLoadingFlag = false;
+    app.jdlId = '';
+    app.jdls = {};
+    app.newJdlModelName = '';
 
     window.addEventListener('hashchange', reloadStorage);
     window.addEventListener('resize', _.throttle(sourceChanged, 750, {leading: true}));
@@ -60,15 +73,17 @@
     canvasTools.addEventListener('mouseenter', classToggler(jqBody, 'canvas-mode', true));
     canvasTools.addEventListener('mouseleave', classToggler(jqBody, 'canvas-mode', false));
 
+    isInJHOnline()
     initImageDownloadLink(imgLink, canvasElement);
     initFileDownloadLink(fileLink);
     initToolbarTooltips();
     initDialog('.upload-dialog');
+    initAuthent();
 
     // Monkey patch to avoid '$apply already in progress' error
     $scope.safeApply = function(fn) {
       var phase = this.$root.$$phase;
-      if (phase == '$apply' || phase == '$digest') {
+      if (phase === '$apply' || phase === '$digest') {
         if (fn && (typeof(fn) === 'function')) {
           fn();
         }
@@ -78,7 +93,7 @@
     };
 
     function editorLoaded(_editor) {
-      warnOldVersions();
+      if (!app.insideJhOnline) warnOldVersions();
       loadSample(reloadStorage);
       editor = _editor;
       editor.on('changes', _.debounce(sourceChanged, 300));
@@ -102,7 +117,7 @@
     function toggleSidebar(id) {
       app.sidebar = 'partials/' + id + '.html';
 
-      if (app.sidebarContent == id) {
+      if (app.sidebarContent === id) {
         app.sidebarContent = null;
         app.sidebarVisible = '';
       } else {
@@ -213,7 +228,7 @@
     }
 
     function saveAs(e) {
-      if (e.keyCode == 83 && (navigator.platform.match("Mac")
+      if (e.keyCode === 83 && (navigator.platform.match("Mac")
         ? e.metaKey
         : e.ctrlKey)) {
         e.preventDefault();
@@ -282,7 +297,7 @@
         var textToWrite = currentText();
         var textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
         var URL = window.URL || window.webkitURL;
-        if (URL != null) {
+        if (URL !== null) {
           link.href = window.URL.createObjectURL(textFileAsBlob);
         }
         ga('send', 'event', 'JDL File', 'download', 'JDL File download');
@@ -349,10 +364,7 @@
       setCurrentText(storage.read());
       sourceChanged();
       $scope.safeApply(function() {
-        if (storage.isReadonly)
-          app.showStorageStatus = true;
-        else
-          app.showStorageStatus = false;
+          app.showStorageStatus = storage.isReadonly;
         }
       );
 
@@ -402,6 +414,174 @@
         app.hasError = true;
         app.errorTooltip = msg;
       });
+    }
+
+    /***********************************************************************************
+     * JHipster Online support
+     ***********************************************************************************/
+
+    function goToJHipsterOnline() {
+      window.location.href = "/";
+    }
+
+    function goToManageJdls() {
+      window.location.href = "/#/design-entities";
+    }
+
+    function isInJHOnline() {
+      if (window.location.host === 'start.jhipster.tech' || sessionStorage.getItem('jdl-studio-required') === 'true') {
+        app.insideJhOnline = true;
+      }
+    }
+
+    function initAuthent() {
+      var authToken = JSON.parse(localStorage.getItem("jhi-authenticationtoken") || sessionStorage.getItem("jhi-authenticationtoken"));
+      if (app.authToken !== null) {
+        app.authenticated = true;
+        $http.defaults.headers.common.Authorization = 'Bearer ' + authToken;
+        $http.get(app.server_api + 'api/account').then(function successCallback(response) {
+          app.username = response.data.login;
+          app.jdlId = getViewHash();
+          if (app.jdlId !== '') {
+            loadJdl();
+          }
+          fetchAllJDLsMetadata();
+        }, function errorCallback() {
+          app.authenticated = false;
+          app.username = '';
+        });
+      }
+    }
+
+    /**
+     * Fetch all JDL metadatas and select the current one in the list.
+     */
+    function fetchAllJDLsMetadata() {
+      $http.get(app.server_api + 'api/jdl-metadata').then(function successCallback(response) {
+        app.jdls = response.data;
+        var viewHash = getViewHash();
+        if (viewHash === '') {
+          return;
+        }
+        for (var index = 0; index < app.jdls.length; ++index) {
+          if (viewHash === app.jdls[index].id) {
+            app.jdlId = viewHash;
+          }
+        }
+      }, function errorCallback() {
+      });
+    }
+
+    function updateJdl() {
+      startLoading();
+      var currentJdlName = '';
+      for (var index = 0; index < app.jdls.length; ++index) {
+        if (app.jdlId === app.jdls[index].id) {
+          currentJdlName = app.jdls[index].name;
+        }
+      }
+      vm = {'name': currentJdlName, 'content': app.jdlText};
+      $http.put(app.server_api + 'api/jdl/' + app.jdlId, vm).then(function successCallback(response) {
+        setViewHash(response.data.id);
+        stopLoading();
+      }, function errorCallback(response) {
+        console.log(response);
+        stopLoading();
+      });
+    }
+
+    function confirmCreateNewJdl() {
+      if (app.jdlId !== '') { // existing JDL, just save it
+        this.updateJdl();
+        return;
+      }
+      $.magnificPopup.open({
+        items: {
+          src: '#create-dialog'
+        },
+        type: 'inline',
+        fixedContentPos: false,
+        fixedBgPos: true,
+        overflowY: 'auto',
+        closeBtnInside: true,
+        preloader: false,
+        mainClass: 'my-mfp-slide-bottom'
+      });
+    }
+
+    function doCreateJdl() {
+      startLoading();
+      vm = {'name': app.newJdlModelName, 'content': app.jdlText};
+      $http.post(app.server_api + 'api/jdl', vm).then(function successCallback(response) {
+        setViewHash(response.data.id);
+        app.jdlId = response.data.id;
+        dismissCreateNewJdl();
+        fetchAllJDLsMetadata();
+        loadJdl();
+        stopLoading();
+      }, function errorCallback(response) {
+        console.log(response);
+        stopLoading();
+      });
+    }
+
+    function dismissCreateNewJdl() {
+      $.magnificPopup.close();
+    }
+
+    /**
+     * Change the selected JDL in the drop down list.
+     */
+    function changeJdl() {
+      startLoading();
+      if (app.jdlId === '') {
+        setViewHash('');
+        stopLoading();
+        return;
+      }
+      loadJdl();
+      stopLoading();
+    }
+
+    /**
+     * Load JDL file.
+     */
+    function loadJdl() {
+      $http.get(app.server_api + 'api/jdl/' + app.jdlId).then(function successCallback(response) {
+        var content = '';
+        if (response.data.content !== undefined) {
+          content = response.data.content;
+        }
+        setCurrentText(content);
+        storage.save(currentText());
+        setViewHash(app.jdlId);
+      }, function errorCallback(response) {
+        fetchAllJDLsMetadata();
+        console.log(response);
+        app.jdlId = '';
+        setViewHash('');
+      });
+    }
+
+    function setViewHash(jdlId) {
+      $location.path('/view/' + jdlId);
+    }
+
+    function getViewHash() {
+
+      if ($location.path().length < 7) {
+        return '';
+      }
+      var hash = $location.path().substring(6, $location.path().length);
+      return hash;
+    }
+
+    function startLoading() {
+      app.startLoadingFlag = true;
+    }
+
+    function stopLoading() {
+      app.startLoadingFlag = false;
     }
   }
 })();
