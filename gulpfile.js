@@ -74,7 +74,7 @@ gulp.task('serve', ['inject'], () => {
     // Serve files from the root of this project
     browserSync.init({
         server: {
-            baseDir: "../jdl-studio",
+            baseDir: "../",
             index: "index-dev.html"
         }
     });

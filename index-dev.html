@@ -37,21 +37,19 @@
 				<a class="logo" href="javascript:void(0)" ng-click="app.toggleSidebar('about')" title="About JDL-Studio"><h1>JDL-Studio</h1> &nbsp;</a>
       </div>
       <div class="tools">
-        <a href="javascript:void(0)" ng-show="app.insideJhOnline" ng-click="app.goToJHipsterOnline()" title="Go to the main JHipster Online page">
-          <i class="lnr lnr-home"></i>
-        </a>
         <a id="signin" href="javascript:void(0)" ng-show="app.insideJhOnline && !app.authenticated" ng-click="app.goToJHipsterOnline()" title="Sign in">
           Please sign in for more features!
         </a>
         <a id="signin" href="https://start.jhipster.tech/jdl-studio/" ng-hide="app.insideJhOnline" title="Go to new JDL Studio with more features">
           Go to new JDL Studio
         </a>
-        <a href="javascript:void(0)" title="" ng-show="app.authenticated">
+        <a href="javascript:void(0)" title="Logged in as" ng-show="app.authenticated">
           {{app.username}}
         </a>
         <a href="javascript:void(0)" title="Use existing JDL" ng-show="app.authenticated">
           <select ng-model="app.jdlId" ng-change="app.changeJdl()">
             <option value="">&lt;Create new JDL Model&gt;</option>
+            <option value="">Test</option>
             <option ng-repeat="option in app.jdls" ng-value="option.id">{{option.name}}</option>
           </select>
         </a>
@@ -64,6 +62,10 @@
         <a href="javascript:void(0)" ng-click="app.goToManageJdls()" title="Manage JDLs" ng-show="app.authenticated">
            <i class="lnr lnr-cog"></i>
         </a>
+        <a href="javascript:void(0)" ng-show="app.insideJhOnline" ng-click="app.goToJHipsterOnline()" title="Go to the main JHipster Online page">
+          <i class="lnr lnr-home"></i>
+        </a>
+        <span class="seperator"><i class="lnr">|</i></span>
 				<a href="javascript:void(0)" ng-click="app.toggleSidebar('about')" title="About JDL-Studio">
 					<i class="lnr lnr-question-circle"></i>
 				</a>
