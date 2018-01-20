@@ -34,6 +34,7 @@
     app.magnifyViewport = magnifyViewport;
     app.resetViewport = resetViewport;
     app.confirmDiscardCurrentGraph = confirmDiscardCurrentGraph;
+    app.warnOldVersions = warnOldVersions;
     app.toggleSidebar = toggleSidebar;
     app.dismissDialog = dismissDialog;
     app.discardCurrentGraph = discardCurrentGraph;
@@ -50,6 +51,7 @@
 
     app.sidebarVisible = '';
     app.showStorageStatus = false;
+    app.insideJhOnline = false;
     app.authenticated = false;
     app.username = '';
     app.server_api = '/';
@@ -71,6 +73,7 @@
     canvasTools.addEventListener('mouseenter', classToggler(jqBody, 'canvas-mode', true));
     canvasTools.addEventListener('mouseleave', classToggler(jqBody, 'canvas-mode', false));
 
+    isInJHOnline()
     initImageDownloadLink(imgLink, canvasElement);
     initFileDownloadLink(fileLink);
     initToolbarTooltips();
@@ -90,6 +93,7 @@
     };
 
     function editorLoaded(_editor) {
+      if (!app.insideJhOnline) warnOldVersions();
       loadSample(reloadStorage);
       editor = _editor;
       editor.on('changes', _.debounce(sourceChanged, 300));
@@ -120,6 +124,22 @@
         app.sidebarContent = id;
         app.sidebarVisible = 'visible';
       }
+    }
+
+    function warnOldVersions() {
+      $.magnificPopup.open({
+        items: {
+          src: '#old-version-dialog'
+        },
+        type: 'inline',
+        fixedContentPos: false,
+        fixedBgPos: true,
+        overflowY: 'auto',
+        closeBtnInside: true,
+        preloader: false,
+        removalDelay: 300,
+        mainClass: 'my-mfp-slide-bottom'
+      });
     }
 
     function confirmDiscardCurrentGraph() {
@@ -406,6 +426,12 @@
 
     function goToManageJdls() {
       window.location.href = "/#/design-entities";
+    }
+
+    function isInJHOnline() {
+      if (window.location.host === 'start.jhipster.tech' || sessionStorage.getItem('jdl-studio-required') === 'true') {
+        app.insideJhOnline = true;
+      }
     }
 
     function initAuthent() {

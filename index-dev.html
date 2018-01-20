@@ -37,11 +37,14 @@
 				<a class="logo" href="javascript:void(0)" ng-click="app.toggleSidebar('about')" title="About JDL-Studio"><h1>JDL-Studio</h1> &nbsp;</a>
       </div>
       <div class="tools">
-        <a href="javascript:void(0)" ng-click="app.goToJHipsterOnline()" title="Go to the main JHipster Online page">
+        <a href="javascript:void(0)" ng-show="app.insideJhOnline" ng-click="app.goToJHipsterOnline()" title="Go to the main JHipster Online page">
           <i class="lnr lnr-home"></i>
         </a>
-        <a id="signin" href="javascript:void(0)" ng-click="app.goToJHipsterOnline()" title="Sign in" ng-hide="app.authenticated">
+        <a id="signin" href="javascript:void(0)" ng-show="app.insideJhOnline && !app.authenticated" ng-click="app.goToJHipsterOnline()" title="Sign in">
           Please sign in for more features!
+        </a>
+        <a id="signin" href="https://start.jhipster.tech/jdl-studio/" ng-hide="app.insideJhOnline" title="Go to new JDL Studio with more features">
+          Go to new JDL Studio
         </a>
         <a href="javascript:void(0)" title="" ng-show="app.authenticated">
           {{app.username}}
@@ -53,7 +56,7 @@
           </select>
         </a>
         <a href="javascript:void(0)" title="Save JDL" ng-click="app.confirmCreateNewJdl()" ng-show="app.authenticated && !app.startLoadingFlag">
-          <i class="lnr lnr-pencil"></i>
+          <i class="lnr lnr-file-add"></i>
         </a>
         <a ng-show="app.authenticated && app.startLoadingFlag">
           <i class="lnr lnr-sync"></i>
@@ -76,9 +79,6 @@
 				<a id="uploadbutton" class="upload-dialog" href="#upload-dialog" title="Import text file of a JDL">
 					<i class="lnr lnr-upload"></i>
 				</a>
-				<!-- <a id="linkbutton" href="javascript:void(0)" target="_blank" title="Shareable link to this diagram">
-					<i class="lnr lnr-link"></i>
-				</a> -->
 				<a href="javascript:void(0)" ng-click="app.confirmDiscardCurrentGraph()" title="Discard this diagram">
 					<i class="lnr lnr-trash"></i>
 				</a>
@@ -124,14 +124,19 @@
 		<button class="btn" ng-click="app.discardCurrentGraph()">Yes</button>
 		<button class="btn" ng-click="app.dismissDialog()">No</button>
 	</div>
-	<div id="upload-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
+	<div id="upload-dialog" class="mag-dialog zoom-anim-dialog mfp-hide" ng-show="app.insideJhOnline">
 		<h1>Import JDL</h1>
 		<p>Select a <code>.jh</code> or <code>.txt</code> file</p>
 		<input class="upload" accept=".jh,.txt" type="file" id="jdlFileInput" /><br>
 		<button class="btn" ng-click="app.importJDL()">Import</button>
 		<button class="btn" ng-click="app.dismissDialog()">Dismiss</button>
+  </div>
+  <div id="old-version-dialog" class="mag-dialog zoom-anim-dialog mfp-hide" ng-hide="app.insideJhOnline">
+		<h1>Warning!</h1>
+		<p>You are using an old version of JDL Studio. Please use our new URL at: <a href="https://start.jhipster.tech/jdl-studio/">https://start.jhipster.tech/jdl-studio/</a><br>
+		<button class="btn" ng-click="app.dismissDialog()">Dismiss</button>
 	</div>
-  <div id="create-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
+  <div id="create-dialog" class="mag-dialog zoom-anim-dialog mfp-hide" ng-show="app.insideJhOnline">
     <h1>Save a new JDL Model</h1>
     <p>Please give a name to your new JDL Model:</p>
     <p>
