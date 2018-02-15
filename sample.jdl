@@ -104,9 +104,11 @@ relationship OneToOne {
 paginate JobHistory, Employee with infinite-scroll
 paginate Job with pagination
 
-dto * with mapstruct
+// Use Data Transfert Objects (DTO)
+// dto * with mapstruct
 
 // Set service options to all except few
 service all with serviceImpl except Employee, Job
+
 // Set an angular suffix
-angularSuffix * with mySuffix
+// angularSuffix * with mySuffix
