@@ -35,6 +35,7 @@
   },
   "scripts": {
     "prepublish": "gulp build",
+    "preinstall": "bower install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "directories": {
