@@ -46,7 +46,6 @@
         <a href="javascript:void(0)" title="Use existing JDL" ng-show="app.authenticated">
           <select ng-model="app.jdlId" ng-change="app.changeJdl()">
             <option value="">&lt;Create new JDL Model&gt;</option>
-            <option value="">Test</option>
             <option ng-repeat="option in app.jdls" ng-value="option.id">{{option.name}}</option>
           </select>
         </a>
