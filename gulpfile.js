@@ -41,7 +41,7 @@ gulp.task('build', ['clean', 'inject'], () => {
         //init sourcemaps
         .pipe(useref(
             {},
-            lazypipe().pipe(() => gulpIf('bower_components/pegjs_parser/index.js', babelTask())),
+            lazypipe().pipe(() => gulpIf('bower_components/jdl-core/index.js', babelTask())),
             initTask
         ))
         .pipe(gulpIf('*.js', jsTask())).on('error', createErrorHandler('jsTask'))
@@ -69,12 +69,11 @@ gulp.task('inject', () => {
         .pipe(gulp.dest(''));
 });
 
-gulp.task('serve', ['inject'], () => {
-
+function serve(path) {
     // Serve files from the root of this project
     browserSync.init({
         server: {
-            baseDir: "../",
+            baseDir: path,
             index: "index-dev.html"
         }
     });
@@ -85,6 +84,14 @@ gulp.task('serve', ['inject'], () => {
     gulp.watch("codemirror/*").on("change", reload);
     gulp.watch("nomnoml/*").on("change", reload);
     gulp.watch("css/*.css").on("change", reload);
+}
+
+gulp.task('serve', ['inject'], () => {
+  serve('./')
+});
+
+gulp.task('serveOnline', ['inject'], () => {
+  serve('../')
 });
 
 gulp.task('default', () => {

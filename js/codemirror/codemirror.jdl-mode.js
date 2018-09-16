@@ -1,14 +1,27 @@
 (function () {
 
-    var mainKeywords = ['entity', 'enum', 'relationship', 'paginate', 'dto', 'service', 'skipClient', 'skipServer', 'microservice', 'search', 'angularSuffix', 'filter'],
+    var mainKeywords = ['application', 'entity', 'enum', 'relationship', 'paginate', 'dto', 'service', 'skipClient', 'skipServer', 'search', 'angularSuffix', 'filter'],
     relationshipKws = ['OneToOne', 'OneToMany', 'ManyToOne', 'ManyToMany'],
+    appInnerKws = ['config', 'entities'],
     validationKws = ['required', 'minlength', 'maxlength', 'min', 'max', 'minbytes', 'maxbytes', 'pattern'],
     generalKws = ['with', 'all', 'except', 'to'],
     paginationKws = ['pagination', 'pager', 'infinite-scroll'],
     dtoKws = ['mapstruct'],
     serviceKws = ['serviceClass', 'serviceImpl'],
     searchKws = ['ElasticSearch'],
+    apptypeKws = ['microservice', 'gateway', 'monolith', 'uaa', 'reactive', 'reactive-micro'],
     typeKws = ['String', 'Integer', 'Long', 'BigDecimal', 'Float', 'Double', 'Boolean', 'LocalDate', 'ZonedDateTime', 'Instant', 'Blob', 'AnyBlob', 'ImageBlob'];
+    appKeysKws = [
+      'baseName', 'applicationType', 'authenticationType', 'buildTool', 'cacheProvider', 'clientFramework', 'clientPackageManager',
+      'databaseType', 'devDatabaseType', 'enableHibernateCache', 'enableSwaggerCodegen', 'enableTranslation', 'jhiPrefix',
+      'languages', 'messageBroker', 'nativeLanguage', 'packageName', 'prodDatabaseType', 'searchEngine', 'serviceDiscoveryType',
+      'skipClient', 'skipServer', 'serverPort', 'skipUserManagement', 'testFrameworks', 'uaaBaseName', 'useSass', 'websocket'
+    ];
+    specialValueKws = [
+      'en', 'no', 'true', 'sql', 'mongodb', 'couchbase', 'cassandra', 'h2Disk', 'h2Memory', 'mysql', 'mariadb', 'postgresql', 'oracle', 'mssql',
+      'gatling', 'cucumber', 'protractor', 'angularX', 'react', 'eureka', 'consul', 'jwt', 'oauth2', 'session',
+      'ehcache', 'hazelcast', 'infinispan', 'memcached', 'maven', 'gradle'
+    ];
 
     CodeMirror.defineMode('jdl', function() {
         var words = {};
@@ -20,18 +33,24 @@
 
         // relationships
         define('relationship', relationshipKws);
+        // App inner keywords
+        define('relationship', appInnerKws);
 
         // Keywords
         define('keyword', mainKeywords);
 
         // types
+        define('attribute', appKeysKws);
         define('attribute', typeKws);
 
         // types
         define('qualifier', validationKws);
 
+        // app types
+        define('keyword', apptypeKws);
+
         // types
-        define('special', generalKws.concat(paginationKws, serviceKws, dtoKws, searchKws));
+        define('special', generalKws.concat(paginationKws, serviceKws, dtoKws, searchKws, specialValueKws));
 
         function tokenBase(stream, state) {
             /*if (!stream.sol() && stream.match(/(\s*)([A-Z])/g)){
@@ -112,7 +131,7 @@
         };
 
     });
-    var keywords = mainKeywords.concat(typeKws, relationshipKws, validationKws, generalKws, paginationKws, dtoKws, serviceKws);
+    var keywords = mainKeywords.concat(typeKws, relationshipKws, validationKws, generalKws, paginationKws, dtoKws, serviceKws, apptypeKws, appKeysKws, specialValueKws);
     CodeMirror.commands.autocomplete = function(cm) {
         cm.showHint({hint: CodeMirror.hint.anyword, list: keywords});
     }

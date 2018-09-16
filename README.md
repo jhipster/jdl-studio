@@ -10,7 +10,6 @@ Created by [Deepu KS](https://github.com/deepu105). Heavily inspired and adapted
 - [nomnoml](https://github.com/skanaar/nomnoml)
 - [dagre](https://github.com/cpettitt/dagre)
 - [lodash](http://lodash.com)
-- [peg.js](http://pegjs.org/)
 - [Jquery](https://jquery.com/)
 - [codemirror](https://codemirror.net/)
 - [solarized](http://ethanschoonover.com/solarized)

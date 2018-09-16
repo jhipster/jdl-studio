@@ -14,11 +14,11 @@
     "jdl-studio"
   ],
   "dependencies": {
-    "lodash": "3.9.3",
+    "lodash": "4.17.10",
     "jquery": "3.1.0",
     "magnific-popup": "1.0.1",
     "icon-font.min": "https://cdn.linearicons.com/free/1.0.0/icon-font.min.css",
-    "pegjs_parser": "https://raw.githubusercontent.com/jhipster/jhipster-core/v2.0.1/lib/dsl/pegjs_parser.js",
+    "jdl-core": "https://raw.githubusercontent.com/jhipster/jhipster-core/master/dist/jdl-core.min.js",
     "angular": "^1.5.8",
     "codemirror": "^5.0"
   },
