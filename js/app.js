@@ -190,7 +190,7 @@
 
       if (!f) {
         alert("Failed to load file");
-      } else if (!f.type.match('text.*') && !f.name.endsWith('.jh')) {
+      } else if (!f.type.match('text.*') && !(f.name.endsWith('.jh') || f.name.endsWith('.jdl'))) {
         alert(f.name + " is not a valid JDL or text file.");
       } else {
         var r = new FileReader();
