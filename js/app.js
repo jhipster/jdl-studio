@@ -51,6 +51,7 @@
 
     app.sidebarVisible = '';
     app.showStorageStatus = false;
+    app.insideJhOnline = true;
     app.authenticated = false;
     app.username = '';
     app.server_api = '/';
@@ -72,6 +73,7 @@
     canvasTools.addEventListener('mouseenter', classToggler(jqBody, 'canvas-mode', true));
     canvasTools.addEventListener('mouseleave', classToggler(jqBody, 'canvas-mode', false));
 
+    isInJHOnline()
     initImageDownloadLink(imgLink, canvasElement);
     initFileDownloadLink(fileLink);
     initToolbarTooltips();
@@ -91,6 +93,7 @@
     };
 
     function editorLoaded(_editor) {
+      if (!app.insideJhOnline) warnOldVersions();
       loadSample(reloadStorage);
       editor = _editor;
       editor.on('changes', _.debounce(sourceChanged, 300));
@@ -423,6 +426,12 @@
 
     function goToManageJdls() {
       window.location.href = "/#/design-entities";
+    }
+
+    function isInJHOnline() {
+      if (window.location.href.indexOf('www.jhipster.tech/jdl-studio') !== -1) {
+        app.insideJhOnline = false;
+      }
     }
 
     function initAuthent() {
