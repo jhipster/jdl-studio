@@ -1,6 +1,6 @@
 (function () {
 
-    var mainKeywords = ['application', 'entity', 'enum', 'relationship', 'paginate', 'dto', 'service', 'skipClient', 'skipServer', 'search', 'angularSuffix', 'filter'],
+    var mainKeywords = ['application', 'deployment', 'entity', 'enum', 'relationship', 'paginate', 'dto', 'service', 'skipClient', 'skipServer', 'search', 'angularSuffix', 'filter'],
     relationshipKws = ['OneToOne', 'OneToMany', 'ManyToOne', 'ManyToMany'],
     appInnerKws = ['config', 'entities'],
     validationKws = ['required', 'minlength', 'maxlength', 'min', 'max', 'minbytes', 'maxbytes', 'pattern'],
@@ -17,10 +17,17 @@
       'languages', 'messageBroker', 'nativeLanguage', 'packageName', 'prodDatabaseType', 'searchEngine', 'serviceDiscoveryType',
       'skipClient', 'skipServer', 'serverPort', 'skipUserManagement', 'testFrameworks', 'uaaBaseName', 'useSass', 'websocket'
     ];
+    deploymentKeysKws = [
+      'deploymentType', 'gatewayType', 'monitoring', 'directoryPath', 'appsFolders', 'clusteredDbApps', 'consoleOptions',
+      'serviceDiscoveryType', 'dockerRepositoryName', 'dockerPushCommand', 'kubernetesNamespace', 'kubernetesServiceType', 'ingressDomain',
+      'istio', 'istioRoute', 'enableRancherLoadBalancing', 'openshiftNamespace', 'storageType'
+    ];
     specialValueKws = [
       'en', 'no', 'true', 'sql', 'mongodb', 'couchbase', 'cassandra', 'h2Disk', 'h2Memory', 'mysql', 'mariadb', 'postgresql', 'oracle', 'mssql',
       'gatling', 'cucumber', 'protractor', 'angularX', 'react', 'eureka', 'consul', 'jwt', 'oauth2', 'session',
-      'ehcache', 'hazelcast', 'infinispan', 'memcached', 'maven', 'gradle'
+      'ehcache', 'hazelcast', 'infinispan', 'memcached', 'maven', 'gradle', 'docker-compose', 'kubernetes', 'openshift', 'rancher-compose',
+      'zuul', 'traefik', 'prometheus', 'elk', 'curator', 'zipkin', 'LoadBalancer', 'NodePort', 'Ingress', 'manualInjection', 'autoInjection',
+      'ephemeral', 'persistent', 'default'
     ];
 
     CodeMirror.defineMode('jdl', function() {
@@ -41,6 +48,7 @@
 
         // types
         define('attribute', appKeysKws);
+        define('attribute', deploymentKeysKws);
         define('attribute', typeKws);
 
         // types
@@ -131,7 +139,7 @@
         };
 
     });
-    var keywords = mainKeywords.concat(typeKws, relationshipKws, validationKws, generalKws, paginationKws, dtoKws, serviceKws, apptypeKws, appKeysKws, specialValueKws);
+    var keywords = mainKeywords.concat(typeKws, relationshipKws, validationKws, generalKws, paginationKws, dtoKws, serviceKws, apptypeKws, appKeysKws, deploymentKeysKws, specialValueKws);
     CodeMirror.commands.autocomplete = function(cm) {
         cm.showHint({hint: CodeMirror.hint.anyword, list: keywords});
     }

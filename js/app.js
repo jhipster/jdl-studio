@@ -399,14 +399,21 @@
       }
     }
 
+    function findLine(msg) {
+      var regex = /at line: ([0-9]+),/g;
+      var match = regex.exec(msg);
+      return match[1] || 0
+    }
+
     function handleError(e) {
       var msg = '',
         top = 0;
-      if (e.location) {
+      if (e.message) {
         var lineHeight = parseFloat($(editorElement).css('line-height'));
-        top = 35 + lineHeight * e.location.start.line;
-        msg = e.message + ' -> line: ' + e.location.start.line;
+        top = 40 + lineHeight * findLine(e.message);
+        msg = e.message;
       } else {
+        msg = 'An error occurred, look at the console'
         throw e;
       }
       $scope.safeApply(function() {
