@@ -3,7 +3,7 @@
     var mainKeywords = ['application', 'deployment', 'entity', 'enum', 'relationship', 'paginate', 'dto', 'service', 'skipClient', 'skipServer', 'search', 'angularSuffix', 'filter'],
     relationshipKws = ['OneToOne', 'OneToMany', 'ManyToOne', 'ManyToMany'],
     appInnerKws = ['config', 'entities'],
-    validationKws = ['required', 'minlength', 'maxlength', 'min', 'max', 'minbytes', 'maxbytes', 'pattern'],
+    validationKws = ['required', 'minlength', 'maxlength', 'min', 'max', 'minbytes', 'maxbytes', 'pattern', 'unique'],
     generalKws = ['with', 'all', 'except', 'to'],
     paginationKws = ['pagination', 'pager', 'infinite-scroll'],
     dtoKws = ['mapstruct'],
