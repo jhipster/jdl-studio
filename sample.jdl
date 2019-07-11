@@ -78,15 +78,15 @@ relationship ManyToMany {
 
 // defining multiple OneToMany relationships with comments
 relationship OneToMany {
-	Employee{job} to Job,
+	Employee to Job{employee},
 	/**
 	* A relationship
 	*/
-	Department{employee} to
+	Department to
 	/**
 	* Another side of the same relationship
 	*/
-	Employee
+	Employee{department}
 }
 
 relationship ManyToOne {
