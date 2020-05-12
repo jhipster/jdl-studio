@@ -432,7 +432,7 @@
     }
 
     function goToManageJdls() {
-      window.location.href = "/#/design-entities";
+      window.location.href = "/design-entities";
     }
 
     function isInJHOnline() {
