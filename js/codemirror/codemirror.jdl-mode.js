@@ -15,7 +15,7 @@
       'baseName', 'applicationType', 'authenticationType', 'buildTool', 'cacheProvider', 'clientFramework', 'clientPackageManager',
       'databaseType', 'devDatabaseType', 'enableHibernateCache', 'enableSwaggerCodegen', 'enableTranslation', 'jhiPrefix',
       'languages', 'messageBroker', 'nativeLanguage', 'packageName', 'prodDatabaseType', 'searchEngine', 'serviceDiscoveryType',
-      'skipClient', 'skipServer', 'serverPort', 'skipUserManagement', 'testFrameworks', 'uaaBaseName', 'useSass', 'websocket'
+      'skipClient', 'skipServer', 'serverPort', 'skipUserManagement', 'testFrameworks', 'uaaBaseName', 'useSass', 'clientTheme', 'websocket'
     ];
     deploymentKeysKws = [
       'deploymentType', 'gatewayType', 'monitoring', 'directoryPath', 'appsFolders', 'clusteredDbApps', 'consoleOptions',
