@@ -18,7 +18,7 @@
     "jquery": "3.1.0",
     "magnific-popup": "1.0.1",
     "icon-font.min": "https://cdn.linearicons.com/free/1.0.0/icon-font.min.css",
-    "jdl-core": "https://raw.githubusercontent.com/jhipster/jhipster-core/v3.6.6/dist/jdl-core.min.js",
+    "jdl-core": "https://raw.githubusercontent.com/jhipster/jhipster-core/v7.3.0/dist/jdl-core.min.js",
     "angular": "^1.5.8",
     "codemirror": "^5.0"
   },
