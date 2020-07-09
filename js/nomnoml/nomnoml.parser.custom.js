@@ -53,11 +53,15 @@ nomnoml.convertToNomnoml = function(JDLObj){
 	var getCardinality = function (cardinality) {
 		switch (cardinality) {
 			case 'one-to-many':
+      case 'OneToMany':
 				return '1-*'
+      case 'OneToOne':
 			case 'one-to-one':
 				return '1-1'
+      case 'ManyToOne':
 			case 'many-to-one':
 				return '*-1'
+      case 'ManyToMany':
 			case 'many-to-many':
 				return '*-*'
 			default:
