@@ -1,0 +1,49 @@
+#
+# Copyright 2013-2020 the original author or authors from the JHipster project.
+#
+# This file is part of the JHipster project, see https://www.jhipster.tech/
+# for more information.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Update Jhipster Online
+on:
+  push:
+    branches:
+      - master
+jobs:
+  pipeline:
+    name: Update JHipster Online
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout jhipster-online with submodules
+      - uses: actions/checkout@v2
+        with:
+          repository: 'jhipster/jhipster-online'
+          submodules: 'true'
+
+      # Update jdl-studio submodule
+      - name: Update jdl-studio Submodule
+        run: |
+          git config pull.rebase true
+          git pull --recurse-submodules
+
+      # Create PR in jhipster-online with updated submodules
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: 'update jdl-studio submodule'
+          author: 'JDL Studio <jdl-studio@no-reply.jhipster.tech>'
+          branch: 'jdl-studio-update'
+          title: 'Update jdl-studio Submodule'
+          body: 'This is an automated pull request to update jdl-studio submodule to latest'
