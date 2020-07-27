@@ -20,7 +20,7 @@ name: Update Jhipster Online
 on:
   push:
     branches:
-      - master
+      - gh-pages
 jobs:
   pipeline:
     name: Update JHipster Online
