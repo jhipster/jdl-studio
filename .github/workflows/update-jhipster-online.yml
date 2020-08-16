@@ -34,15 +34,14 @@ jobs:
 
       # Update jdl-studio submodule
       - name: Update jdl-studio Submodule
-        run: |
-          git config pull.rebase true
-          git pull --recurse-submodules
+        run: cd src/main/resources/static/jdl-studio && git checkout gh-pages && git pull
 
       # Create PR in jhipster-online with updated submodules
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          commit-message: 'update jdl-studio submodule'
+          token: ${{ secrets.PAT }}
+          commit-message: 'feat: update jdl-studio submodule'
           author: 'JDL Studio <jdl-studio@no-reply.jhipster.tech>'
           branch: 'jdl-studio-update'
           title: 'Update jdl-studio Submodule'
