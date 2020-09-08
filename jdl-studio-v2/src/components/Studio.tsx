@@ -14,6 +14,8 @@ import "../codemirror/Codemirror-jdl-mode";
 import "../codemirror/solarized.jdl.css";
 import "../codemirror/show-hint-jdl.css";
 
+// nomnoml
+import * as nomnoml from "../nomnoml/nomnoml";
 import { defaultSource } from "../resources/Samples";
 
 const STORAGE_KEY = "jdlstudio.lastSource";

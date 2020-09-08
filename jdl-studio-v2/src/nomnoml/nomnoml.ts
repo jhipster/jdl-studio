@@ -1,3 +1,4 @@
+// @ts-ignore
 interface Nomnoml {
   version: string;
   draw(
