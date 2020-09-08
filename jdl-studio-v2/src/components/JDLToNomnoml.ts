@@ -68,7 +68,7 @@ function processEntities(
     out.push({
       name: en.name,
       type: NomNomlEntityTypes.enum,
-      prefix: "",
+      prefix: "<reference>",
       children: en.values.map((val) => ({
         name: `${val.key}`,
         type: NomNomlEntityTypes.field,
@@ -138,6 +138,12 @@ export function jdlToNomnoml(jdlString: string): string {
   nomnomlEntities = [...nomnomlEntities, ...processed];
 
   console.log(nomnomlEntities);
+	// if (type === 'ENUM'){
+	// 	var enumLabel = _.cloneDeep(compartments[0]),
+	// 	label = '<<enumeration>>'
+	// 	enumLabel.lines[0] = label
+	// 	compartments.unshift(enumLabel)
+	// }
 
   const nomnomtext = nomnomlEntities.map(mapText);
   return `${pureDirectives}\n${nomnomtext.join("\n")}\n`;
