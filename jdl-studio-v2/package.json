@@ -13,6 +13,7 @@
     "@types/react-codemirror": "^1.0.3",
     "@types/react-dom": "^16.9.8",
     "codemirror": "^5.57.0",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-codemirror": "^1.0.0",
     "react-dom": "^16.13.1",
