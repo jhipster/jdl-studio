@@ -8,6 +8,8 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
