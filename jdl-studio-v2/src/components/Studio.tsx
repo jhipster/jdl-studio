@@ -12,12 +12,13 @@ import "codemirror/addon/dialog/dialog";
 import "codemirror/addon/search/searchcursor";
 import "codemirror/addon/hint/show-hint";
 // customizations for JDL
-import "../codemirror/JDL-hint";
-import "../codemirror/Codemirror-jdl-mode";
+import "../codemirror/JDLHint";
+import "../codemirror/CodemirrorJDLMode";
 import "../codemirror/solarized.jdl.css";
 import "../codemirror/show-hint-jdl.css";
 
 import { CanvasPanner } from "./CanvasPanner";
+import { jdlToNomnoml } from "./JDLToNomnoml";
 // sample JDL
 import { defaultSource } from "../resources/Samples";
 
@@ -27,6 +28,7 @@ const DEF_ERROR = {
   hasError: false,
   errorTooltip: "",
 };
+// this cannot have any space before the directives
 const NOMNOML_STYLE_DARK = `
 #stroke: #aaaaaa
 #fill: #21252b;#002b36;
@@ -111,7 +113,7 @@ export class Studio extends React.Component<{}, StudioState> {
       const canvas = this.canvasRef.current;
       const model = nomnoml.draw(
         canvas,
-        NOMNOML_STYLE_DARK + val,
+        NOMNOML_STYLE_DARK + jdlToNomnoml(val),
         this.panner.zoom()
       );
 
@@ -179,8 +181,10 @@ export class Studio extends React.Component<{}, StudioState> {
 
   componentDidMount() {
     window.addEventListener("hashchange", this.reloadStorage);
-    window.addEventListener("resize", this.onResize);
-    // window.addEventListener("mousemove", this.onMousemove);
+    window.addEventListener(
+      "resize",
+      throttle(() => this.updateCode(), 750, { leading: true })
+    );
     window.addEventListener("keydown", this.onKeydown);
     this.panner = new CanvasPanner(
       //@ts-ignore
@@ -202,12 +206,10 @@ export class Studio extends React.Component<{}, StudioState> {
 
   componentWillUnmount() {
     window.removeEventListener("hashchange", this.reloadStorage);
-    window.removeEventListener("resize", this.onResize);
-    // window.removeEventListener("mousemove", this.onMousemove);
     window.removeEventListener("keydown", this.onKeydown);
   }
 
-  reloadStorage = (event) => {
+  reloadStorage = () => {
     this.storage = buildStorage(location.hash); // eslint-disable-line no-restricted-globals
     this.updateCode(this.storage.read());
     // updateCode();
@@ -216,14 +218,6 @@ export class Studio extends React.Component<{}, StudioState> {
     //   }
     // );
   };
-
-  onResize = (event) => {
-    throttle(this.updateCode, 750, { leading: true });
-  };
-
-  // onMousemove = (event) => {
-  //   throttle(this.mouseMove, 50);
-  // };
 
   onKeydown = (event) => {
     // const { key, keyCode } = event;

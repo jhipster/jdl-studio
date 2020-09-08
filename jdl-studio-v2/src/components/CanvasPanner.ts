@@ -23,7 +23,7 @@ export class CanvasPanner {
   ) {
     var mouseDownPoint: Vec | boolean = false;
     function isVec(value: Vec | boolean): value is Vec {
-      return value != false;
+      return value !== false;
     }
 
     var mouseMove = (e: MouseEvent) => {
