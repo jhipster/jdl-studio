@@ -8,13 +8,13 @@ import "codemirror/addon/dialog/dialog";
 import "codemirror/addon/search/searchcursor";
 import "codemirror/addon/hint/show-hint";
 // customizations for JDL
-import "./codemirror/jdl-hint";
-import "./codemirror/codemirror.jdl-mode";
-import "./codemirror/solarized.jdl.css";
-import "./codemirror/show-hint-jdl.css";
+import "../codemirror/jdl-hint";
+import "../codemirror/codemirror.jdl-mode";
+import "../codemirror/solarized.jdl.css";
+import "../codemirror/show-hint-jdl.css";
 
 export function Studio() {
-  const options = {
+  const cmOptions = {
     lineNumbers: true,
     mode: "jdl",
     matchBrackets: true,
@@ -35,7 +35,7 @@ export function Studio() {
         className="CodeMirrorEditor"
         value={code}
         onChange={setCode}
-        options={options}
+        options={cmOptions}
       />
       {/* <!-- editor line number, error markers--> */}
       <div id="linenumbers" ng-className="{error: app.hasError}"></div>

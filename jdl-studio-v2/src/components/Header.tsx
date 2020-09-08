@@ -1,6 +1,6 @@
 import React from "react";
 import LineIcon from "react-lineicons";
-import logo from "./logo-jhipster.png";
+import logo from "../resources/logo-jhipster.png";
 
 export function Header() {
   const toggleSidebar = (page: string) => () => {};
