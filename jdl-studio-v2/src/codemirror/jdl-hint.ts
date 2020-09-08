@@ -13,7 +13,7 @@ CodeMirror.registerHelper("hint", "anyword", function (editor, options) {
   while (start && word.test(curLine.charAt(start - 1))) --start;
   const curWord = start !== end && curLine.slice(start, end);
 
-  const list = [];
+  const list = [] as any[];
   const seen = {};
   const re = new RegExp(word.source, "g");
   for (var dir = -1; dir <= 1; dir += 2) {

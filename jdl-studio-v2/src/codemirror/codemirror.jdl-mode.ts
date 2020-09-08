@@ -296,6 +296,8 @@ const keywords = mainKeywords.concat(
   deploymentKeysKws,
   specialValueKws
 );
+// @ts-ignore
 CodeMirror.commands.autocomplete = function (cm) {
+  // @ts-ignore
   cm.showHint({ hint: CodeMirror.hint.anyword, list: keywords });
 };
