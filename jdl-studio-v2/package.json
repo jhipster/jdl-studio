@@ -14,6 +14,7 @@
     "@types/react-dom": "16.9.8",
     "codemirror": "5.57.0",
     "dagre": "0.8.5",
+    "lodash.throttle": "4.1.1",
     "node-sass": "4.14.1",
     "nomnoml": "0.10.0",
     "react": "16.13.1",
