@@ -82,7 +82,10 @@ export class Studio extends React.PureComponent<IStudioProp> {
   }
 
   componentDidUpdate(prevProps: IStudioProp) {
-    if (prevProps.isLightMode != this.props.isLightMode) {
+    if (
+      prevProps.isLightMode !== this.props.isLightMode ||
+      prevProps.ranker !== this.props.ranker
+    ) {
       this.renderJDL();
     }
   }
@@ -92,8 +95,12 @@ export class Studio extends React.PureComponent<IStudioProp> {
     window.removeEventListener("keydown", saveAs);
   }
 
-  getDefaultDirectives = (isLightMode) => {
-    return isLightMode ? NOMNOML_STYLE : NOMNOML_STYLE_DARK + NOMNOML_STYLE;
+  getDefaultDirectives = (isLightMode, ranker) => {
+    let style = isLightMode
+      ? NOMNOML_STYLE
+      : NOMNOML_STYLE_DARK + NOMNOML_STYLE;
+    style += `#ranker: ${ranker}`;
+    return style;
   };
 
   renderJDL = (val = this.props.code) => {
@@ -103,7 +110,8 @@ export class Studio extends React.PureComponent<IStudioProp> {
       const nomlVal = val ? jdlToNoml(val) : "[No JDL content, start writing]";
       const model = nomnoml.draw(
         canvas,
-        this.getDefaultDirectives(this.props.isLightMode) + nomlVal,
+        this.getDefaultDirectives(this.props.isLightMode, this.props.ranker) +
+          nomlVal,
         this.panner.zoom()
       );
       setFilename(model.config.title);
@@ -199,6 +207,7 @@ const mapStateToProps = ({ studio }: IRootState) => ({
   error: studio.error,
   isCanvasMode: studio.isCanvasMode,
   isLightMode: studio.isLightMode,
+  ranker: studio.ranker,
 });
 
 const mapDispatchToProps = {

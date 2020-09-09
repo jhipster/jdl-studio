@@ -10,7 +10,7 @@ import {
   setCode,
   setDefaultCode,
   toggleLightMode,
-  toggleRanker
+  toggleRanker,
 } from "./studio/StudioReducer";
 import { UploadPopup, ResetPopup, WarningPopup } from "./Popups";
 import {
@@ -32,7 +32,8 @@ export function Header({
   setDefaultCode,
   toggleLightMode,
   isLightMode,
-  toggleRanker
+  toggleRanker,
+  ranker,
 }: IHeaderProp) {
   const [uploadPopup, setUploadPopup] = useState(false);
   const [discardPopup, setDiscardPopup] = useState(false);
@@ -100,24 +101,20 @@ export function Header({
           </span>
         ) : null}
         <div className="tools center">
-          <select
-            className="template-select"
-            // value={jhonline.jdlId}
-            onChange={changeJdl}
-          >
+          <select className="template-select" onChange={changeJdl}>
             <option value="">&lt;Select template&gt;</option>
             {jhonline.jdls.map((jdl) => (
               <option value={jdl.id}>{jdl.name}</option>
             ))}
           </select>
           <a onClick={toggleLightMode} title="Toggle theme" className="link">
-            {isLightMode ? (
-              <LineIcon name="night" />
-            ) : (
-              <LineIcon name="sun" />
-            )}
+            {isLightMode ? <LineIcon name="night" /> : <LineIcon name="sun" />}
           </a>
-          <a onClick={toggleRanker} title="Toggle graph ranker strategy" className="link">
+          <a
+            onClick={toggleRanker}
+            title={`Cycle graph ranker strategies [current: ${ranker}]`}
+            className="link"
+          >
             <LineIcon name="grid-alt" />
           </a>
         </div>
@@ -260,6 +257,7 @@ const mapStateToProps = ({ studio, jhonline }: IRootState) => ({
   isStorageReadOnly: studio.isStorageReadOnly,
   jhonline: jhonline,
   isLightMode: studio.isLightMode,
+  ranker: studio.ranker,
 });
 
 const mapDispatchToProps = {
@@ -268,7 +266,7 @@ const mapDispatchToProps = {
   setCode,
   setDefaultCode,
   toggleLightMode,
-  toggleRanker
+  toggleRanker,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

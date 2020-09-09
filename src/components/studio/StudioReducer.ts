@@ -8,6 +8,7 @@ export const ACTION_TYPES = {
   SET_CANVAS_MODE: "studio/SET_CANVAS_MODE",
   SET_SIDEBAR: "studio/SET_SIDEBAR",
   TOGGLE_THEME: "studio/TOGGLE_THEME",
+  TOGGLE_RANKER: "studio/TOGGLE_RANKER",
 };
 
 const DEF_ERROR = {
@@ -20,6 +21,8 @@ const THEME_KEY = "jdlstudio.lightMode";
 // this object stores the JDL code to local storage
 let storage = buildStorage(location.hash, defaultSource); // eslint-disable-line no-restricted-globals
 
+const rankers = ["network-simplex", "longest-path", "tight-tree"];
+
 const initialState = {
   loading: false,
   code: storage.read(),
@@ -29,6 +32,7 @@ const initialState = {
   sidebarVisible: false,
   isLightMode: localStorage[THEME_KEY] === "true" ? true : false,
   sidebarId: "",
+  ranker: rankers[0],
 };
 
 export type StudioState = Readonly<typeof initialState>;
@@ -57,6 +61,11 @@ export const studio = (
       return {
         ...state,
         isCanvasMode: action.data,
+      };
+    case ACTION_TYPES.TOGGLE_RANKER:
+      return {
+        ...state,
+        ranker: rankers[findNextRanker(state.ranker)],
       };
     case ACTION_TYPES.TOGGLE_THEME:
       localStorage[THEME_KEY] = !state.isLightMode;
@@ -117,7 +126,7 @@ export const toggleLightMode = () => ({
 });
 
 export const toggleRanker = () => ({
-  type: ACTION_TYPES.TOGGLE_THEME,
+  type: ACTION_TYPES.TOGGLE_RANKER,
 });
 
 export const setSidebar = (data) => ({
@@ -157,4 +166,12 @@ function buildStorage(locationHash, defaultSource = "") {
     moveToLocalStorage: function (txt) {},
     isReadonly: false,
   };
+}
+
+function findNextRanker(current) {
+  const lastIndex = rankers.indexOf(current);
+  if (lastIndex < rankers.length - 1) {
+    return lastIndex + 1;
+  }
+  return 0;
 }

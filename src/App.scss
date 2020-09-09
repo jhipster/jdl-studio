@@ -257,6 +257,11 @@ header {
   #error-tooltip{
     background: #eee8d5;
   }
+  .canvas-tools {
+    i {
+      color: #282c34;
+    }
+  }
 }
 
 .CodeMirror {

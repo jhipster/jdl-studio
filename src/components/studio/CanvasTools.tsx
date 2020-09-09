@@ -21,13 +21,13 @@ export const CanvasTools = ({ isCanvasMode, classToggler, panner }) => {
       onMouseEnter={classToggler(true)}
       onMouseLeave={classToggler(false)}
     >
-      <a onClick={zoomIn} title="Zoom in">
+      <a onClick={zoomIn} title="Zoom in" className="link">
         <LineIcon name="zoom-in" />
       </a>
-      <a onClick={reset} title="Reset viewport">
+      <a onClick={reset} title="Reset viewport" className="link">
         <LineIcon name="frame-expand" />
       </a>
-      <a onClick={zoomOut} title="Zoom out">
+      <a onClick={zoomOut} title="Zoom out" className="link">
         <LineIcon name="zoom-out" />
       </a>
     </div>
