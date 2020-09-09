@@ -66,7 +66,7 @@ export function jdlToNoml(jdlString: string): string {
         renderType: "<package>",
         description: `${
           app.config.clientFramework
-            ? `Client: ${app.config.clientFramework},`
+            ? `Client: ${app.config.clientFramework}, `
             : ""
         }Auth: ${app.config.authenticationType}, DB: ${
           app.config.prodDatabaseType

@@ -9,8 +9,8 @@ body {
   font-weight: 100;
   hr {
     border: 0;
-    background: rgb(40, 44, 52);
-    height: 5px;
+    background: #555;
+    height: 1px;
   }
 
   h1 {
@@ -66,6 +66,30 @@ header {
   background: rgb(40, 44, 52);
   box-shadow: 0px 0 10px rgba(0, 0, 0, 0.4);
 
+  &.light-theme {
+    background: rgb(253, 246, 227);
+    box-shadow: 0px 0 10px rgba(0, 0, 0, 0.28);
+    .tools {
+      i {
+        color: rgb(40, 44, 52);
+      }
+      select {
+        color: rgb(40, 44, 52);
+        border: 1px solid #222;
+
+        > option {
+          background: white;
+          color: #282b30;
+        }
+      }
+      > {
+        .logo {
+          color: rgb(40, 44, 52);
+        }
+      }
+    }
+  }
+
   .storage-status {
     color: #fdf6e3;
     opacity: 0.5;
@@ -89,6 +113,11 @@ header {
       font-style: normal;
       opacity: 1;
     }
+  }
+
+  a.link {
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
   .tools {
@@ -116,6 +145,8 @@ header {
       padding: 5px;
       border: 1px solid #ccc;
       outline: transparent;
+      margin-left: 5px;
+      margin-right: 5px;
 
       > option {
         background: #282b30;
@@ -210,6 +241,22 @@ header {
   resize: none;
   opacity: 1;
   transition: opacity 0.3s;
+}
+.light-theme {
+  .CodeMirrorEditor {
+    background: #fdf6e3;
+    color: #657b83;
+    .CodeMirror-linenumber {
+      color: #d4cebd;
+    }
+  }
+  #linenumbers {
+    background: #eee8d5;
+    color: #d4cebd;
+  }
+  #error-tooltip{
+    background: #eee8d5;
+  }
 }
 
 .CodeMirror {
@@ -324,11 +371,6 @@ a {
   }
 }
 
-.invert {
-  -webkit-filter: grayscale(100%) brightness(1.5) invert(100%);
-  filter: grayscale(100%) brightness(1.5) invert(100%);
-}
-
 .sidebar {
   display: none;
   position: absolute;
@@ -358,39 +400,57 @@ a {
     height: 70px;
     background: rgb(40, 44, 52);
   }
-}
 
-.content {
-  display: block;
-  color: #9da5b4;
-  font-family: Consolas, Monaco, monospace;
-  padding: 70px 10px 200px 20px;
-
-  p {
-    font-family: Calibri, Helvetica, sans-serif;
-  }
-
-  label {
+  .content {
     display: block;
-    font-family: Calibri, Helvetica, sans-serif;
-    color: #93a1a1;
-    margin-top: 1em;
-  }
+    color: #9da5b4;
+    font-family: Consolas, Monaco, monospace;
+    padding: 70px 10px 200px 20px;
 
-  h2 {
-    font-size: inherit;
-    display: block;
-    font-family: Calibri, Helvetica, sans-serif;
-    color: #93a1a1;
-    margin-top: 1em;
-  }
+    p {
+      font-family: Calibri, Helvetica, sans-serif;
+    }
 
-  b {
-    display: inline-block;
-    font-weight: normal;
-    width: 40%;
-    font-family: Calibri, Helvetica, sans-serif;
-    color: #93a1a1;
+    label {
+      display: block;
+      font-family: Calibri, Helvetica, sans-serif;
+      color: #93a1a1;
+      margin-top: 1em;
+    }
+
+    h2 {
+      font-size: inherit;
+      display: block;
+      font-family: Calibri, Helvetica, sans-serif;
+      color: #93a1a1;
+      margin-top: 1em;
+    }
+
+    b {
+      display: inline-block;
+      font-weight: normal;
+      width: 40%;
+      font-family: Calibri, Helvetica, sans-serif;
+      color: #93a1a1;
+    }
+  }
+  .invert {
+    -webkit-filter: grayscale(100%) brightness(1.5) invert(100%);
+    filter: grayscale(100%) brightness(1.5) invert(100%);
+  }
+  &.light-theme {
+    background-color: rgb(253, 246, 227);
+    box-shadow: -3px 0 6px rgba(0, 0, 0, 0.28);
+    .content {
+      color: #586e75;
+    }
+    hr {
+      background: #0004;
+    }
+    .invert {
+      -webkit-filter: none;
+      filter: none;
+    }
   }
 }
 

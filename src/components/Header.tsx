@@ -1,10 +1,17 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import LineIcon from "react-lineicons";
 import logo from "../resources/logo-jhipster.png";
 import { IRootState } from "../Store";
 import { changeJdl } from "./JhOnlineReducer";
-import { setSidebar, setCode, setDefaultCode } from "./studio/StudioReducer";
+import {
+  setSidebar,
+  setCode,
+  setDefaultCode,
+  toggleLightMode,
+  toggleRanker
+} from "./studio/StudioReducer";
 import { UploadPopup, ResetPopup, WarningPopup } from "./Popups";
 import {
   downloadFile,
@@ -23,9 +30,13 @@ export function Header({
   setSidebar,
   setCode,
   setDefaultCode,
+  toggleLightMode,
+  isLightMode,
+  toggleRanker
 }: IHeaderProp) {
   const [uploadPopup, setUploadPopup] = useState(false);
   const [discardPopup, setDiscardPopup] = useState(false);
+
   const toggleSidebar = (page: string) => () => {
     setSidebar(page);
   };
@@ -50,7 +61,7 @@ export function Header({
 
   return (
     <>
-      <header>
+      <header className={`${isLightMode ? "light-theme" : "dark-theme"}`}>
         <div className="tools left">
           <a
             href="https://www.jhipster.tech/"
@@ -88,6 +99,28 @@ export function Header({
             </a>
           </span>
         ) : null}
+        <div className="tools center">
+          <select
+            className="template-select"
+            // value={jhonline.jdlId}
+            onChange={changeJdl}
+          >
+            <option value="">&lt;Select template&gt;</option>
+            {jhonline.jdls.map((jdl) => (
+              <option value={jdl.id}>{jdl.name}</option>
+            ))}
+          </select>
+          <a onClick={toggleLightMode} title="Toggle theme" className="link">
+            {isLightMode ? (
+              <LineIcon name="night" />
+            ) : (
+              <LineIcon name="sun" />
+            )}
+          </a>
+          <a onClick={toggleRanker} title="Toggle graph ranker strategy" className="link">
+            <LineIcon name="grid-alt" />
+          </a>
+        </div>
         <div className="tools right">
           {jhonline.insideJhOnline && !jhonline.authenticated ? (
             <a
@@ -205,17 +238,19 @@ export function Header({
           <span id="tooltip"></span>
         </div>
       </header>
-      <UploadPopup
-        open={uploadPopup}
-        closeModal={closeUploadDialog}
-        setCode={setCode}
-      />
-      <ResetPopup
-        open={discardPopup}
-        closeModal={closeDiscardDialog}
-        discardCurrentGraph={setDefaultCode}
-      />
-      <WarningPopup open={!jhonline.insideJhOnline} />
+      <div className={`${isLightMode ? "light-theme" : "dark-theme"}`}>
+        <UploadPopup
+          open={uploadPopup}
+          closeModal={closeUploadDialog}
+          setCode={setCode}
+        />
+        <ResetPopup
+          open={discardPopup}
+          closeModal={closeDiscardDialog}
+          discardCurrentGraph={setDefaultCode}
+        />
+        <WarningPopup open={!jhonline.insideJhOnline} />
+      </div>
     </>
   );
 }
@@ -224,6 +259,7 @@ const mapStateToProps = ({ studio, jhonline }: IRootState) => ({
   code: studio.code,
   isStorageReadOnly: studio.isStorageReadOnly,
   jhonline: jhonline,
+  isLightMode: studio.isLightMode,
 });
 
 const mapDispatchToProps = {
@@ -231,6 +267,8 @@ const mapDispatchToProps = {
   setSidebar,
   setCode,
   setDefaultCode,
+  toggleLightMode,
+  toggleRanker
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

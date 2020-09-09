@@ -125,8 +125,10 @@ http://ethanschoonover.com/solarized/img/solarized-palette.png
 
 /* Dark */
 .cm-s-solarized.cm-s-dark .CodeMirror-gutters {
-  background-color: rgb(32, 36, 45);
-  border-color: rgb(32, 36, 45);
+  /* background-color: rgb(32, 36, 45);
+  border-color: rgb(32, 36, 45); */
+  background-color: transparent;
+  border-color: transparent;
 }
 
 .cm-s-solarized.cm-s-dark .CodeMirror-linenumber {

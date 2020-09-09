@@ -65,8 +65,8 @@ export const About = () => (
         </a>{" "}
         .
       </p>
-      <hr />
       <h2>Interaction</h2>
+      <hr />
       <p>
         The canvas can be panned and zoomed by dragging and scrolling in the
         right hand third of the canvas.
@@ -91,8 +91,8 @@ export const About = () => (
         </a>
         . Hit <code>Ctrl-Space</code> for auto suggestions.
       </p>
-      <hr />
       <h2>Examples</h2>
+      <hr />
       <p>
         Refer{" "}
         <a
@@ -104,8 +104,8 @@ export const About = () => (
         </a>{" "}
         documentation for examples.
       </p>
-      <hr />
       <h2>Usage</h2>
+      <hr />
       <p>
         Refer{" "}
         <a
@@ -125,6 +125,7 @@ export const About = () => (
       <br />
       #padding: 3
       <h2>Directives</h2>
+      <hr />
       <p>
         The rendered image style can be customized by setting these directives
         along with the JDL code. There should not be any empty space before a
@@ -165,6 +166,5 @@ export const About = () => (
       #ranker: network-simplex | tight-tree | longest-path
       <br />
     </div>
-    <div className="logo-background"></div>
   </>
 );

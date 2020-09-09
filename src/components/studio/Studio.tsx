@@ -16,7 +16,7 @@ import "codemirror/addon/hint/show-hint";
 // customizations for JDL
 import "../../codemirror/JDLHint";
 import "../../codemirror/CodemirrorJDLMode";
-import "../../codemirror/solarized.jdl.css";
+import "../../codemirror/solarized.jdl.scss";
 import "../../codemirror/show-hint-jdl.css";
 
 import { CanvasPanner } from "./CanvasPanner";
@@ -36,10 +36,13 @@ import { saveAs, setFilename } from "../Utils";
 const NOMNOML_STYLE_DARK = `
 #stroke: #aaaaaa
 #fill: #21252b;#002b36;
+`;
+const NOMNOML_STYLE = `
 #arrowSize: 0.5
 #lineWidth: 2
 #spacing: 40
 #title: jhipster-jdl
+#zoom: 0.8
 `;
 
 export interface IStudioProp extends StateProps, DispatchProps {}
@@ -51,7 +54,6 @@ export class Studio extends React.PureComponent<IStudioProp> {
     mode: "jdl",
     matchBrackets: true,
     autoCloseBrackets: true,
-    theme: "solarized dark",
     keyMap: "sublime",
     extraKeys: {
       "Ctrl-Space": "autocomplete",
@@ -79,10 +81,20 @@ export class Studio extends React.PureComponent<IStudioProp> {
     this.updateCode();
   }
 
+  componentDidUpdate(prevProps: IStudioProp) {
+    if (prevProps.isLightMode != this.props.isLightMode) {
+      this.renderJDL();
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener("hashchange", this.props.reloadStorage);
     window.removeEventListener("keydown", saveAs);
   }
+
+  getDefaultDirectives = (isLightMode) => {
+    return isLightMode ? NOMNOML_STYLE : NOMNOML_STYLE_DARK + NOMNOML_STYLE;
+  };
 
   renderJDL = (val = this.props.code) => {
     try {
@@ -91,7 +103,7 @@ export class Studio extends React.PureComponent<IStudioProp> {
       const nomlVal = val ? jdlToNoml(val) : "[No JDL content, start writing]";
       const model = nomnoml.draw(
         canvas,
-        NOMNOML_STYLE_DARK + nomlVal,
+        this.getDefaultDirectives(this.props.isLightMode) + nomlVal,
         this.panner.zoom()
       );
       setFilename(model.config.title);
@@ -140,9 +152,9 @@ export class Studio extends React.PureComponent<IStudioProp> {
   };
 
   render() {
-    const { isCanvasMode, code, error } = this.props;
+    const { isCanvasMode, code, error, isLightMode } = this.props;
     return (
-      <>
+      <div className={`${isLightMode ? "light-theme" : "dark-theme"}`}>
         {/* <!-- code mirror editor --> */}
         <CodeMirror
           ref={this.editorRef}
@@ -150,7 +162,10 @@ export class Studio extends React.PureComponent<IStudioProp> {
           value={code}
           onBeforeChange={(editor, data, val) => this.props.setCode(val)}
           onChange={(editor, data, val) => this.updateCode(val)}
-          options={this.cmOptions}
+          options={{
+            ...this.cmOptions,
+            theme: `solarized ${isLightMode ? "light" : "dark"}`,
+          }}
         />
         {/* <!-- editor line number, error markers --> */}
         <div
@@ -174,7 +189,7 @@ export class Studio extends React.PureComponent<IStudioProp> {
           onMouseEnter={this.classToggler(true)}
           onMouseLeave={this.classToggler(false)}
         ></div>
-      </>
+      </div>
     );
   }
 }
@@ -183,6 +198,7 @@ const mapStateToProps = ({ studio }: IRootState) => ({
   code: studio.code,
   error: studio.error,
   isCanvasMode: studio.isCanvasMode,
+  isLightMode: studio.isLightMode,
 });
 
 const mapDispatchToProps = {

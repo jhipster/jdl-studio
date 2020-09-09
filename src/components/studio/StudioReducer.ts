@@ -7,6 +7,7 @@ export const ACTION_TYPES = {
   SET_STORAGE_STAT: "studio/SET_STORAGE_STAT",
   SET_CANVAS_MODE: "studio/SET_CANVAS_MODE",
   SET_SIDEBAR: "studio/SET_SIDEBAR",
+  TOGGLE_THEME: "studio/TOGGLE_THEME",
 };
 
 const DEF_ERROR = {
@@ -15,6 +16,7 @@ const DEF_ERROR = {
   errorTooltip: "",
 };
 const STORAGE_KEY = "jdlstudio.lastSource";
+const THEME_KEY = "jdlstudio.lightMode";
 // this object stores the JDL code to local storage
 let storage = buildStorage(location.hash, defaultSource); // eslint-disable-line no-restricted-globals
 
@@ -25,6 +27,7 @@ const initialState = {
   isStorageReadOnly: storage.isReadonly,
   isCanvasMode: false,
   sidebarVisible: false,
+  isLightMode: localStorage[THEME_KEY] === "true" ? true : false,
   sidebarId: "",
 };
 
@@ -54,6 +57,12 @@ export const studio = (
       return {
         ...state,
         isCanvasMode: action.data,
+      };
+    case ACTION_TYPES.TOGGLE_THEME:
+      localStorage[THEME_KEY] = !state.isLightMode;
+      return {
+        ...state,
+        isLightMode: !state.isLightMode,
       };
     case ACTION_TYPES.SET_SIDEBAR:
       return {
@@ -101,6 +110,14 @@ export const setDefaultError = () => ({
 export const setCanvasMode = (data) => ({
   type: ACTION_TYPES.SET_CANVAS_MODE,
   data,
+});
+
+export const toggleLightMode = () => ({
+  type: ACTION_TYPES.TOGGLE_THEME,
+});
+
+export const toggleRanker = () => ({
+  type: ACTION_TYPES.TOGGLE_THEME,
 });
 
 export const setSidebar = (data) => ({

@@ -5,6 +5,7 @@ export const Reference = () => (
     <div className="content">
       <h3>JDL Reference</h3>
       <h2>Application Declaration</h2>
+      <hr />
       <div className="highlighter-rouge">
         <code className="highlight">
           <pre>
@@ -62,6 +63,7 @@ export const Reference = () => (
         </a>
       </p>
       <h2>Entity Declaration</h2>
+      <hr />
       <div className="highlighter-rouge">
         <code className="highlight">
           <pre>
@@ -123,6 +125,7 @@ export const Reference = () => (
         the name of the validation.
       </p>
       <h2>Enum Declaration</h2>
+      <hr />
       <div className="highlighter-rouge">
         <code className="highlight">
           <pre>
@@ -157,6 +160,7 @@ export const Reference = () => (
         </a>
       </p>
       <h2>Relationship Declaration</h2>
+      <hr />
       <div className="highlighter-rouge">
         <pre className="highlight">
           relationship &lt;type&gt; &#123;
@@ -207,6 +211,7 @@ export const Reference = () => (
         </a>
       </p>
       <h2>Option Declaration</h2>
+      <hr />
       <p>
         It is possible to declare some of the supported options via JDL,
         supported options are:
@@ -283,6 +288,5 @@ export const Reference = () => (
         documentation for more details.
       </p>
     </div>
-    <div className="logo-background"></div>
   </>
 );
