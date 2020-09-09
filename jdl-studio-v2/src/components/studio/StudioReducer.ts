@@ -80,6 +80,14 @@ export const setCode = (data) => {
   };
 };
 
+export const setDefaultCode = () => {
+  storage.save(defaultSource);
+  return {
+    type: ACTION_TYPES.SET_CODE,
+    data: defaultSource,
+  };
+};
+
 export const setError = (data) => ({
   type: ACTION_TYPES.SET_ERROR,
   data,

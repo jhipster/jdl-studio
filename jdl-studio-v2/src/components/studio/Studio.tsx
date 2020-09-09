@@ -5,7 +5,7 @@ import throttle from "lodash.throttle";
 // nomnoml dependencies
 import nomnoml from "nomnoml";
 // code mirror dependencies
-import CodeMirror from "react-codemirror";
+import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/keymap/sublime";
 import "codemirror/addon/edit/matchbrackets";
@@ -30,6 +30,7 @@ import {
   setCanvasMode,
 } from "./StudioReducer";
 import { CanvasTools } from "./CanvasTools";
+import { saveAs, setFilename } from "../Utils";
 
 // this cannot have any space before the directives
 const NOMNOML_STYLE_DARK = `
@@ -65,13 +66,13 @@ export class Studio extends React.PureComponent<IStudioProp> {
     window.addEventListener("hashchange", this.props.reloadStorage);
     window.addEventListener(
       "resize",
-      throttle(() => this.updateCode(), 750, { leading: true })
+      throttle(() => this.renderJDL(), 750, { leading: true })
     );
-    window.addEventListener("keydown", this.onKeydown);
+    window.addEventListener("keydown", saveAs);
     if (this.canvasPannerRef.current) {
       this.panner = new CanvasPanner(
         this.canvasPannerRef.current,
-        () => this.updateCode(),
+        () => this.renderJDL(),
         throttle
       );
     }
@@ -80,39 +81,40 @@ export class Studio extends React.PureComponent<IStudioProp> {
 
   componentWillUnmount() {
     window.removeEventListener("hashchange", this.props.reloadStorage);
-    window.removeEventListener("keydown", this.onKeydown);
+    window.removeEventListener("keydown", saveAs);
   }
 
-  updateCode = (val = this.props.code) => {
+  renderJDL = (val = this.props.code) => {
     try {
-      this.props.setDefaultError();
-
       const canvas = this.canvasRef.current;
+
+      const nomlVal = val ? jdlToNoml(val) : "[No JDL content, start writing]";
       const model = nomnoml.draw(
         canvas,
-        NOMNOML_STYLE_DARK + jdlToNoml(val),
+        NOMNOML_STYLE_DARK + nomlVal,
         this.panner.zoom()
       );
-
+      setFilename(model.config.title);
       this.panner.positionCanvas(canvas);
-      this.setFilename(model.config.title);
-      this.props.setCode(val);
     } catch (e) {
       console.log(e);
       this.handleError(e);
     }
   };
 
+  updateCode = (val = this.props.code) => {
+    this.props.setDefaultError();
+    this.renderJDL(val);
+    this.props.setCode(val);
+  };
+
   handleError = (e) => {
     var msg = "",
       top = 0;
     if (e.message && this.editorRef.current) {
-      debugger;
       const lineHeight = parseFloat(
         window
-          .getComputedStyle(
-            this.editorRef.current.getCodeMirror().getWrapperElement()
-          )
+          .getComputedStyle(this.editorRef.current.editor.getWrapperElement())
           .getPropertyValue("line-height")
       );
       top = 40 + lineHeight * this.findLine(e.message);
@@ -133,25 +135,8 @@ export class Studio extends React.PureComponent<IStudioProp> {
     return match && match[1] ? parseInt(match[1]) : 0;
   };
 
-  setFilename = (filename) => {
-    // fileLink.download = filename + ".jh";
-    // imgLink.download = filename + ".png";
-  };
-
   classToggler = (state) => () => {
     this.props.setCanvasMode(state);
-  };
-
-  onKeydown = (event) => {
-    const { keyCode, metaKey, ctrlKey } = event;
-    if (
-      keyCode === 83 &&
-      (navigator.platform.match("Mac") ? metaKey : ctrlKey)
-    ) {
-      event.preventDefault();
-      // fileLink.click();
-      return false;
-    }
   };
 
   render() {
@@ -163,7 +148,8 @@ export class Studio extends React.PureComponent<IStudioProp> {
           ref={this.editorRef}
           className={`CodeMirrorEditor ${isCanvasMode ? "canvas-mode" : ""}`}
           value={code}
-          onChange={this.updateCode}
+          onBeforeChange={(editor, data, val) => this.props.setCode(val)}
+          onChange={(editor, data, val) => this.updateCode(val)}
           options={this.cmOptions}
         />
         {/* <!-- editor line number, error markers --> */}

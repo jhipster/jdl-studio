@@ -413,19 +413,73 @@ input.upload {
   margin: 5px 0 25px;
 }
 
-.mag-dialog {
-  background: white;
-  padding: 20px 30px;
-  text-align: left;
-  max-width: 400px;
-  margin: 40px auto;
-  position: relative;
-  color: #282b30;
-  font-family: Calibri, "PT Sans", "Trebuchet MS", "Helvetica Neue", Arial;
+.modal {
+  > .header {
+    width: 98%;
+    border-bottom: 1px solid gray;
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+  }
+  > .content {
+    width: 100%;
+    padding: 10px 5px;
+  }
+  > .actions {
+    width: 100%;
+    padding: 10px 5px;
+    margin: auto;
+    text-align: center;
+    button {
+      margin: 5px;
+    }
+  }
+  > .close {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 2px 5px;
+    line-height: 20px;
+    right: -10px;
+    top: -10px;
+    font-size: 24px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #cfcece;
+  }
+}
+.popup-content {
+  border-radius: 5px;
+  padding: 0.5rem;
+}
 
-  h1 {
-    font-size: 1.5em;
-    font-weight: 400;
+.popup-content {
+  background-color: rgb(41, 45, 62);
+  color: #fff;
+  border: 1px solid #9a9595;
+}
+
+.popup-arrow > svg {
+  color: rgb(41, 45, 62);
+  stroke-width: 2px;
+  stroke: #9a9595;
+  stroke-dasharray: 30px;
+  stroke-dashoffset: -54px;
+}
+
+.light-theme {
+  .popup-content {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #d7d7d7;
+  }
+
+  .popup-arrow > svg {
+    color: #fff;
+    stroke-width: 2px;
+    stroke: #d7d7d7;
+    stroke-dasharray: 30px;
+    stroke-dashoffset: -54px;
   }
 }
 
