@@ -15,14 +15,14 @@ import "codemirror/addon/dialog/dialog";
 import "codemirror/addon/search/searchcursor";
 import "codemirror/addon/hint/show-hint";
 // customizations for JDL
-import "../codemirror/JDLHint";
-import "../codemirror/CodemirrorJDLMode";
-import "../codemirror/solarized.jdl.css";
-import "../codemirror/show-hint-jdl.css";
+import "../../codemirror/JDLHint";
+import "../../codemirror/CodemirrorJDLMode";
+import "../../codemirror/solarized.jdl.css";
+import "../../codemirror/show-hint-jdl.css";
 
 import { CanvasPanner } from "./CanvasPanner";
 import { jdlToNoml } from "./JDLToNoml";
-import { IRootState } from "../Store";
+import { IRootState } from "../../Store";
 import {
   setCode,
   setError,

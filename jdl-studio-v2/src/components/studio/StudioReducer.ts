@@ -1,5 +1,5 @@
 // sample JDL
-import { defaultSource } from "../resources/Samples";
+import { defaultSource } from "../../resources/Samples";
 
 export const ACTION_TYPES = {
   SET_CODE: "studio/SET_CODE",

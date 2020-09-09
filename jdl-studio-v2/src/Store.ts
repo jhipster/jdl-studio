@@ -1,6 +1,6 @@
 import { createStore } from "redux";
 import { combineReducers } from "redux";
-import { studio, StudioState } from "./components/StudioReducer";
+import { studio, StudioState } from "./components/studio/StudioReducer";
 
 export interface IRootState {
   readonly studio: StudioState;
