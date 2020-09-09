@@ -27,10 +27,10 @@ export const WarningPopup = ({ open }) => (
   </Popup>
 );
 
-export const ResetPopup = ({ open, closeModal, discardCurrentGraph }) => {
+export const ResetPopup = ({ open, closeModal, discard }) => {
   const ok = () => {
     closeModal();
-    discardCurrentGraph();
+    discard();
   };
   return (
     <Popup open={open} modal closeOnDocumentClick={false} onClose={closeModal}>
@@ -38,8 +38,8 @@ export const ResetPopup = ({ open, closeModal, discardCurrentGraph }) => {
         <div className="header">Discard</div>
         <div className="content">
           <p>
-            Do you want to discard current diagram and load the default example?
-            This will overwrite local storage as well
+            Do you want to discard current diagram and load the sample? This
+            will overwrite local storage as well
           </p>
         </div>
         <div className="actions">

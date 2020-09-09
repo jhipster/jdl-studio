@@ -114,3 +114,84 @@ service all with serviceImpl except Employee, Job
 // Set an angular suffix
 // angularSuffix * with mySuffix
 `;
+
+export const JDLtemplates = [
+  {
+    key: "default sample",
+    val: defaultSource,
+  },
+  {
+    key: "simple monolith",
+    val: `
+application {
+  config {
+    baseName myApp,
+    applicationType monolith,
+    packageName com.myapp,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    clientFramework angular
+  }
+  entities *
+}
+
+entity Foo {}
+
+entity Bar {}
+
+relationship OneToMany {
+  Foo to Bar
+}
+    `,
+  },
+  {
+    key: "simple microservice",
+    val: `
+application {
+  config {
+    baseName myApp,
+    applicationType gateway,
+    packageName com.myapp,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    clientFramework react
+  }
+  entities *
+}
+
+application {
+  config {
+    baseName myApp1,
+    applicationType microservice,
+    packageName com.myapp,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+  }
+  entities A, B
+}
+
+application {
+  config {
+    baseName myApp2,
+    applicationType microservice,
+    packageName com.myapp,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+  }
+  entities C
+}
+
+entity A {}
+
+entity B {}
+
+entity C {}
+
+entity D {}
+
+relationship OneToMany {
+  A to B
+}
+    `,
+  },
+];

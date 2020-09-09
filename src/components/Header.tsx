@@ -19,6 +19,7 @@ import {
   goToManageJdls,
   downloadImage,
 } from "./Utils";
+import { JDLtemplates } from "../resources/Samples";
 
 export interface IHeaderProp extends StateProps, DispatchProps {}
 
@@ -36,24 +37,39 @@ export function Header({
   ranker,
 }: IHeaderProp) {
   const [uploadPopup, setUploadPopup] = useState(false);
-  const [discardPopup, setDiscardPopup] = useState(false);
+  const [templatePopup, setTemplatePopup] = useState(false);
+  const [template, setTemplate] = useState("");
 
   const toggleSidebar = (page: string) => () => {
     setSidebar(page);
   };
+
   const confirmCreateNewJdl = () => {};
+
   const openUploadDialog = () => {
     setUploadPopup(true);
   };
+
   const closeUploadDialog = () => {
     setUploadPopup(false);
   };
 
-  const confirmDiscardCurrentGraph = () => {
-    setDiscardPopup(true);
+  const openTemplateDialog = (evt) => {
+    setTemplate(evt.target.value);
+    if (evt.target.value) {
+      setTemplatePopup(true);
+    }
   };
-  const closeDiscardDialog = () => {
-    setDiscardPopup(false);
+
+  const closeTemplateDialog = () => {
+    setTemplatePopup(false);
+  };
+
+  const loadTemplate = () => {
+    if (template) {
+      const code = JDLtemplates.filter((it) => it.key === template)[0].val;
+      setCode(code);
+    }
   };
 
   const downloadJDL = (evt) => {
@@ -101,10 +117,12 @@ export function Header({
           </span>
         ) : null}
         <div className="tools center">
-          <select className="template-select" onChange={changeJdl}>
+          <select className="template-select" onChange={openTemplateDialog}>
             <option value="">&lt;Select template&gt;</option>
-            {jhonline.jdls.map((jdl) => (
-              <option value={jdl.id}>{jdl.name}</option>
+            {JDLtemplates.map((it) => (
+              <option value={it.key} key={it.key}>
+                {it.key}
+              </option>
             ))}
           </select>
           <a onClick={toggleLightMode} title="Toggle theme" className="link">
@@ -225,13 +243,6 @@ export function Header({
           >
             <LineIcon name="upload" />
           </a>
-          <a
-            onClick={confirmDiscardCurrentGraph}
-            title="Discard this diagram"
-            className="link"
-          >
-            <LineIcon name="trash" />
-          </a>
           <span id="tooltip"></span>
         </div>
       </header>
@@ -242,9 +253,9 @@ export function Header({
           setCode={setCode}
         />
         <ResetPopup
-          open={discardPopup}
-          closeModal={closeDiscardDialog}
-          discardCurrentGraph={setDefaultCode}
+          open={templatePopup}
+          closeModal={closeTemplateDialog}
+          discard={loadTemplate}
         />
         <WarningPopup open={!jhonline.insideJhOnline} />
       </div>
