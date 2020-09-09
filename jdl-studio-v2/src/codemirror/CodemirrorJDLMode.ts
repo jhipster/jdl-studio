@@ -195,9 +195,6 @@ CodeMirror.defineMode("jdl", function () {
   ));
 
   function tokenBase(stream, state) {
-    // if (!stream.sol() && stream.match(/(\s*)([A-Z])/g)) {
-    //   return tokenEntity(stream);
-    // }
     if (stream.eatSpace()) return null;
 
     let sol = stream.sol();
@@ -258,14 +255,6 @@ CodeMirror.defineMode("jdl", function () {
     }
 
     return null;
-  }
-
-  function tokenEntity(stream) {
-    let ch;
-    while ((ch = stream.next()) != null)
-      if (ch === " " && stream.peek() === "{") {
-        return "def";
-      }
   }
 
   function tokenize(stream, state) {

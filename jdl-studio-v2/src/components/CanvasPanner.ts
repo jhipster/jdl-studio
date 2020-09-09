@@ -38,7 +38,7 @@ export class CanvasPanner {
 
     var mouseUp = () => {
       mouseDownPoint = false;
-      element.style.width = "33%";
+      element.style.width = "40%";
     };
 
     var magnify = (e: MouseWheelEvent) => {

@@ -1,5 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import throttle from "lodash.throttle";
+import LineIcon from "react-lineicons";
+
 // nomnoml dependencies
 import nomnoml from "nomnoml";
 // code mirror dependencies
@@ -18,16 +21,16 @@ import "../codemirror/solarized.jdl.css";
 import "../codemirror/show-hint-jdl.css";
 
 import { CanvasPanner } from "./CanvasPanner";
-import { jdlToNomnoml } from "./JDLToNomnoml";
-// sample JDL
-import { defaultSource } from "../resources/Samples";
+import { jdlToNoml } from "./JDLToNoml";
+import { IRootState } from "../Store";
+import {
+  setCode,
+  setError,
+  setDefaultError,
+  reloadStorage,
+  setCanvasMode,
+} from "./StudioReducer";
 
-const STORAGE_KEY = "jdlstudio.lastSource";
-const DEF_ERROR = {
-  lineMarkerTop: -35,
-  hasError: false,
-  errorTooltip: "",
-};
 // this cannot have any space before the directives
 const NOMNOML_STYLE_DARK = `
 #stroke: #aaaaaa
@@ -38,41 +41,9 @@ const NOMNOML_STYLE_DARK = `
 #title: jhipster-jdl
 `;
 
-function urlDecode(encoded) {
-  return decodeURIComponent(encoded.replace(/\+/g, " "));
-}
+export interface IStudioProp extends StateProps, DispatchProps {}
 
-function buildStorage(locationHash, defaultSource = "") {
-  if (locationHash.substring(0, 7) === "#/view/") {
-    return {
-      read: function (): string {
-        return urlDecode(locationHash.substring(7));
-      },
-      save: function (source: string) {},
-      moveToLocalStorage: function (txt: string) {
-        localStorage[STORAGE_KEY] = txt;
-      },
-      isReadonly: true,
-    };
-  }
-  return {
-    read: function (): string {
-      return localStorage[STORAGE_KEY] || defaultSource;
-    },
-    save: function (source: string) {
-      localStorage[STORAGE_KEY] = source;
-    },
-    moveToLocalStorage: function (txt) {},
-    isReadonly: false,
-  };
-}
-
-export interface StudioState {
-  code: string;
-  error: typeof DEF_ERROR;
-}
-
-export class Studio extends React.Component<{}, StudioState> {
+export class Studio extends React.PureComponent<IStudioProp> {
   // codemirror configuration
   private cmOptions = {
     lineNumbers: true,
@@ -85,44 +56,47 @@ export class Studio extends React.Component<{}, StudioState> {
       "Ctrl-Space": "autocomplete",
     },
   };
-  // this object stores the JDL code to local storage
-  private storage = buildStorage(location.hash, defaultSource); // eslint-disable-line no-restricted-globals
   private panner;
   private canvasRef = React.createRef<HTMLCanvasElement>();
   private canvasPannerRef = React.createRef<HTMLDivElement>();
 
-  public state = {
-    code: this.storage.read(),
-    error: DEF_ERROR,
-  };
+  componentDidMount() {
+    window.addEventListener("hashchange", this.props.reloadStorage);
+    window.addEventListener(
+      "resize",
+      throttle(() => this.updateCode(), 750, { leading: true })
+    );
+    window.addEventListener("keydown", this.onKeydown);
+    this.panner = new CanvasPanner(
+      //@ts-ignore
+      this.canvasPannerRef.current,
+      () => this.updateCode(),
+      throttle
+    );
+    this.updateCode();
+  }
 
-  setCode = (val: string) =>
-    this.setState({
-      code: val,
-    });
+  componentWillUnmount() {
+    window.removeEventListener("hashchange", this.props.reloadStorage);
+    window.removeEventListener("keydown", this.onKeydown);
+  }
 
-  setError = (val: typeof DEF_ERROR) =>
-    this.setState({
-      error: val,
-    });
-
-  updateCode = (val = this.state.code) => {
+  updateCode = (val = this.props.code) => {
     try {
-      this.setError(DEF_ERROR);
+      this.props.setDefaultError();
 
       const canvas = this.canvasRef.current;
       const model = nomnoml.draw(
         canvas,
-        NOMNOML_STYLE_DARK + jdlToNomnoml(val),
+        NOMNOML_STYLE_DARK + jdlToNoml(val),
         this.panner.zoom()
       );
 
       this.panner.positionCanvas(canvas);
       this.setFilename(model.config.title);
-
-      this.storage.save(val);
-      this.setCode(val);
+      this.props.setCode(val);
     } catch (e) {
+      console.log(e);
       this.handleError(e);
     }
   };
@@ -143,9 +117,8 @@ export class Studio extends React.Component<{}, StudioState> {
       msg = e.message;
     } else {
       msg = "An error occurred, look at the console";
-      throw e;
     }
-    this.setError({
+    this.props.setError({
       lineMarkerTop: top,
       hasError: true,
       errorTooltip: msg,
@@ -174,81 +147,100 @@ export class Studio extends React.Component<{}, StudioState> {
     }
   };
 
-  classToggler = (element, className, state) => {
-    // var jqElement = $(element);
-    // return _.bind(jqElement.toggleClass, jqElement, className, state);
-  };
-
-  componentDidMount() {
-    window.addEventListener("hashchange", this.reloadStorage);
-    window.addEventListener(
-      "resize",
-      throttle(() => this.updateCode(), 750, { leading: true })
-    );
-    window.addEventListener("keydown", this.onKeydown);
-    this.panner = new CanvasPanner(
-      //@ts-ignore
-      this.canvasPannerRef.current,
-      () => this.updateCode(),
-      throttle
-    );
-    this.updateCode();
-
-    // canvasTools.addEventListener(
-    //   "mouseenter",
-    //   classToggler(jqBody, "canvas-mode", true)
-    // );
-    // canvasTools.addEventListener(
-    //   "mouseleave",
-    //   classToggler(jqBody, "canvas-mode", false)
-    // );
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("hashchange", this.reloadStorage);
-    window.removeEventListener("keydown", this.onKeydown);
-  }
-
-  reloadStorage = () => {
-    this.storage = buildStorage(location.hash); // eslint-disable-line no-restricted-globals
-    this.updateCode(this.storage.read());
-    // updateCode();
-    // $scope.safeApply(function() {
-    //     app.showStorageStatus = storage.isReadonly;
-    //   }
-    // );
+  classToggler = (state) => () => {
+    this.props.setCanvasMode(state);
   };
 
   onKeydown = (event) => {
-    // const { key, keyCode } = event;
-    // if (keyCode === 32 || (keyCode >= 65 && keyCode <= 90)) {
-    //   // setUserText(prevUserText => `${prevUserText}${key}`);
-    // }
+    const { key, keyCode, metaKey, ctrlKey } = event;
+    if (
+      keyCode === 83 &&
+      (navigator.platform.match("Mac") ? metaKey : ctrlKey)
+    ) {
+      event.preventDefault();
+      // fileLink.click();
+      return false;
+    }
+  };
+
+  zoomIn = () => {
+    this.panner.magnify(2);
+  };
+
+  zoomOut = () => {
+    this.panner.magnify(-2);
+  };
+
+  reset = () => {
+    this.panner.reset();
   };
 
   render() {
+    const { isCanvasMode, code, error } = this.props;
     return (
       <>
         {/* <!-- code mirror editor--> */}
         <CodeMirror
           ref="editor"
-          className="CodeMirrorEditor"
-          value={this.state.code}
+          className={`CodeMirrorEditor ${isCanvasMode ? "canvas-mode" : ""}`}
+          value={code}
           onChange={this.updateCode}
           options={this.cmOptions}
         />
         {/* <!-- editor line number, error markers--> */}
-        <div id="linenumbers" ng-className="{error: app.hasError}"></div>
-        <div id="linemarker" ng-style="{'top': app.lineMarkerTop}"></div>
+        <div
+          id="linenumbers"
+          className={`${error.hasError ? "error" : ""}`}
+        ></div>
+        <div id="linemarker" style={{ top: error.lineMarkerTop }}></div>
         {/* <!-- canvas holding the UML diagram--> */}
         <canvas id="canvas" ref={this.canvasRef}></canvas>
         <span id="error-tooltip" ng-cloak>
-          {/* {{ app.errorTooltip }} */}
+          {error.errorTooltip}
         </span>
-        {/* <!-- canvas pan/zomm handler--> */}
-        <div id="canvas-panner" ref={this.canvasPannerRef}></div>
-        <div id="canvas-tools"></div>
+        {/* <!-- canvas pan/zomm handler and tools--> */}
+        <div
+          className={`canvas-tools ${isCanvasMode ? "canvas-mode" : ""}`}
+          id="canvas-tools"
+          onMouseEnter={this.classToggler(true)}
+          onMouseLeave={this.classToggler(false)}
+        >
+          <a onClick={this.zoomIn} title="Zoom in">
+            <LineIcon name="zoom-in" />
+          </a>
+          <a onClick={this.reset} title="Reset viewport">
+            <LineIcon name="frame-expand" />
+          </a>
+          <a onClick={this.zoomOut} title="Zoom out">
+            <LineIcon name="zoom-out" />
+          </a>
+        </div>
+        <div
+          id="canvas-panner"
+          ref={this.canvasPannerRef}
+          onMouseEnter={this.classToggler(true)}
+          onMouseLeave={this.classToggler(false)}
+        ></div>
       </>
     );
   }
 }
+
+const mapStateToProps = ({ studio }: IRootState) => ({
+  code: studio.code,
+  error: studio.error,
+  isCanvasMode: studio.isCanvasMode,
+});
+
+const mapDispatchToProps = {
+  setCode,
+  setError,
+  setDefaultError,
+  reloadStorage,
+  setCanvasMode,
+};
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Studio);

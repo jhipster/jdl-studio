@@ -10,9 +10,11 @@ export function Header() {
         <a
           href="https://www.jhipster.tech/"
           title="JHipster website"
-          target="_blank" rel="noopener noreferrer"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="logo-img"
         >
-          <img className="jhi-logo" src={logo} alt="JHipster logo"/>
+          <img className="jhi-logo" src={logo} alt="JHipster logo" />
         </a>
         <a
           className="logo"
@@ -20,10 +22,27 @@ export function Header() {
           onClick={toggleSidebar("about")}
           title="About JDL-Studio"
         >
-          <h1>JDL-Studio</h1> &nbsp;
+          JDL-Studio
         </a>
       </div>
-      <div className="tools">
+      <span className="storage-status" ng-show="isStorageReadOnly">
+        View mode, changes are not saved.
+        <a
+          href="javascript:void(0)"
+          ng-click="app.saveViewModeToStorage()"
+          title="Save this diagram to localStorage"
+        >
+          save
+        </a>
+        <a
+          href="javascript:void(0)"
+          ng-click="app.exitViewMode()"
+          title="Discard this diagram"
+        >
+          close
+        </a>
+      </span>
+      <div className="tools right">
         <a
           id="signin"
           href="javascript:void(0)"
@@ -53,7 +72,7 @@ export function Header() {
           title="Use existing JDL"
           ng-show="app.authenticated"
         >
-          <select ng-model="app.jdlId" ng-change="app.changeJdl()">
+          <select className="jdl-select" ng-model="app.jdlId" ng-change="app.changeJdl()">
             <option value="">&lt;Create new JDL Model&gt;</option>
             <option ng-repeat="option in app.jdls" ng-value="option.id">
               {/* {{option.name}} */}
@@ -136,47 +155,6 @@ export function Header() {
           <LineIcon name="trash" />
         </a>
         <span id="tooltip"></span>
-        <span id="storage-status" ng-show="app.showStorageStatus" ng-cloak>
-          View mode, changes are not saved.
-          <a
-            href="javascript:void(0)"
-            ng-click="app.saveViewModeToStorage()"
-            title="Save this diagram to localStorage"
-          >
-            save
-          </a>
-          <a
-            href="javascript:void(0)"
-            ng-click="app.exitViewMode()"
-            title="Discard this diagram"
-          >
-            close
-          </a>
-        </span>
-
-        <div className="canvas-tools" id="canvas-tools">
-          <a
-            href="javascript:void(0)"
-            ng-click="app.magnifyViewport(2)"
-            title="Zoom in"
-          >
-            <i className="lnr lnr-plus-circle"></i>
-          </a>
-          <a
-            href="javascript:void(0)"
-            ng-click="app.resetViewport()"
-            title="Reset zoom and panning"
-          >
-            <i className="lnr lnr-frame-contract"></i>
-          </a>
-          <a
-            href="javascript:void(0)"
-            ng-click="app.magnifyViewport(-2)"
-            title="Zoom out"
-          >
-            <i className="lnr lnr-circle-minus"></i>
-          </a>
-        </div>
       </div>
     </header>
   );
