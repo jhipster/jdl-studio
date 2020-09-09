@@ -8,7 +8,6 @@ import { changeJdl } from "./JhOnlineReducer";
 import {
   setSidebar,
   setCode,
-  setDefaultCode,
   toggleLightMode,
   toggleRanker,
 } from "./studio/StudioReducer";
@@ -30,7 +29,6 @@ export function Header({
   changeJdl,
   setSidebar,
   setCode,
-  setDefaultCode,
   toggleLightMode,
   isLightMode,
   toggleRanker,
@@ -275,7 +273,6 @@ const mapDispatchToProps = {
   changeJdl,
   setSidebar,
   setCode,
-  setDefaultCode,
   toggleLightMode,
   toggleRanker,
 };
