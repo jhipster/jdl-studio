@@ -4,7 +4,7 @@ import { IRootState } from "../../Store";
 import { Reference } from "./Reference";
 import { About } from "./About";
 
-export interface ISidebarProp extends StateProps, DispatchProps {}
+export interface ISidebarProp extends StateProps {}
 
 export function Sidebar({ sidebarId, sidebarVisible }: ISidebarProp) {
   return (
@@ -19,11 +19,6 @@ const mapStateToProps = ({ studio }: IRootState) => ({
   sidebarVisible: studio.sidebarVisible,
 });
 
-const mapDispatchToProps = {
-  // changeJdl,
-};
-
 type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default connect(mapStateToProps, null)(Sidebar);

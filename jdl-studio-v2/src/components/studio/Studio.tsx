@@ -57,6 +57,7 @@ export class Studio extends React.PureComponent<IStudioProp> {
     },
   };
   private panner;
+  private editorRef = React.createRef<any>();
   private canvasRef = React.createRef<HTMLCanvasElement>();
   private canvasPannerRef = React.createRef<HTMLDivElement>();
 
@@ -67,12 +68,13 @@ export class Studio extends React.PureComponent<IStudioProp> {
       throttle(() => this.updateCode(), 750, { leading: true })
     );
     window.addEventListener("keydown", this.onKeydown);
-    this.panner = new CanvasPanner(
-      //@ts-ignore
-      this.canvasPannerRef.current,
-      () => this.updateCode(),
-      throttle
-    );
+    if (this.canvasPannerRef.current) {
+      this.panner = new CanvasPanner(
+        this.canvasPannerRef.current,
+        () => this.updateCode(),
+        throttle
+      );
+    }
     this.updateCode();
   }
 
@@ -104,12 +106,12 @@ export class Studio extends React.PureComponent<IStudioProp> {
   handleError = (e) => {
     var msg = "",
       top = 0;
-    if (e.message) {
+    if (e.message && this.editorRef.current) {
+      debugger;
       const lineHeight = parseFloat(
         window
           .getComputedStyle(
-            //@ts-ignore
-            this.refs.editor.getCodeMirror().getWrapperElement()
+            this.editorRef.current.getCodeMirror().getWrapperElement()
           )
           .getPropertyValue("line-height")
       );
@@ -158,7 +160,7 @@ export class Studio extends React.PureComponent<IStudioProp> {
       <>
         {/* <!-- code mirror editor --> */}
         <CodeMirror
-          ref="editor"
+          ref={this.editorRef}
           className={`CodeMirrorEditor ${isCanvasMode ? "canvas-mode" : ""}`}
           value={code}
           onChange={this.updateCode}
@@ -173,9 +175,7 @@ export class Studio extends React.PureComponent<IStudioProp> {
         {/* <!-- canvas holding the UML diagram --> */}
         <canvas id="canvas" ref={this.canvasRef}></canvas>
         {/* <!-- shows a tooltip on error --> */}
-        <span id="error-tooltip" ng-cloak>
-          {error.errorTooltip}
-        </span>
+        <span id="error-tooltip">{error.errorTooltip}</span>
         {/* <!-- canvas tools and pan/zoom handler --> */}
         <CanvasTools
           isCanvasMode={isCanvasMode}
