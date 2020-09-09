@@ -17,8 +17,7 @@ export function Header() {
           <img className="jhi-logo" src={logo} alt="JHipster logo" />
         </a>
         <a
-          className="logo"
-          href="javascript:void(0)"
+          className="logo link"
           onClick={toggleSidebar("about")}
           title="About JDL-Studio"
         >
@@ -28,16 +27,16 @@ export function Header() {
       <span className="storage-status" ng-show="isStorageReadOnly">
         View mode, changes are not saved.
         <a
-          href="javascript:void(0)"
           ng-click="app.saveViewModeToStorage()"
           title="Save this diagram to localStorage"
+          className="link"
         >
           save
         </a>
         <a
-          href="javascript:void(0)"
           ng-click="app.exitViewMode()"
           title="Discard this diagram"
+          className="link"
         >
           close
         </a>
@@ -45,8 +44,8 @@ export function Header() {
       <div className="tools right">
         <a
           id="signin"
-          href="javascript:void(0)"
           ng-show="app.insideJhOnline && !app.authenticated"
+          className="link"
           ng-click="app.goToJHipsterOnline()"
           title="Sign in"
         >
@@ -60,19 +59,19 @@ export function Header() {
         >
           Go to new JDL Studio
         </a>
-        <a
-          href="javascript:void(0)"
-          title="Logged in as"
-          ng-show="app.authenticated"
-        >
+        <a title="Logged in as" ng-show="app.authenticated" className="link">
           {/* {{app.username}} */}
         </a>
         <a
-          href="javascript:void(0)"
           title="Use existing JDL"
           ng-show="app.authenticated"
+          className="link"
         >
-          <select className="jdl-select" ng-model="app.jdlId" ng-change="app.changeJdl()">
+          <select
+            className="jdl-select"
+            ng-model="app.jdlId"
+            ng-change="app.changeJdl()"
+          >
             <option value="">&lt;Create new JDL Model&gt;</option>
             <option ng-repeat="option in app.jdls" ng-value="option.id">
               {/* {{option.name}} */}
@@ -80,8 +79,8 @@ export function Header() {
           </select>
         </a>
         <a
-          href="javascript:void(0)"
           title="Save JDL"
+          className="link"
           ng-click="app.confirmCreateNewJdl()"
           ng-show="app.authenticated && !app.startLoadingFlag"
         >
@@ -91,16 +90,16 @@ export function Header() {
           <LineIcon name="sync" />
         </a>
         <a
-          href="javascript:void(0)"
           ng-click="app.goToManageJdls()"
+          className="link"
           title="Manage JDLs"
           ng-show="app.authenticated"
         >
           <LineIcon name="cog" />
         </a>
         <a
-          href="javascript:void(0)"
           ng-show="app.insideJhOnline"
+          className="link"
           ng-click="app.goToJHipsterOnline()"
           title="Go to the main JHipster Online page"
         >
@@ -110,32 +109,32 @@ export function Header() {
           <i className="lineIcon">|</i>
         </span>
         <a
-          href="javascript:void(0)"
           ng-click="app.toggleSidebar('about')"
           title="About JDL-Studio"
+          className="link"
         >
           <LineIcon name="question-circle" />
         </a>
         <a
-          href="javascript:void(0)"
           ng-click="app.toggleSidebar('reference')"
           title="Language reference"
+          className="link"
         >
           <LineIcon name="book" />
         </a>
         <a
           id="savebutton"
-          href="javascript:void(0)"
           download="jdl.png"
+          className="link"
           title="Download snapshot of this diagram"
         >
           <LineIcon name="camera" />
         </a>
         <a
           id="saveTextbutton"
-          href="javascript:void(0)"
           download="jdl.jh"
-          title="Download text file of this JDL"
+          title="Download this JDL source"
+          className="link"
         >
           <LineIcon name="download" />
         </a>
@@ -148,9 +147,9 @@ export function Header() {
           <LineIcon name="upload" />
         </a>
         <a
-          href="javascript:void(0)"
           ng-click="app.confirmDiscardCurrentGraph()"
           title="Discard this diagram"
+          className="link"
         >
           <LineIcon name="trash" />
         </a>

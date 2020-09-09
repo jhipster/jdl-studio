@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import throttle from "lodash.throttle";
-import LineIcon from "react-lineicons";
 
 // nomnoml dependencies
 import nomnoml from "nomnoml";
@@ -30,6 +29,7 @@ import {
   reloadStorage,
   setCanvasMode,
 } from "./StudioReducer";
+import { CanvasTools } from "./CanvasTools";
 
 // this cannot have any space before the directives
 const NOMNOML_STYLE_DARK = `
@@ -163,23 +163,11 @@ export class Studio extends React.PureComponent<IStudioProp> {
     }
   };
 
-  zoomIn = () => {
-    this.panner.magnify(2);
-  };
-
-  zoomOut = () => {
-    this.panner.magnify(-2);
-  };
-
-  reset = () => {
-    this.panner.reset();
-  };
-
   render() {
     const { isCanvasMode, code, error } = this.props;
     return (
       <>
-        {/* <!-- code mirror editor--> */}
+        {/* <!-- code mirror editor --> */}
         <CodeMirror
           ref="editor"
           className={`CodeMirrorEditor ${isCanvasMode ? "canvas-mode" : ""}`}
@@ -187,34 +175,24 @@ export class Studio extends React.PureComponent<IStudioProp> {
           onChange={this.updateCode}
           options={this.cmOptions}
         />
-        {/* <!-- editor line number, error markers--> */}
+        {/* <!-- editor line number, error markers --> */}
         <div
           id="linenumbers"
           className={`${error.hasError ? "error" : ""}`}
         ></div>
         <div id="linemarker" style={{ top: error.lineMarkerTop }}></div>
-        {/* <!-- canvas holding the UML diagram--> */}
+        {/* <!-- canvas holding the UML diagram --> */}
         <canvas id="canvas" ref={this.canvasRef}></canvas>
+        {/* <!-- shows a tooltip on error --> */}
         <span id="error-tooltip" ng-cloak>
           {error.errorTooltip}
         </span>
-        {/* <!-- canvas pan/zomm handler and tools--> */}
-        <div
-          className={`canvas-tools ${isCanvasMode ? "canvas-mode" : ""}`}
-          id="canvas-tools"
-          onMouseEnter={this.classToggler(true)}
-          onMouseLeave={this.classToggler(false)}
-        >
-          <a onClick={this.zoomIn} title="Zoom in">
-            <LineIcon name="zoom-in" />
-          </a>
-          <a onClick={this.reset} title="Reset viewport">
-            <LineIcon name="frame-expand" />
-          </a>
-          <a onClick={this.zoomOut} title="Zoom out">
-            <LineIcon name="zoom-out" />
-          </a>
-        </div>
+        {/* <!-- canvas tools and pan/zoom handler --> */}
+        <CanvasTools
+          isCanvasMode={isCanvasMode}
+          panner={this.panner}
+          classToggler={this.classToggler}
+        />
         <div
           id="canvas-panner"
           ref={this.canvasPannerRef}
