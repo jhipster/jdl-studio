@@ -37,7 +37,7 @@ const NOMNOML_STYLE_DARK = `
 #fill: #21252b;#002b36;
 #arrowSize: 0.5
 #lineWidth: 2
-#spacing: 70
+#spacing: 40
 #title: jhipster-jdl
 `;
 
@@ -136,23 +136,12 @@ export class Studio extends React.PureComponent<IStudioProp> {
     // imgLink.download = filename + ".png";
   };
 
-  saveAs = (e) => {
-    if (
-      e.keyCode === 83 &&
-      (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)
-    ) {
-      e.preventDefault();
-      // fileLink.click();
-      return false;
-    }
-  };
-
   classToggler = (state) => () => {
     this.props.setCanvasMode(state);
   };
 
   onKeydown = (event) => {
-    const { key, keyCode, metaKey, ctrlKey } = event;
+    const { keyCode, metaKey, ctrlKey } = event;
     if (
       keyCode === 83 &&
       (navigator.platform.match("Mac") ? metaKey : ctrlKey)

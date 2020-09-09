@@ -1,6 +1,6 @@
 import React from "react";
-import { Header } from "./components/Header";
-import { Sidebar } from "./components/Sidebar";
+import Sidebar from "./components/sidebar/Sidebar";
+import Header from "./components/Header";
 import Studio from "./components/studio/Studio";
 import "./App.scss";
 

@@ -6,6 +6,7 @@ export const ACTION_TYPES = {
   SET_ERROR: "studio/SET_ERROR",
   SET_STORAGE_STAT: "studio/SET_STORAGE_STAT",
   SET_CANVAS_MODE: "studio/SET_CANVAS_MODE",
+  SET_SIDEBAR: "studio/SET_SIDEBAR",
 };
 
 const DEF_ERROR = {
@@ -23,6 +24,8 @@ const initialState = {
   error: DEF_ERROR,
   isStorageReadOnly: storage.isReadonly,
   isCanvasMode: false,
+  sidebarVisible: false,
+  sidebarId: "",
 };
 
 export type StudioState = Readonly<typeof initialState>;
@@ -52,39 +55,16 @@ export const studio = (
         ...state,
         isCanvasMode: action.data,
       };
+    case ACTION_TYPES.SET_SIDEBAR:
+      return {
+        ...state,
+        sidebarVisible: !state.sidebarId || state.sidebarId !== action.data,
+        sidebarId: state.sidebarId !== action.data ? action.data : "",
+      };
     default:
       return state;
   }
 };
-
-function urlDecode(encoded) {
-  return decodeURIComponent(encoded.replace(/\+/g, " "));
-}
-
-function buildStorage(locationHash, defaultSource = "") {
-  if (locationHash.substring(0, 7) === "#/view/") {
-    return {
-      read: function (): string {
-        return urlDecode(locationHash.substring(7));
-      },
-      save: function (source: string) {},
-      moveToLocalStorage: function (txt: string) {
-        localStorage[STORAGE_KEY] = txt;
-      },
-      isReadonly: true,
-    };
-  }
-  return {
-    read: function (): string {
-      return localStorage[STORAGE_KEY] || defaultSource;
-    },
-    save: function (source: string) {
-      localStorage[STORAGE_KEY] = source;
-    },
-    moveToLocalStorage: function (txt) {},
-    isReadonly: false,
-  };
-}
 
 export const reloadStorage: () => void = () => (dispatch) => {
   storage = buildStorage(location.hash); // eslint-disable-line no-restricted-globals
@@ -115,7 +95,41 @@ export const setCanvasMode = (data) => ({
   data,
 });
 
+export const setSidebar = (data) => ({
+  type: ACTION_TYPES.SET_SIDEBAR,
+  data,
+});
+
 export const setStorageStat = (data) => ({
   type: ACTION_TYPES.SET_STORAGE_STAT,
   data,
 });
+
+function urlDecode(encoded) {
+  return decodeURIComponent(encoded.replace(/\+/g, " "));
+}
+
+function buildStorage(locationHash, defaultSource = "") {
+  if (locationHash.substring(0, 7) === "#/view/") {
+    return {
+      read: function (): string {
+        return urlDecode(locationHash.substring(7));
+      },
+      save: function (source: string) {},
+      moveToLocalStorage: function (txt: string) {
+        localStorage[STORAGE_KEY] = txt;
+      },
+      isReadonly: true,
+    };
+  }
+  return {
+    read: function (): string {
+      return localStorage[STORAGE_KEY] || defaultSource;
+    },
+    save: function (source: string) {
+      localStorage[STORAGE_KEY] = source;
+    },
+    moveToLocalStorage: function (txt) {},
+    isReadonly: false,
+  };
+}

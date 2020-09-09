@@ -1,9 +1,36 @@
 import React from "react";
+import { connect } from "react-redux";
 import LineIcon from "react-lineicons";
 import logo from "../resources/logo-jhipster.png";
+import { IRootState } from "../Store";
+import { changeJdl } from "./JHonlineReducer";
+import { setSidebar } from "./studio/StudioReducer";
 
-export function Header() {
-  const toggleSidebar = (page: string) => () => {};
+const goToJHipsterOnline = () => {
+  window.location.href = "/";
+};
+const goToManageJdls = () => {
+  window.location.href = "/design-entities";
+};
+
+export interface IHeaderProp extends StateProps, DispatchProps {}
+
+export function Header({
+  isStorageReadOnly,
+  jhonline,
+  changeJdl,
+  setSidebar,
+}: IHeaderProp) {
+  const toggleSidebar = (page: string) => () => {
+    setSidebar(page);
+  };
+  const confirmCreateNewJdl = () => () => {};
+
+  const confirmDiscardCurrentGraph = () => () => {};
+
+  if (!jhonline.insideJhOnline) {
+    // warnOldVersions();
+  }
   return (
     <header>
       <div className="tools left">
@@ -24,99 +51,101 @@ export function Header() {
           JDL-Studio
         </a>
       </div>
-      <span className="storage-status" ng-show="isStorageReadOnly">
-        View mode, changes are not saved.
-        <a
-          ng-click="app.saveViewModeToStorage()"
-          title="Save this diagram to localStorage"
-          className="link"
-        >
-          save
-        </a>
-        <a
-          ng-click="app.exitViewMode()"
-          title="Discard this diagram"
-          className="link"
-        >
-          close
-        </a>
-      </span>
-      <div className="tools right">
-        <a
-          id="signin"
-          ng-show="app.insideJhOnline && !app.authenticated"
-          className="link"
-          ng-click="app.goToJHipsterOnline()"
-          title="Sign in"
-        >
-          Please sign in for more features!
-        </a>
-        <a
-          id="signin"
-          href="https://start.jhipster.tech/jdl-studio/"
-          ng-hide="app.insideJhOnline"
-          title="Go to new JDL Studio with more features"
-        >
-          Go to new JDL Studio
-        </a>
-        <a title="Logged in as" ng-show="app.authenticated" className="link">
-          {/* {{app.username}} */}
-        </a>
-        <a
-          title="Use existing JDL"
-          ng-show="app.authenticated"
-          className="link"
-        >
-          <select
-            className="jdl-select"
-            ng-model="app.jdlId"
-            ng-change="app.changeJdl()"
+      {isStorageReadOnly ? (
+        <span className="storage-status" ng-show="isStorageReadOnly">
+          View mode, changes are not saved.
+          <a
+            // onClick="app.saveViewModeToStorage()"
+            title="Save this diagram to localStorage"
+            className="link"
           >
-            <option value="">&lt;Create new JDL Model&gt;</option>
-            <option ng-repeat="option in app.jdls" ng-value="option.id">
-              {/* {{option.name}} */}
-            </option>
-          </select>
-        </a>
-        <a
-          title="Save JDL"
-          className="link"
-          ng-click="app.confirmCreateNewJdl()"
-          ng-show="app.authenticated && !app.startLoadingFlag"
-        >
-          <LineIcon name="file-add" />
-        </a>
-        <a ng-show="app.authenticated && app.startLoadingFlag">
-          <LineIcon name="sync" />
-        </a>
-        <a
-          ng-click="app.goToManageJdls()"
-          className="link"
-          title="Manage JDLs"
-          ng-show="app.authenticated"
-        >
-          <LineIcon name="cog" />
-        </a>
-        <a
-          ng-show="app.insideJhOnline"
-          className="link"
-          ng-click="app.goToJHipsterOnline()"
-          title="Go to the main JHipster Online page"
-        >
-          <LineIcon name="home" />
-        </a>
+            save
+          </a>
+          <a
+            // onClick="app.exitViewMode()"
+            title="Discard this diagram"
+            className="link"
+          >
+            close
+          </a>
+        </span>
+      ) : null}
+      <div className="tools right">
+        {jhonline.insideJhOnline && !jhonline.authenticated ? (
+          <a
+            id="signin"
+            className="link"
+            onClick={goToJHipsterOnline}
+            title="Sign in"
+          >
+            Please sign in for more features!
+          </a>
+        ) : null}
+        {!jhonline.insideJhOnline ? (
+          <a
+            id="signin"
+            href="https://start.jhipster.tech/jdl-studio/"
+            title="Go to new JDL Studio with more features"
+          >
+            Go to new JDL Studio
+          </a>
+        ) : null}
+        {jhonline.authenticated ? (
+          <>
+            <a title="Logged in as" className="link">
+              {jhonline.username}
+            </a>
+
+            <select
+              className="jdl-select"
+              value={jhonline.jdlId}
+              onChange={changeJdl}
+            >
+              <option value="">&lt;Create new JDL Model&gt;</option>
+              {jhonline.jdls.map((jdl) => (
+                <option value={jdl.id}>{jdl.name}</option>
+              ))}
+            </select>
+            {jhonline.startLoadingFlag ? (
+              <a>
+                <LineIcon name="sync" />
+              </a>
+            ) : (
+              <a
+                title="Save JDL"
+                className="link"
+                onClick={confirmCreateNewJdl}
+              >
+                <LineIcon name="file-add" />
+              </a>
+            )}
+            <a onClick={goToManageJdls} className="link" title="Manage JDLs">
+              <LineIcon name="cog" />
+            </a>
+          </>
+        ) : null}
+        {jhonline.insideJhOnline ? (
+          <a
+            className="link"
+            onClick={goToJHipsterOnline}
+            title="Go to the main JHipster Online page"
+          >
+            <LineIcon name="home" />
+          </a>
+        ) : null}
+
         <span className="seperator">
           <i className="lineIcon">|</i>
         </span>
         <a
-          ng-click="app.toggleSidebar('about')"
+          onClick={toggleSidebar("about")}
           title="About JDL-Studio"
           className="link"
         >
           <LineIcon name="question-circle" />
         </a>
         <a
-          ng-click="app.toggleSidebar('reference')"
+          onClick={toggleSidebar("reference")}
           title="Language reference"
           className="link"
         >
@@ -147,7 +176,7 @@ export function Header() {
           <LineIcon name="upload" />
         </a>
         <a
-          ng-click="app.confirmDiscardCurrentGraph()"
+          onClick={confirmDiscardCurrentGraph}
           title="Discard this diagram"
           className="link"
         >
@@ -158,3 +187,20 @@ export function Header() {
     </header>
   );
 }
+
+const mapStateToProps = ({ studio, jhonline }: IRootState) => ({
+  // code: studio.code,
+  // error: studio.error,
+  isStorageReadOnly: studio.isStorageReadOnly,
+  jhonline: jhonline,
+});
+
+const mapDispatchToProps = {
+  changeJdl,
+  setSidebar,
+};
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
