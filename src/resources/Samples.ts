@@ -123,25 +123,25 @@ export const JDLtemplates = [
   {
     key: "simple monolith",
     val: `
-application {
-  config {
-    baseName myApp,
-    applicationType monolith,
-    packageName com.myapp,
-    authenticationType jwt,
-    prodDatabaseType mysql,
-    clientFramework angular
+  application {
+    config {
+      baseName myApp,
+      applicationType monolith,
+      packageName com.myapp,
+      authenticationType jwt,
+      prodDatabaseType mysql,
+      clientFramework angular
+    }
+    entities A, B
   }
-  entities *
-}
 
-entity Foo {}
+  entity A {}
 
-entity Bar {}
+  entity B {}
 
-relationship OneToMany {
-  Foo to Bar
-}
+  relationship OneToMany {
+    Foo to Bar
+  }
     `,
   },
   {

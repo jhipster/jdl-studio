@@ -173,13 +173,15 @@ function findActualEntities(
   entities: string[]
 ): string[] {
   let include = included;
-  if (include.includes("*") && msOptions) {
+  if (include.includes("*")) {
     include = [...include, ...entities];
-    Object.entries(msOptions).forEach(([key, val]) => {
-      if (key !== appName) {
-        include = include.filter((it) => !val.list.includes(it));
-      }
-    });
+    if (msOptions) {
+      Object.entries(msOptions).forEach(([key, val]) => {
+        if (key !== appName) {
+          include = include.filter((it) => !val.list.includes(it));
+        }
+      });
+    }
   }
   if (excluded.length !== 0) {
     include = include.filter((it) => !excluded.includes(it));

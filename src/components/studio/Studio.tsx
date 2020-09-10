@@ -36,14 +36,14 @@ import { saveAs, setFilename } from "../Utils";
 const NOMNOML_STYLE_DARK = `
 #stroke: #aaaaaa
 #fill: #21252b;#002b36;
-`;
+\n`;
 const NOMNOML_STYLE = `
 #arrowSize: 0.5
 #lineWidth: 2
 #spacing: 40
 #title: jhipster-jdl
 #zoom: 0.8
-`;
+\n`;
 
 export interface IStudioProp extends StateProps, DispatchProps {}
 
@@ -99,21 +99,18 @@ export class Studio extends React.PureComponent<IStudioProp> {
     let style = isLightMode
       ? NOMNOML_STYLE
       : NOMNOML_STYLE_DARK + NOMNOML_STYLE;
-    style += `#ranker: ${ranker}`;
+    style += `#ranker: ${ranker}\n`;
     return style;
   };
 
   renderJDL = (val = this.props.code) => {
     try {
       const canvas = this.canvasRef.current;
-
       const nomlVal = val ? jdlToNoml(val) : "[No JDL content, start writing]";
-      const model = nomnoml.draw(
-        canvas,
+      const finalVal =
         this.getDefaultDirectives(this.props.isLightMode, this.props.ranker) +
-          nomlVal,
-        this.panner.zoom()
-      );
+        nomlVal;
+      const model = nomnoml.draw(canvas, finalVal, this.panner.zoom());
       setFilename(model.config.title);
       this.panner.positionCanvas(canvas);
     } catch (e) {
