@@ -1,9 +1,9 @@
 import { setCode } from "./studio/StudioReducer";
 
 export const ACTION_TYPES = {
-  SET_JDL: "jhonline/SET_JDL",
-  SET_AUTH: "jhonline/SET_AUTH",
-  SET_JDL_META: "jhonline/SET_JDL_META",
+  SET_JDL: "jhOnline/SET_JDL",
+  SET_AUTH: "jhOnline/SET_AUTH",
+  SET_JDL_META: "jhOnline/SET_JDL_META",
 };
 
 const initialState = {
@@ -20,12 +20,12 @@ const initialState = {
 
 const server_api = "/";
 
-export type JHOnlinState = Readonly<typeof initialState>;
+export type JhOnlineState = Readonly<typeof initialState>;
 
-export const jhonline = (
-  state: JHOnlinState = initialState,
+export const jhOnline = (
+  state: JhOnlineState = initialState,
   action
-): JHOnlinState => {
+): JhOnlineState => {
   switch (action.type) {
     case ACTION_TYPES.SET_AUTH:
       return {
@@ -47,13 +47,13 @@ export const jhonline = (
   }
 };
 
-export const changeJdl = (data) => ({
+export const setJDL = (data) => ({
   type: ACTION_TYPES.SET_JDL,
   data,
 });
 
 export const loadJdl = () => async (dispatch, getState) => {
-  const state = getState() as JHOnlinState;
+  const state = getState() as JhOnlineState;
   try {
     const res = await fetch(`${server_api}/api/jdl/${state.jdlId}`);
     const json = await res.json();
@@ -151,7 +151,7 @@ function getViewHash() {
 }
 
 function setViewHash(jdlId) {
-  // TODO this doesn't work
+  // TODO this doesn't seem to work
   location.hash = "/view/" + jdlId; // eslint-disable-line no-restricted-globals
 }
 

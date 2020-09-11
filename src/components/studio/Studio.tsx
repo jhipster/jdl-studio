@@ -155,40 +155,42 @@ export class Studio extends React.PureComponent<IStudioProp> {
     this.props.setCanvasMode(state);
   };
 
+  getClassNames = (isLightMode, isCanvasMode) =>
+    `${isLightMode ? "light-theme" : "dark-theme"} ${
+      isCanvasMode ? "canvas-mode" : ""
+    }`;
+
+  editorBeforeChange = (editor, data, val) => this.props.setCode(val);
+  editorOnChange = (editor, data, val) => this.updateCode(val);
+
   render() {
     const { isCanvasMode, code, error, isLightMode } = this.props;
     return (
-      <div className={`studio ${isLightMode ? "light-theme" : "dark-theme"}`}>
+      <div
+        className={`studio ${this.getClassNames(isLightMode, isCanvasMode)}`}
+      >
+        {/* <!-- editor line number, error markers --> */}
+        <div className={`line-numbers ${error.hasError ? "error" : ""}`}></div>
+        <div className="line-marker" style={{ top: error.lineMarkerTop }}></div>
         {/* <!-- code mirror editor --> */}
         <CodeMirror
           ref={this.editorRef}
-          className={`code-mirror-editor ${isCanvasMode ? "canvas-mode" : ""}`}
+          className="code-mirror-editor"
           value={code}
-          onBeforeChange={(editor, data, val) => this.props.setCode(val)}
-          onChange={(editor, data, val) => this.updateCode(val)}
+          onBeforeChange={this.editorBeforeChange}
+          onChange={this.editorOnChange}
           options={{
             ...this.cmOptions,
             theme: `solarized ${isLightMode ? "light" : "dark"}`,
           }}
         />
-        {/* <!-- editor line number, error markers --> */}
-        <div
-          id="linenumbers"
-          className={`line-numbers ${error.hasError ? "error" : ""}`}
-        ></div>
-        <div className="line-marker" style={{ top: error.lineMarkerTop }}></div>
         {/* <!-- canvas holding the UML diagram --> */}
         <canvas id="canvas" ref={this.canvasRef}></canvas>
         {/* <!-- shows a tooltip on error --> */}
         <span className="error-tooltip">{error.errorTooltip}</span>
         {/* <!-- canvas tools and pan/zoom handler --> */}
-        <CanvasTools
-          isCanvasMode={isCanvasMode}
-          panner={this.panner}
-          classToggler={this.classToggler}
-        />
+        <CanvasTools panner={this.panner} classToggler={this.classToggler} />
         <div
-          id="canvas-panner"
           className="canvas-panner"
           ref={this.canvasPannerRef}
           onMouseEnter={this.classToggler(true)}

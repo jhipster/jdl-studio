@@ -9,9 +9,7 @@ export const downloadImage = (evt) => {
   const canvasElement = document.getElementById("canvas") as HTMLCanvasElement;
   var url = canvasElement.toDataURL("image/png");
   evt.currentTarget.href = url;
-  //@ts-ignore
   ga("send", "event", "JDL Image", "download", "JDL Image download");
-  //@ts-ignore
   ga("jdlTracker.send", "event", "JDL Image", "download", "JDL Image download");
 };
 
@@ -21,9 +19,7 @@ export const downloadFile = (evt, content) => {
   if (URL !== null) {
     evt.currentTarget.href = window.URL.createObjectURL(textFileAsBlob);
   }
-  //@ts-ignore
   ga("send", "event", "JDL File", "download", "JDL File download");
-  //@ts-ignore
   ga("jdlTracker.send", "event", "JDL File", "download", "JDL File download");
 };
 

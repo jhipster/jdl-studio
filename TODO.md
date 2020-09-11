@@ -2,6 +2,5 @@
 - [x] Fix issue with app entity grouping when app has `entities *` and no microservices
 - [x] Setting directives in code doesnt work
 - [x] extend theme to popup
-- [ ] use inline errors instead of alerts
-- [ ] weird UI glitch during refresh, doesn't happen always
+- [x] weird UI glitch during refresh, doesn't happen always
 - [ ] Test and fix JH online integration

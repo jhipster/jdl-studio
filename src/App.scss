@@ -245,7 +245,6 @@ header {
 
   .code-mirror-editor {
     outline: none;
-    position: absolute;
     width: 100%;
     height: 100%;
     background: rgb(40, 44, 52);
@@ -258,7 +257,7 @@ header {
     transition: opacity 0.3s;
     // this is a codemirror class
     .CodeMirror {
-      height: 96%;
+      height: calc(100vh - 60px);
       border: 0;
       width: 100%;
       margin: 60px 0 20px 0;
@@ -278,12 +277,12 @@ header {
     }
   }
 
-  .canvas-mode {
+  &.canvas-mode {
     .CodeMirror {
       opacity: 0;
       transition: opacity 1s;
     }
-    &.canvas-tools {
+    .canvas-tools {
       opacity: 1;
       transition: opacity 0.3s;
     }

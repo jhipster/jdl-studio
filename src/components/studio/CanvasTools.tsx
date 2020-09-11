@@ -2,7 +2,7 @@
 import React from "react";
 import LineIcon from "react-lineicons";
 
-export const CanvasTools = ({ isCanvasMode, classToggler, panner }) => {
+export const CanvasTools = ({ classToggler, panner }) => {
   const zoomIn = () => {
     panner.magnify(2);
   };
@@ -16,7 +16,7 @@ export const CanvasTools = ({ isCanvasMode, classToggler, panner }) => {
   };
   return (
     <div
-      className={`canvas-tools ${isCanvasMode ? "canvas-mode" : ""}`}
+      className="canvas-tools"
       id="canvas-tools"
       onMouseEnter={classToggler(true)}
       onMouseLeave={classToggler(false)}

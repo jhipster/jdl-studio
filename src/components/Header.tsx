@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import LineIcon from "react-lineicons";
 import logo from "../resources/logo-jhipster.png";
 import { IRootState } from "../Store";
-import { changeJdl } from "./JhOnlineReducer";
+import { setJDL } from "./JhOnlineReducer";
 import {
   setSidebar,
   setCode,
@@ -26,16 +26,16 @@ export interface IHeaderProp extends StateProps, DispatchProps {}
 export function Header({
   code,
   isStorageReadOnly,
-  jhonline,
-  changeJdl,
-  setSidebar,
-  setCode,
-  toggleLightMode,
+  jhOnline,
   isLightMode,
-  toggleRanker,
   ranker,
-  toggleDirection,
   direction,
+  setCode,
+  setJDL,
+  setSidebar,
+  toggleLightMode,
+  toggleRanker,
+  toggleDirection,
 }: IHeaderProp) {
   const [uploadPopup, setUploadPopup] = useState(false);
   const [templatePopup, setTemplatePopup] = useState(false);
@@ -44,8 +44,6 @@ export function Header({
   const toggleSidebar = (page: string) => () => {
     setSidebar(page);
   };
-
-  const confirmCreateNewJdl = () => {};
 
   const openUploadDialog = () => {
     setUploadPopup(true);
@@ -76,6 +74,8 @@ export function Header({
   const downloadJDL = (evt) => {
     downloadFile(evt, code);
   };
+
+  const confirmCreateNewJdl = () => {};
 
   return (
     <>
@@ -156,7 +156,7 @@ export function Header({
           </a>
         </div>
         <div className="tools right">
-          {jhonline.insideJhOnline && !jhonline.authenticated ? (
+          {jhOnline.insideJhOnline && !jhOnline.authenticated ? (
             <a
               id="signin"
               className="link special"
@@ -166,7 +166,7 @@ export function Header({
               Please sign in for more features!
             </a>
           ) : null}
-          {!jhonline.insideJhOnline ? (
+          {!jhOnline.insideJhOnline ? (
             <a
               id="signin"
               className="special"
@@ -176,23 +176,23 @@ export function Header({
               Go to new JDL Studio
             </a>
           ) : null}
-          {jhonline.authenticated ? (
+          {jhOnline.authenticated ? (
             <>
               <a title="Logged in as" className="special">
-                {jhonline.username}
+                {jhOnline.username}
               </a>
 
               <select
                 className="jdl-select"
-                value={jhonline.jdlId}
-                onChange={changeJdl}
+                value={jhOnline.jdlId}
+                onChange={setJDL}
               >
                 <option value="">&lt;Create new JDL Model&gt;</option>
-                {jhonline.jdls.map((jdl) => (
+                {jhOnline.jdls.map((jdl) => (
                   <option value={jdl.id}>{jdl.name}</option>
                 ))}
               </select>
-              {jhonline.startLoadingFlag ? (
+              {jhOnline.startLoadingFlag ? (
                 <a>
                   <LineIcon name="sync" />
                 </a>
@@ -210,7 +210,7 @@ export function Header({
               </a>
             </>
           ) : null}
-          {jhonline.insideJhOnline ? (
+          {jhOnline.insideJhOnline ? (
             <a
               className="link"
               onClick={goToJHipsterOnline}
@@ -279,24 +279,24 @@ export function Header({
         className={`${isLightMode ? "light-theme" : "dark-theme"}`}
       />
       <WarningPopup
-        open={!jhonline.insideJhOnline}
+        open={!jhOnline.insideJhOnline}
         className={`${isLightMode ? "light-theme" : "dark-theme"}`}
       />
     </>
   );
 }
 
-const mapStateToProps = ({ studio, jhonline }: IRootState) => ({
+const mapStateToProps = ({ studio, jhOnline }: IRootState) => ({
   code: studio.code,
   isStorageReadOnly: studio.isStorageReadOnly,
-  jhonline: jhonline,
+  jhOnline: jhOnline,
   isLightMode: studio.isLightMode,
   ranker: studio.ranker,
   direction: studio.direction,
 });
 
 const mapDispatchToProps = {
-  changeJdl,
+  setJDL,
   setSidebar,
   setCode,
   toggleLightMode,

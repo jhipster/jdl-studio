@@ -1,16 +1,16 @@
 import { createStore } from "redux";
 import { combineReducers } from "redux";
 import { studio, StudioState } from "./components/studio/StudioReducer";
-import { jhonline, JHOnlinState } from "./components/JhOnlineReducer";
+import { jhOnline, JhOnlineState } from "./components/JhOnlineReducer";
 
 export interface IRootState {
   readonly studio: StudioState;
-  readonly jhonline: JHOnlinState;
+  readonly jhOnline: JhOnlineState;
 }
 
 export const rootReducer = combineReducers<IRootState>({
   studio,
-  jhonline,
+  jhOnline,
 });
 
 export const store = createStore(rootReducer);

@@ -129,8 +129,6 @@ function importJDL(f, setCurrentText) {
     };
     r.readAsText(f);
   }
-  //@ts-ignore
   ga("send", "event", "JDL File", "upload", "JDL File upload");
-  //@ts-ignore
   ga("jdlTracker.send", "event", "JDL File", "upload", "JDL File upload");
 }
