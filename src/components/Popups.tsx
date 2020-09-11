@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
-export const WarningPopup = ({ open }) => (
-  <Popup open={open} modal closeOnDocumentClick={true}>
+export const WarningPopup = ({ open, className = "" }) => (
+  <Popup open={open} modal closeOnDocumentClick={true} className={className}>
     {(close) => (
-      <div className="modal">
+      <div className={`${className} modal`}>
         <div className="header">Warning!</div>
         <div className="content">
           <p>
@@ -27,14 +27,20 @@ export const WarningPopup = ({ open }) => (
   </Popup>
 );
 
-export const ResetPopup = ({ open, closeModal, discard }) => {
+export const ResetPopup = ({ open, closeModal, discard, className = "" }) => {
   const ok = () => {
     closeModal();
     discard();
   };
   return (
-    <Popup open={open} modal closeOnDocumentClick={false} onClose={closeModal}>
-      <div className="modal">
+    <Popup
+      open={open}
+      modal
+      closeOnDocumentClick={false}
+      onClose={closeModal}
+      className={className}
+    >
+      <div className={`${className} modal`}>
         <div className="header">Discard</div>
         <div className="content">
           <p>
@@ -55,7 +61,7 @@ export const ResetPopup = ({ open, closeModal, discard }) => {
   );
 };
 
-export const UploadPopup = ({ open, closeModal, setCode }) => {
+export const UploadPopup = ({ open, closeModal, setCode, className = "" }) => {
   const [file, setFiles] = useState(null);
 
   const setJDlFile = (evt) => {
@@ -68,8 +74,14 @@ export const UploadPopup = ({ open, closeModal, setCode }) => {
   };
 
   return (
-    <Popup open={open} modal closeOnDocumentClick={false} onClose={closeModal}>
-      <div className="modal">
+    <Popup
+      open={open}
+      modal
+      closeOnDocumentClick={false}
+      onClose={closeModal}
+      className={className}
+    >
+      <div className={`${className} modal`}>
         <div className="header">Import JDL</div>
         <div className="content">
           <p>

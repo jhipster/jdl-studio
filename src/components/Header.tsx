@@ -266,19 +266,22 @@ export function Header({
           <span className="tooltip"></span>
         </div>
       </header>
-      <div className={`${isLightMode ? "light-theme" : "dark-theme"}`}>
-        <UploadPopup
-          open={uploadPopup}
-          closeModal={closeUploadDialog}
-          setCode={setCode}
-        />
-        <ResetPopup
-          open={templatePopup}
-          closeModal={closeTemplateDialog}
-          discard={loadTemplate}
-        />
-        <WarningPopup open={!jhonline.insideJhOnline} />
-      </div>
+      <UploadPopup
+        open={uploadPopup}
+        closeModal={closeUploadDialog}
+        setCode={setCode}
+        className={`${isLightMode ? "light-theme" : "dark-theme"}`}
+      />
+      <ResetPopup
+        open={templatePopup}
+        closeModal={closeTemplateDialog}
+        discard={loadTemplate}
+        className={`${isLightMode ? "light-theme" : "dark-theme"}`}
+      />
+      <WarningPopup
+        open={!jhonline.insideJhOnline}
+        className={`${isLightMode ? "light-theme" : "dark-theme"}`}
+      />
     </>
   );
 }

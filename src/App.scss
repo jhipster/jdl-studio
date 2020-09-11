@@ -442,20 +442,29 @@ header {
 .popup-content {
   border-radius: 5px;
   padding: 0.5rem;
-  background-color: rgb(41, 45, 62);
+  background-color: rgb(40, 44, 52);
   color: #fff;
-  border: 1px solid #9a9595;
+  border: 1px solid #565454;
+  font-family: Calibri, Helvetica, sans-serif;
   .modal {
     > .header {
       width: 98%;
-      border-bottom: 1px solid gray;
+      border-bottom: 1px solid #565454;
       font-size: 18px;
       text-align: center;
       padding: 5px;
+      font-weight: 400;
     }
     > .content {
       width: 100%;
       padding: 10px 5px;
+      code {
+        color: #c678dd;
+      }
+
+      input.upload {
+        margin: 5px 0 25px;
+      }
     }
     > .actions {
       width: 100%;
@@ -464,173 +473,35 @@ header {
       text-align: center;
       button {
         margin: 5px;
-      }
-    }
-    > .close {
-      cursor: pointer;
-      position: absolute;
-      display: block;
-      padding: 2px 5px;
-      line-height: 20px;
-      right: -10px;
-      top: -10px;
-      font-size: 24px;
-      background: #ffffff;
-      border-radius: 18px;
-      border: 1px solid #cfcece;
-    }
-    /* Styles for dialog window */
-
-    button.btn {
-      border: 1px solid #b9b3b3;
-      color: rgb(40, 44, 52);
-      background: transparent;
-      padding: 6px 15px;
-      border-radius: 2px;
-      cursor: pointer;
-
-      &:hover {
+        border: 1px solid #b9b3b3;
+        color: rgb(40, 44, 52);
         background: #b9b3b3;
+        padding: 6px 15px;
+        border-radius: 2px;
+        cursor: pointer;
+
+        &:hover {
+          background: #ccc;
+        }
+        &:active {
+          border: 1px solid #b9b3b3;
+        }
       }
     }
-
-    input.upload {
-      margin: 5px 0 25px;
-    }
   }
-  .popup-arrow > svg {
-    color: rgb(41, 45, 62);
-    stroke-width: 2px;
-    stroke: #9a9595;
-    stroke-dasharray: 30px;
-    stroke-dashoffset: -54px;
-  }
-
-  .light-theme {
-    .popup-content {
-      background-color: #fff;
-      color: #000;
-      border: 1px solid #d7d7d7;
-    }
-
-    .popup-arrow > svg {
-      color: #fff;
-      stroke-width: 2px;
-      stroke: #d7d7d7;
-      stroke-dasharray: 30px;
-      stroke-dashoffset: -54px;
+  &.light-theme-content {
+    background-color: #fdf6e3;
+    color: #657b83;
+    border: 1px solid #d7d7d7;
+    .modal {
+      > .header {
+        border-bottom: 1px solid #d7d7d7;
+      }
+      > .actions {
+        button {
+          border: 1px solid #d7d7d7;
+        }
+      }
     }
   }
 }
-
-/**
- * Fade-zoom animation for first dialog
- */
-
-// .my-mfp-zoom-in {
-//   /* start state */
-//   .zoom-anim-dialog {
-//     opacity: 0;
-//     -webkit-transition: all 0.2s ease-in-out;
-//     -moz-transition: all 0.2s ease-in-out;
-//     -o-transition: all 0.2s ease-in-out;
-//     transition: all 0.2s ease-in-out;
-//     -webkit-transform: scale(0.8);
-//     -moz-transform: scale(0.8);
-//     -ms-transform: scale(0.8);
-//     -o-transform: scale(0.8);
-//     transform: scale(0.8);
-//   }
-//   /* animate in */
-//   &.mfp-ready .zoom-anim-dialog {
-//     opacity: 1;
-//     -webkit-transform: scale(1);
-//     -moz-transform: scale(1);
-//     -ms-transform: scale(1);
-//     -o-transform: scale(1);
-//     transform: scale(1);
-//   }
-
-//   /* animate out */
-//   &.mfp-removing .zoom-anim-dialog {
-//     -webkit-transform: scale(0.8);
-//     -moz-transform: scale(0.8);
-//     -ms-transform: scale(0.8);
-//     -o-transform: scale(0.8);
-//     transform: scale(0.8);
-//     opacity: 0;
-//   }
-//   /* Dark overlay, start state */
-
-//   &.mfp-bg {
-//     opacity: 0;
-//     -webkit-transition: opacity 0.3s ease-out;
-//     -moz-transition: opacity 0.3s ease-out;
-//     -o-transition: opacity 0.3s ease-out;
-//     transition: opacity 0.3s ease-out;
-//   }
-
-//   /* animate in */
-//   &.mfp-ready.mfp-bg {
-//     opacity: 0.8;
-//   }
-//   /* animate out */
-//   &.mfp-removing.mfp-bg {
-//     opacity: 0;
-//   }
-// }
-
-// /**
-//  * Fade-move animation for second dialog
-//  */
-
-// .my-mfp-slide-bottom {
-//   /* at start */
-//   .zoom-anim-dialog {
-//     opacity: 0;
-//     -webkit-transition: all 0.2s ease-out;
-//     -moz-transition: all 0.2s ease-out;
-//     -o-transition: all 0.2s ease-out;
-//     transition: all 0.2s ease-out;
-//     -webkit-transform: translateY(-20px) perspective(600px) rotateX(10deg);
-//     -moz-transform: translateY(-20px) perspective(600px) rotateX(10deg);
-//     -ms-transform: translateY(-20px) perspective(600px) rotateX(10deg);
-//     -o-transform: translateY(-20px) perspective(600px) rotateX(10deg);
-//     transform: translateY(-20px) perspective(600px) rotateX(10deg);
-//   }
-//   /* animate in */
-//   &.mfp-ready .zoom-anim-dialog {
-//     opacity: 1;
-//     -webkit-transform: translateY(0) perspective(600px) rotateX(0);
-//     -moz-transform: translateY(0) perspective(600px) rotateX(0);
-//     -ms-transform: translateY(0) perspective(600px) rotateX(0);
-//     -o-transform: translateY(0) perspective(600px) rotateX(0);
-//     transform: translateY(0) perspective(600px) rotateX(0);
-//   }
-//   /* animate out */
-//   &.mfp-removing .zoom-anim-dialog {
-//     opacity: 0;
-//     -webkit-transform: translateY(-10px) perspective(600px) rotateX(10deg);
-//     -moz-transform: translateY(-10px) perspective(600px) rotateX(10deg);
-//     -ms-transform: translateY(-10px) perspective(600px) rotateX(10deg);
-//     -o-transform: translateY(-10px) perspective(600px) rotateX(10deg);
-//     transform: translateY(-10px) perspective(600px) rotateX(10deg);
-//   }
-
-//   /* Dark overlay, start state */
-//   &.mfp-bg {
-//     opacity: 0;
-//     -webkit-transition: opacity 0.3s ease-out;
-//     -moz-transition: opacity 0.3s ease-out;
-//     -o-transition: opacity 0.3s ease-out;
-//     transition: opacity 0.3s ease-out;
-//   }
-//   /* animate in */
-//   &.mfp-ready.mfp-bg {
-//     opacity: 0.8;
-//   }
-//   /* animate out */
-//   &.mfp-removing.mfp-bg {
-//     opacity: 0;
-//   }
-// }
