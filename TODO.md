@@ -5,3 +5,4 @@
 - [x] weird UI glitch during refresh, doesn't happen always
 - [ ] Test and fix JH online integration
 - [ ] more tests where possible
+- [ ] Auto formatting support

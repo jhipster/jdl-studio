@@ -1,5 +1,30 @@
 import CodeMirror from "codemirror";
 
+const constructs = [
+  `application {
+  config {
+
+  }
+}`,
+  `entity <name> {
+
+}`,
+  `enum <name> {
+
+}`,
+  `relationship OneToMany {
+
+}`,
+  `relationship ManyToMany {
+
+}`,
+  `relationship ManyToOne {
+
+}`,
+  `relationship OneToOne {
+
+}`,
+];
 const mainKeywords = [
   "application",
   "deployment",
@@ -273,6 +298,7 @@ CodeMirror.defineMode("jdl", function () {
   };
 });
 const keywords = mainKeywords.concat(
+  constructs,
   typeKws,
   relationshipKws,
   validationKws,
