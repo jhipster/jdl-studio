@@ -134,7 +134,7 @@ export function Header({
           </select>
           <a
             onClick={toggleRanker}
-            title={`Cycle graph ranker strategies [current: ${ranker}]`}
+            title={`Cycle graph ranker strategy [current: ${ranker}]`}
             className="link"
           >
             {ranker === "longest-path" ? (
