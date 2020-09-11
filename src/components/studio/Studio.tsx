@@ -84,6 +84,7 @@ export class Studio extends React.PureComponent<IStudioProp> {
   componentDidUpdate(prevProps: IStudioProp) {
     if (
       prevProps.isLightMode !== this.props.isLightMode ||
+      prevProps.direction !== this.props.direction ||
       prevProps.ranker !== this.props.ranker
     ) {
       this.renderJDL();
@@ -95,11 +96,11 @@ export class Studio extends React.PureComponent<IStudioProp> {
     window.removeEventListener("keydown", saveAs);
   }
 
-  getDefaultDirectives = (isLightMode, ranker) => {
+  getDefaultDirectives = ({ isLightMode, ranker, direction }) => {
     let style = isLightMode
       ? NOMNOML_STYLE
       : NOMNOML_STYLE_DARK + NOMNOML_STYLE;
-    style += `#ranker: ${ranker}\n`;
+    style += `#ranker: ${ranker}\n#direction: ${direction}\n`;
     return style;
   };
 
@@ -107,9 +108,7 @@ export class Studio extends React.PureComponent<IStudioProp> {
     try {
       const canvas = this.canvasRef.current;
       const nomlVal = val ? jdlToNoml(val) : "[No JDL content, start writing]";
-      const finalVal =
-        this.getDefaultDirectives(this.props.isLightMode, this.props.ranker) +
-        nomlVal;
+      const finalVal = this.getDefaultDirectives(this.props) + nomlVal;
       const model = nomnoml.draw(canvas, finalVal, this.panner.zoom());
       setFilename(model.config.title);
       this.panner.positionCanvas(canvas);
@@ -159,11 +158,11 @@ export class Studio extends React.PureComponent<IStudioProp> {
   render() {
     const { isCanvasMode, code, error, isLightMode } = this.props;
     return (
-      <div className={`${isLightMode ? "light-theme" : "dark-theme"}`}>
+      <div className={`studio ${isLightMode ? "light-theme" : "dark-theme"}`}>
         {/* <!-- code mirror editor --> */}
         <CodeMirror
           ref={this.editorRef}
-          className={`CodeMirrorEditor ${isCanvasMode ? "canvas-mode" : ""}`}
+          className={`code-mirror-editor ${isCanvasMode ? "canvas-mode" : ""}`}
           value={code}
           onBeforeChange={(editor, data, val) => this.props.setCode(val)}
           onChange={(editor, data, val) => this.updateCode(val)}
@@ -175,13 +174,13 @@ export class Studio extends React.PureComponent<IStudioProp> {
         {/* <!-- editor line number, error markers --> */}
         <div
           id="linenumbers"
-          className={`${error.hasError ? "error" : ""}`}
+          className={`line-numbers ${error.hasError ? "error" : ""}`}
         ></div>
-        <div id="linemarker" style={{ top: error.lineMarkerTop }}></div>
+        <div className="line-marker" style={{ top: error.lineMarkerTop }}></div>
         {/* <!-- canvas holding the UML diagram --> */}
         <canvas id="canvas" ref={this.canvasRef}></canvas>
         {/* <!-- shows a tooltip on error --> */}
-        <span id="error-tooltip">{error.errorTooltip}</span>
+        <span className="error-tooltip">{error.errorTooltip}</span>
         {/* <!-- canvas tools and pan/zoom handler --> */}
         <CanvasTools
           isCanvasMode={isCanvasMode}
@@ -190,6 +189,7 @@ export class Studio extends React.PureComponent<IStudioProp> {
         />
         <div
           id="canvas-panner"
+          className="canvas-panner"
           ref={this.canvasPannerRef}
           onMouseEnter={this.classToggler(true)}
           onMouseLeave={this.classToggler(false)}
@@ -205,6 +205,7 @@ const mapStateToProps = ({ studio }: IRootState) => ({
   isCanvasMode: studio.isCanvasMode,
   isLightMode: studio.isLightMode,
   ranker: studio.ranker,
+  direction: studio.direction,
 });
 
 const mapDispatchToProps = {

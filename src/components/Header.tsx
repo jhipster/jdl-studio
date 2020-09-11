@@ -10,6 +10,7 @@ import {
   setCode,
   toggleLightMode,
   toggleRanker,
+  toggleDirection,
 } from "./studio/StudioReducer";
 import { UploadPopup, ResetPopup, WarningPopup } from "./Popups";
 import {
@@ -33,6 +34,8 @@ export function Header({
   isLightMode,
   toggleRanker,
   ranker,
+  toggleDirection,
+  direction,
 }: IHeaderProp) {
   const [uploadPopup, setUploadPopup] = useState(false);
   const [templatePopup, setTemplatePopup] = useState(false);
@@ -115,6 +118,12 @@ export function Header({
           </span>
         ) : null}
         <div className="tools center">
+          <a onClick={toggleLightMode} title="Toggle theme" className="link">
+            {isLightMode ? <LineIcon name="night" /> : <LineIcon name="sun" />}
+          </a>
+          <span className="seperator">
+            <i>|</i>
+          </span>
           <select className="template-select" onChange={openTemplateDialog}>
             <option value="">&lt;Select template&gt;</option>
             {JDLtemplates.map((it) => (
@@ -123,22 +132,34 @@ export function Header({
               </option>
             ))}
           </select>
-          <a onClick={toggleLightMode} title="Toggle theme" className="link">
-            {isLightMode ? <LineIcon name="night" /> : <LineIcon name="sun" />}
-          </a>
           <a
             onClick={toggleRanker}
             title={`Cycle graph ranker strategies [current: ${ranker}]`}
             className="link"
           >
-            <LineIcon name="grid-alt" />
+            {ranker === "longest-path" ? (
+              <LineIcon name="bricks" />
+            ) : (
+              <LineIcon name="grid-alt" />
+            )}
+          </a>
+          <a
+            onClick={toggleDirection}
+            title={`Cycle graph direction [current: ${direction}]`}
+            className="link"
+          >
+            {direction === "down" ? (
+              <LineIcon name="arrow-right" />
+            ) : (
+              <LineIcon name="arrow-down" />
+            )}
           </a>
         </div>
         <div className="tools right">
           {jhonline.insideJhOnline && !jhonline.authenticated ? (
             <a
               id="signin"
-              className="link"
+              className="link special"
               onClick={goToJHipsterOnline}
               title="Sign in"
             >
@@ -148,6 +169,7 @@ export function Header({
           {!jhonline.insideJhOnline ? (
             <a
               id="signin"
+              className="special"
               href="https://start.jhipster.tech/jdl-studio/"
               title="Go to new JDL Studio with more features"
             >
@@ -156,7 +178,7 @@ export function Header({
           ) : null}
           {jhonline.authenticated ? (
             <>
-              <a title="Logged in as" className="link">
+              <a title="Logged in as" className="special">
                 {jhonline.username}
               </a>
 
@@ -199,22 +221,8 @@ export function Header({
           ) : null}
 
           <span className="seperator">
-            <i className="lineIcon">|</i>
+            <i>|</i>
           </span>
-          <a
-            onClick={toggleSidebar("about")}
-            title="About JDL-Studio"
-            className="link"
-          >
-            <LineIcon name="question-circle" />
-          </a>
-          <a
-            onClick={toggleSidebar("reference")}
-            title="Language reference"
-            className="link"
-          >
-            <LineIcon name="book" />
-          </a>
           <a
             id="savebutton"
             download="app-jdl.png"
@@ -241,7 +249,21 @@ export function Header({
           >
             <LineIcon name="upload" />
           </a>
-          <span id="tooltip"></span>
+          <a
+            onClick={toggleSidebar("about")}
+            title="About JDL-Studio"
+            className="link"
+          >
+            <LineIcon name="question-circle" />
+          </a>
+          <a
+            onClick={toggleSidebar("reference")}
+            title="Language reference"
+            className="link"
+          >
+            <LineIcon name="book" />
+          </a>
+          <span className="tooltip"></span>
         </div>
       </header>
       <div className={`${isLightMode ? "light-theme" : "dark-theme"}`}>
@@ -267,6 +289,7 @@ const mapStateToProps = ({ studio, jhonline }: IRootState) => ({
   jhonline: jhonline,
   isLightMode: studio.isLightMode,
   ranker: studio.ranker,
+  direction: studio.direction,
 });
 
 const mapDispatchToProps = {
@@ -275,6 +298,7 @@ const mapDispatchToProps = {
   setCode,
   toggleLightMode,
   toggleRanker,
+  toggleDirection,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

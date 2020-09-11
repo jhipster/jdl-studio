@@ -9,6 +9,7 @@ export const ACTION_TYPES = {
   SET_SIDEBAR: "studio/SET_SIDEBAR",
   TOGGLE_THEME: "studio/TOGGLE_THEME",
   TOGGLE_RANKER: "studio/TOGGLE_RANKER",
+  TOGGLE_DIRECTION: "studio/TOGGLE_DIRECTION",
 };
 
 const DEF_ERROR = {
@@ -21,7 +22,8 @@ const THEME_KEY = "jdlstudio.lightMode";
 // this object stores the JDL code to local storage
 let storage = buildStorage(location.hash, defaultSource); // eslint-disable-line no-restricted-globals
 
-const rankers = ["network-simplex", "longest-path", "tight-tree"];
+const rankers = ["tight-tree", "longest-path"];
+const directions = ["down", "right"];
 
 const initialState = {
   loading: false,
@@ -33,6 +35,7 @@ const initialState = {
   isLightMode: localStorage[THEME_KEY] === "true" ? true : false,
   sidebarId: "",
   ranker: rankers[0],
+  direction: directions[0],
 };
 
 export type StudioState = Readonly<typeof initialState>;
@@ -65,7 +68,13 @@ export const studio = (
     case ACTION_TYPES.TOGGLE_RANKER:
       return {
         ...state,
-        ranker: rankers[findNextRanker(state.ranker)],
+        ranker: rankers[findNextIndex(rankers.indexOf(state.ranker))],
+      };
+    case ACTION_TYPES.TOGGLE_DIRECTION:
+      return {
+        ...state,
+        direction:
+          directions[findNextIndex(directions.indexOf(state.direction))],
       };
     case ACTION_TYPES.TOGGLE_THEME:
       localStorage[THEME_KEY] = !state.isLightMode;
@@ -121,6 +130,10 @@ export const toggleRanker = () => ({
   type: ACTION_TYPES.TOGGLE_RANKER,
 });
 
+export const toggleDirection = () => ({
+  type: ACTION_TYPES.TOGGLE_DIRECTION,
+});
+
 export const setSidebar = (data) => ({
   type: ACTION_TYPES.SET_SIDEBAR,
   data,
@@ -160,10 +173,6 @@ function buildStorage(locationHash, defaultSource = "") {
   };
 }
 
-function findNextRanker(current) {
-  const lastIndex = rankers.indexOf(current);
-  if (lastIndex < rankers.length - 1) {
-    return lastIndex + 1;
-  }
-  return 0;
+function findNextIndex(lastIndex) {
+  return lastIndex === 0 ? 1 : 0;
 }

@@ -118,12 +118,11 @@ export const About = () => (
         documentation for more details.
       </p>
       <label>Set font</label>
-      #font: Times
+      <code>#font: Times</code>
       <label>Layout the diagram really tight</label>
-      #fontSize: 8<br />
-      #spacing: 12
-      <br />
-      #padding: 3
+      <code>#fontSize: 8</code><br />
+      <code>#spacing: 12</code><br />
+      <code>#padding: 3</code>
       <h2>Directives</h2>
       <hr />
       <p>
@@ -131,40 +130,26 @@ export const About = () => (
         along with the JDL code. There should not be any empty space before a
         directive.
       </p>
-      #arrowSize: 1<br />
-      #bendSize: 0.3
-      <br />
-      #direction: down | right
-      <br />
-      #gutter: 5<br />
-      #edgeMargin: 0<br />
-      #edges: hard | rounded
-      <br />
-      #background: transparent
-      <br />
-      #fill: #eee8d5; #fdf6e3
-      <br />
-      #fillArrows: false
-      <br />
-      #font: Calibri
-      <br />
-      #fontSize: 12
-      <br />
-      #leading: 1.25
-      <br />
-      #lineWidth: 3<br />
-      #padding: 8<br />
-      #spacing: 40
-      <br />
-      #stroke: #33322E
-      <br />
-      #title: filename
-      <br />
-      #zoom: 1<br />
-      #acyclicer: greedy
-      <br />
-      #ranker: network-simplex | tight-tree | longest-path
-      <br />
+      <code>#arrowSize: 1</code><br />
+      <code>#bendSize: 0.3</code><br />
+      <code>#direction: down | right</code><br />
+      <code>#gutter: 5</code><br />
+      <code>#edgeMargin: 0</code><br />
+      <code>#edges: hard | rounded</code><br />
+      <code>#background: transparent</code><br />
+      <code>#fill: #eee8d5; #fdf6e3</code><br />
+      <code>#fillArrows: false</code><br />
+      <code>#font: Calibri</code><br />
+      <code>#fontSize: 12</code><br />
+      <code>#leading: 1.25</code><br />
+      <code>#lineWidth: 3</code><br />
+      <code>#padding: 8</code><br />
+      <code>#spacing: 40</code><br />
+      <code>#stroke: #33322E</code><br />
+      <code>#title: filename</code><br />
+      <code>#zoom: 1</code><br />
+      <code>#acyclicer: greedy</code><br />
+      <code>#ranker: network-simplex | tight-tree | longest-path</code><br />
     </div>
   </>
 );
