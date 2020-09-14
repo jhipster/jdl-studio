@@ -22,6 +22,9 @@ if [ -z "$(git status --porcelain)" ]; then
 
     echo ">> Move app form temp & publish to GitHub"
     mv $TMP_LOC/* . || exit
+    echo ">> Adjust static URLs"
+    sed -i 's/\/static/static/' "index.html"
+
     now=$(date)
     git add --all || exit
     git commit -am "Updated app on $now" || exit
