@@ -94,7 +94,7 @@ export const studio = (
 };
 
 export const reloadStorage: () => void = () => (dispatch) => {
-  storage = buildStorage(location.hash); // eslint-disable-line no-restricted-globals
+  storage = buildStorage(location.hash, defaultSource); // eslint-disable-line no-restricted-globals
   dispatch(setCode(storage.read()));
   dispatch(setStorageStat(storage.isReadonly));
 };
@@ -152,7 +152,8 @@ function buildStorage(locationHash, defaultSource = "") {
   if (locationHash.substring(0, 7) === "#/view/") {
     return {
       read: function (): string {
-        return urlDecode(locationHash.substring(7));
+        const hash = urlDecode(locationHash.substring(7));
+        return hash ? localStorage[STORAGE_KEY] : defaultSource;
       },
       save: function (source: string) {},
       moveToLocalStorage: function (txt: string) {
@@ -166,7 +167,7 @@ function buildStorage(locationHash, defaultSource = "") {
       return localStorage[STORAGE_KEY] || defaultSource;
     },
     save: function (source: string) {
-      localStorage[STORAGE_KEY] = source;
+      localStorage[STORAGE_KEY] = source || defaultSource;
     },
     moveToLocalStorage: function (txt) {},
     isReadonly: false,

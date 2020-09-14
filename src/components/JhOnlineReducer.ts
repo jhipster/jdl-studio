@@ -18,7 +18,7 @@ const initialState = {
   startLoadingFlag: false,
 };
 
-const server_api = "/";
+const server_api = '';
 
 export type JhOnlineState = Readonly<typeof initialState>;
 
@@ -47,17 +47,29 @@ export const jhOnline = (
   }
 };
 
-export const setJDL = (data) => ({
-  type: ACTION_TYPES.SET_JDL,
-  data,
-});
+export const setJDL = (data) => {
+  return ({
+    type: ACTION_TYPES.SET_JDL,
+    data,
+  })
+};
 
 export const loadJdl = () => async (dispatch, getState) => {
-  const state = getState() as JhOnlineState;
+  const state = getState().jhOnline as JhOnlineState;
+  if (!state.jdlId) {
+    dispatch(fetchAllJDLsMetadata());
+    dispatch({
+      type: ACTION_TYPES.SET_JDL,
+      data: "",
+    });
+    setViewHash("");
+    return
+  }
+
   try {
     const res = await fetch(`${server_api}/api/jdl/${state.jdlId}`);
     const json = await res.json();
-    var content = "";
+    let content = '';
     if (json.content !== undefined) {
       content = json.content;
     }
@@ -100,12 +112,12 @@ export const fetchAllJDLsMetadata = () => async (dispatch, getState) => {
 };
 
 export const initAuthentication = () => async (dispatch, getState) => {
-  var authToken = JSON.parse(
-    localStorage.getItem("jhi-authenticationtoken") ||
-      sessionStorage.getItem("jhi-authenticationtoken") ||
-      ""
+  const authToken = JSON.parse(
+    localStorage.getItem('jhi-authenticationtoken') ||
+    sessionStorage.getItem('jhi-authenticationtoken') ||
+    'null'
   );
-  if (authToken) {
+  if (authToken || process.env.NODE_ENV === "development") {
     try {
       const res = await fetch(`${server_api}/api/account`, {
         headers: {
@@ -130,7 +142,7 @@ export const initAuthentication = () => async (dispatch, getState) => {
       }
       dispatch(fetchAllJDLsMetadata());
     } catch (e) {
-      console.error(e);
+      console.error('Cannot get authentication token', e);
       dispatch({
         type: ACTION_TYPES.SET_AUTH,
         data: {
@@ -145,13 +157,17 @@ export const initAuthentication = () => async (dispatch, getState) => {
 function getViewHash() {
   const hash = location.hash; // eslint-disable-line no-restricted-globals
   if (!hash) {
-    return "";
+    return '';
   }
   return hash.substring(8, hash.length);
 }
 
 function setViewHash(jdlId) {
   // TODO this doesn't seem to work
+  if (!jdlId) {
+    location.hash = '/'// eslint-disable-line no-restricted-globals
+    return
+  }
   location.hash = "/view/" + jdlId; // eslint-disable-line no-restricted-globals
 }
 

@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import LineIcon from "react-lineicons";
 import logo from "../resources/logo-jhipster.png";
 import { IRootState } from "../Store";
-import { setJDL } from "./JhOnlineReducer";
+import { initAuthentication, setJDL, loadJdl } from "./JhOnlineReducer";
 import {
   setSidebar,
   setCode,
@@ -26,12 +26,14 @@ export interface IHeaderProp extends StateProps, DispatchProps {}
 export function Header({
   code,
   isStorageReadOnly,
+  initAuthentication,
   jhOnline,
   isLightMode,
   ranker,
   direction,
   setCode,
   setJDL,
+  loadJdl,
   setSidebar,
   toggleLightMode,
   toggleRanker,
@@ -40,6 +42,19 @@ export function Header({
   const [uploadPopup, setUploadPopup] = useState(false);
   const [templatePopup, setTemplatePopup] = useState(false);
   const [template, setTemplate] = useState("");
+
+  useEffect(() => {
+    if (!jhOnline.authenticated) {
+      initAuthentication()
+    }
+  }, [initAuthentication, jhOnline.authenticated])
+
+  useEffect(() => {
+    if (!jhOnline.jdlId) {
+      location.hash = '/' // eslint-disable-line no-restricted-globals
+    }
+    loadJdl()
+  }, [jhOnline.jdlId, loadJdl])
 
   const toggleSidebar = (page: string) => () => {
     setSidebar(page);
@@ -185,11 +200,11 @@ export function Header({
               <select
                 className="jdl-select"
                 value={jhOnline.jdlId}
-                onChange={setJDL}
+                onChange={(e) => setJDL(e.target.value)}
               >
                 <option value="">&lt;Create new JDL Model&gt;</option>
                 {jhOnline.jdls.map((jdl) => (
-                  <option value={jdl.id}>{jdl.name}</option>
+                  <option key={jdl.id} value={jdl.id}>{jdl.name}</option>
                 ))}
               </select>
               {jhOnline.startLoadingFlag ? (
@@ -297,11 +312,13 @@ const mapStateToProps = ({ studio, jhOnline }: IRootState) => ({
 
 const mapDispatchToProps = {
   setJDL,
+  loadJdl,
   setSidebar,
   setCode,
   toggleLightMode,
   toggleRanker,
   toggleDirection,
+  initAuthentication,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
