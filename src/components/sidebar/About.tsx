@@ -43,8 +43,7 @@ export const About = () => (
           rel="noopener noreferrer"
         >
           GitHub
-        </a>{" "}
-        with <i className="lnr lnr-heart"></i>.
+        </a>.
       </p>
       <p>
         JDL-Studio was made possible by the cool project{" "}
