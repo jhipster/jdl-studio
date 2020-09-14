@@ -24,7 +24,7 @@ Object {
               <img
                 alt="JHipster logo"
                 class="jhi-logo"
-                src="logo-jhipster.png"
+                src="logo-jhipster.svg"
               />
             </a>
             <a
@@ -630,7 +630,7 @@ Object {
             <img
               alt="JHipster logo"
               class="jhi-logo"
-              src="logo-jhipster.png"
+              src="logo-jhipster.svg"
             />
           </a>
           <a

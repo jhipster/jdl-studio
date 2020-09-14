@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import LineIcon from "react-lineicons";
-import logo from "../resources/logo-jhipster.png";
+import logo from "../resources/logo-jhipster.svg";
 import { IRootState } from "../Store";
 import { setJDL } from "./JhOnlineReducer";
 import {
