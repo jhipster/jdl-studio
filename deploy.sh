@@ -18,7 +18,7 @@ if [ -z "$(git status --porcelain)" ]; then
 
     echo ">> Checkout and clean $DEPLOY_BRANCH branch"
     git checkout $DEPLOY_BRANCH || exit
-    find -mindepth 1 -depth -print0 | grep -vEzZ '(.github(/|$)|node_modules(/|$)|.tmp(/|$)|.git(/|$)|/\.gitignore$|/\LICENCE.txt$|/\README.md$)' | xargs -0 rm -rvf || exit
+    find -mindepth 1 -depth -print0 | grep -vEzZ '(.github(/|$)|node_modules(/|$)|.tmp(/|$)|.git(/|$)|/\.gitignore$|/\LICENSE.txt$|/\README.md$)' | xargs -0 rm -rvf || exit
 
     echo ">> Move app form temp & publish to GitHub"
     mv $TMP_LOC/* . || exit
