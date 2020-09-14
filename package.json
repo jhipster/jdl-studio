@@ -30,7 +30,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build-test": "react-scripts build",
+    "build": "PUBLIC_URL=/jdl-studio react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "CI=true npm test && ./deploy.sh"
