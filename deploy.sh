@@ -28,7 +28,7 @@ if [ -z "$(git status --porcelain)" ]; then
     now=$(date)
     git add --all || exit
     git commit -am "Updated app on $now" || exit
-    # git push origin $DEPLOY_BRANCH --force || exit
+    git push origin $DEPLOY_BRANCH --force || exit
 
     echo ">> $now: Published changes to GitHub"
 
