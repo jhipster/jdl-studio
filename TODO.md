@@ -1,8 +1,0 @@
-- [x] Fix error when content empty
-- [x] Fix issue with app entity grouping when app has `entities *` and no microservices
-- [x] Setting directives in code doesnt work
-- [x] extend theme to popup
-- [x] weird UI glitch during refresh, doesn't happen always
-- [ ] Test and fix JH online integration
-- [ ] more tests where possible
-- [ ] Auto formatting support
