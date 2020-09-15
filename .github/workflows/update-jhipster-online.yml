@@ -34,7 +34,7 @@ jobs:
 
       # Update jdl-studio submodule
       - name: Update jdl-studio Submodule
-        run: cd src/main/resources/static/jdl-studio && git fetch && git checkout gh-pages && git pull
+        run: cd src/main/resources/static/jdl-studio && git checkout -b remote/gh-pages && git pull origin gh-pages --allow-unrelated-histories
 
       # Create PR in jhipster-online with updated submodules
       - name: Create Pull Request

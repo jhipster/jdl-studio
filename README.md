@@ -64,7 +64,11 @@ If you want to contribute to the project more info is available in [CONTRIBUTING
 
 ## Development
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). There are two important GIT branches. `src` branch holds the source code and all development needs to be done against that branch. `gh-pages` branch holds the deployable static site that is built from `src`.
+
+## Deploy to production
+
+In order to deploy to production run `npm run deploy`, this will build the `src` branch and move the assets to the gh-pages branch and push it to GitHub, it will update the `https://www.jhipster.tech/jdl-studio/` version and will create a PR to update the `https://start.jhipster.tech`
 
 ## Available Scripts
 
@@ -77,6 +81,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
+Make sure `npm install` is run before running `npm start`
 
 ### `npm test`
 
