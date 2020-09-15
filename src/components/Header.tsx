@@ -25,7 +25,6 @@ export interface IHeaderProp extends StateProps, DispatchProps {}
 
 export function Header({
   code,
-  isStorageReadOnly,
   initAuthentication,
   jhOnline,
   isLightMode,
@@ -45,16 +44,16 @@ export function Header({
 
   useEffect(() => {
     if (!jhOnline.authenticated) {
-      initAuthentication()
+      initAuthentication();
     }
-  }, [initAuthentication, jhOnline.authenticated])
+  }, [jhOnline.authenticated, initAuthentication]);
 
   useEffect(() => {
     if (!jhOnline.jdlId) {
-      location.hash = '/' // eslint-disable-line no-restricted-globals
+      location.hash = "/"; // eslint-disable-line no-restricted-globals
     }
-    loadJdl()
-  }, [jhOnline.jdlId, loadJdl])
+    loadJdl();
+  }, [jhOnline.jdlId, loadJdl]);
 
   const toggleSidebar = (page: string) => () => {
     setSidebar(page);
@@ -93,8 +92,8 @@ export function Header({
   const confirmCreateNewJdl = () => {};
 
   const handleChangeJDLModel = (event) => {
-    setJDL(event.target.value)
-  }
+    setJDL(event.target.value);
+  };
 
   return (
     <>
@@ -117,25 +116,6 @@ export function Header({
             JDL-Studio
           </a>
         </div>
-        {isStorageReadOnly ? (
-          <span className="storage-status" ng-show="isStorageReadOnly">
-            View mode, changes are not saved.
-            <a
-              // onClick="app.saveViewModeToStorage()"
-              title="Save this diagram to localStorage"
-              className="link"
-            >
-              save
-            </a>
-            <a
-              // onClick="app.exitViewMode()"
-              title="Discard this diagram"
-              className="link"
-            >
-              close
-            </a>
-          </span>
-        ) : null}
         <div className="tools center">
           <a onClick={toggleLightMode} title="Toggle theme" className="link">
             {isLightMode ? <LineIcon name="night" /> : <LineIcon name="sun" />}
@@ -185,7 +165,7 @@ export function Header({
               Please sign in for more features!
             </a>
           ) : null}
-          {!jhOnline.insideJhOnline ? (
+          {!jhOnline.insideJhOnline && !jhOnline.authenticated ? (
             <a
               id="signin"
               className="special"
@@ -208,7 +188,9 @@ export function Header({
               >
                 <option value="">&lt;Create new JDL Model&gt;</option>
                 {jhOnline.jdls.map((jdl) => (
-                  <option key={jdl.id} value={jdl.id}>{jdl.name}</option>
+                  <option key={jdl.id} value={jdl.id}>
+                    {jdl.name}
+                  </option>
                 ))}
               </select>
               {jhOnline.startLoadingFlag ? (
@@ -221,7 +203,7 @@ export function Header({
                   className="link"
                   onClick={confirmCreateNewJdl}
                 >
-                  <LineIcon name="file-add" />
+                  <LineIcon name="save" />
                 </a>
               )}
               <a onClick={goToManageJdls} className="link" title="Manage JDLs">
@@ -298,7 +280,7 @@ export function Header({
         className={`${isLightMode ? "light-theme" : "dark-theme"}`}
       />
       <WarningPopup
-        open={!jhOnline.insideJhOnline}
+        open={!jhOnline.insideJhOnline && !jhOnline.authenticated}
         className={`${isLightMode ? "light-theme" : "dark-theme"}`}
       />
     </>
@@ -307,7 +289,6 @@ export function Header({
 
 const mapStateToProps = ({ studio, jhOnline }: IRootState) => ({
   code: studio.code,
-  isStorageReadOnly: studio.isStorageReadOnly,
   jhOnline: jhOnline,
   isLightMode: studio.isLightMode,
   ranker: studio.ranker,
