@@ -20,7 +20,7 @@ const DEF_ERROR = {
 const STORAGE_KEY = "jdlstudio.lastSource";
 const THEME_KEY = "jdlstudio.lightMode";
 // this object stores the JDL code to local storage
-let storage = buildStorage(location.hash, defaultSource); // eslint-disable-line no-restricted-globals
+let storage = buildStorage(defaultSource);
 
 const rankers = ["tight-tree", "longest-path"];
 const directions = ["down", "right"];
@@ -94,7 +94,7 @@ export const studio = (
 };
 
 export const reloadStorage: () => void = () => (dispatch) => {
-  storage = buildStorage(location.hash); // eslint-disable-line no-restricted-globals
+  storage = buildStorage(defaultSource);
   dispatch(setCode(storage.read()));
   dispatch(setStorageStat(storage.isReadonly));
 };
@@ -144,23 +144,7 @@ export const setStorageStat = (data) => ({
   data,
 });
 
-function urlDecode(encoded) {
-  return decodeURIComponent(encoded.replace(/\+/g, " "));
-}
-
-function buildStorage(locationHash, defaultSource = "") {
-  if (locationHash.substring(0, 7) === "#/view/") {
-    return {
-      read: function (): string {
-        return urlDecode(locationHash.substring(7));
-      },
-      save: function (source: string) {},
-      moveToLocalStorage: function (txt: string) {
-        localStorage[STORAGE_KEY] = txt;
-      },
-      isReadonly: true,
-    };
-  }
+function buildStorage(defaultSource = "") {
   return {
     read: function (): string {
       return localStorage[STORAGE_KEY] || defaultSource;

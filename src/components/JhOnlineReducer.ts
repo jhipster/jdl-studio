@@ -1,4 +1,6 @@
+import { Server } from "miragejs";
 import { setCode } from "./studio/StudioReducer";
+import mocksConfig from "../mocks";
 
 export const ACTION_TYPES = {
   SET_JDL: "jhOnline/SET_JDL",
@@ -18,7 +20,12 @@ const initialState = {
   startLoadingFlag: false,
 };
 
-const server_api = "/";
+const server_api = "";
+
+// setup a mock server when running standalone and not in production mode
+if (process.env.NODE_ENV !== "production" && !isInJHOnline()) {
+  new Server(mocksConfig);
+}
 
 export type JhOnlineState = Readonly<typeof initialState>;
 
@@ -47,100 +54,157 @@ export const jhOnline = (
   }
 };
 
-export const setJDL = (data) => ({
-  type: ACTION_TYPES.SET_JDL,
-  data,
-});
-
-export const loadJdl = () => async (dispatch, getState) => {
-  const state = getState() as JhOnlineState;
-  try {
-    const res = await fetch(`${server_api}/api/jdl/${state.jdlId}`);
-    const json = await res.json();
-    var content = "";
-    if (json.content !== undefined) {
-      content = json.content;
-    }
-    dispatch(setCode(content));
-    setViewHash(state.jdlId);
-  } catch (e) {
-    console.error(e);
-    dispatch(fetchAllJDLsMetadata());
-    dispatch({
-      type: ACTION_TYPES.SET_JDL,
-      data: "",
-    });
-    setViewHash("");
-  }
+export const setJDL = (data) => {
+  return {
+    type: ACTION_TYPES.SET_JDL,
+    data,
+  };
 };
 
-export const fetchAllJDLsMetadata = () => async (dispatch, getState) => {
-  try {
-    const res = await fetch(`${server_api}/api/jdl-metadata`);
-    const json = await res.json();
-    dispatch({
-      type: ACTION_TYPES.SET_JDL_META,
-      data: json,
-    });
-    var viewHash = getViewHash();
-    if (viewHash === "") {
-      return;
-    }
-    for (var index = 0; index < json.length; ++index) {
-      if (viewHash === json[index].id) {
-        dispatch({
-          type: ACTION_TYPES.SET_JDL,
-          data: viewHash,
-        });
-      }
-    }
-  } catch (e) {
-    console.error(e);
-  }
-};
-
-export const initAuthentication = () => async (dispatch, getState) => {
-  var authToken = JSON.parse(
+function getAuthHeader() {
+  const authToken = JSON.parse(
     localStorage.getItem("jhi-authenticationtoken") ||
       sessionStorage.getItem("jhi-authenticationtoken") ||
-      ""
+      "null"
   );
   if (authToken) {
+    return {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    };
+  }
+  return null;
+}
+
+export const initAuthentication = () => async (dispatch) => {
+  const authHeader = getAuthHeader();
+  if (authHeader || process.env.NODE_ENV === "development") {
     try {
-      const res = await fetch(`${server_api}/api/account`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
+      const res = await fetch(`${server_api}/api/account`, authHeader || {});
       const json = await res.json();
-      dispatch({
-        type: ACTION_TYPES.SET_AUTH,
-        data: {
-          authenticated: true,
-          username: json.login,
-        },
-      });
-      const jdlId = getViewHash();
-      if (jdlId !== "") {
+      if (res.ok) {
         dispatch({
-          type: ACTION_TYPES.SET_JDL,
-          data: jdlId,
+          type: ACTION_TYPES.SET_AUTH,
+          data: {
+            authenticated: true,
+            username: json.login,
+          },
         });
-        dispatch(loadJdl());
+        const jdlId = getViewHash();
+        if (jdlId !== "") {
+          dispatch({
+            type: ACTION_TYPES.SET_JDL,
+            data: jdlId,
+          });
+          dispatch(loadJdl());
+        }
+        dispatch(fetchAllJDLsMetadata());
+      } else {
+        handleAuthError(`${res.statusText}: ${json.detail}`, dispatch);
       }
-      dispatch(fetchAllJDLsMetadata());
     } catch (e) {
-      console.error(e);
-      dispatch({
-        type: ACTION_TYPES.SET_AUTH,
-        data: {
-          authenticated: false,
-          username: "",
-        },
-      });
+      handleAuthError(e, dispatch);
     }
+  } else {
+    console.log("Auth token not found");
   }
 };
+
+export const fetchAllJDLsMetadata = () => async (dispatch) => {
+  const authHeader = getAuthHeader();
+  if (authHeader) {
+    try {
+      const res = await fetch(`${server_api}/api/jdl-metadata`, authHeader);
+      const json = await res.json();
+      if (res.ok) {
+        dispatch({
+          type: ACTION_TYPES.SET_JDL_META,
+          data: json,
+        });
+        var viewHash = getViewHash();
+        if (viewHash === "") {
+          return;
+        }
+        json.forEach((it) => {
+          if (viewHash === it.id) {
+            dispatch({
+              type: ACTION_TYPES.SET_JDL,
+              data: viewHash,
+            });
+          }
+        });
+      } else {
+        handleJDLMetadataError(`${res.statusText}: ${json.detail}`, dispatch);
+      }
+    } catch (e) {
+      handleJDLMetadataError(e, dispatch);
+    }
+  } else {
+    console.log("Auth token not found");
+  }
+};
+
+export const loadJdl = () => async (dispatch, getState) => {
+  const state = getState().jhOnline as JhOnlineState;
+  if (!state.jdlId) {
+    handleJDLError("JDL not set", dispatch);
+    return;
+  }
+  const authHeader = getAuthHeader();
+  if (authHeader) {
+    try {
+      const res = await fetch(
+        `${server_api}/api/jdl/${state.jdlId}`,
+        authHeader
+      );
+      const json = await res.json();
+      if (res.ok) {
+        let content = "";
+        if (json.content !== undefined) {
+          content = json.content;
+        }
+        dispatch(setCode(content));
+        setViewHash(state.jdlId);
+      } else {
+        handleJDLError(`${res.statusText}: ${json.detail}`, dispatch);
+      }
+    } catch (e) {
+      handleJDLError(e, dispatch);
+    }
+  } else {
+    console.log("Auth token not found");
+  }
+};
+
+function handleAuthError(e, dispatch) {
+  console.error("Cannot get authentication token", e);
+  dispatch({
+    type: ACTION_TYPES.SET_AUTH,
+    data: {
+      authenticated: false,
+      username: "",
+    },
+  });
+}
+
+function handleJDLMetadataError(e, dispatch) {
+  console.error("Error fetching JDL metadata", e);
+  dispatch({
+    type: ACTION_TYPES.SET_JDL_META,
+    data: [],
+  });
+}
+
+function handleJDLError(e, dispatch) {
+  console.error("Error fetching JDL", e);
+  dispatch(fetchAllJDLsMetadata());
+  dispatch({
+    type: ACTION_TYPES.SET_JDL,
+    data: "",
+  });
+  setViewHash("");
+}
 
 function getViewHash() {
   const hash = location.hash; // eslint-disable-line no-restricted-globals
@@ -151,10 +215,16 @@ function getViewHash() {
 }
 
 function setViewHash(jdlId) {
-  // TODO this doesn't seem to work
+  if (!jdlId) {
+    location.hash = "/"; // eslint-disable-line no-restricted-globals
+    return;
+  }
   location.hash = "/view/" + jdlId; // eslint-disable-line no-restricted-globals
 }
 
 function isInJHOnline() {
-  return window.location.href.indexOf("www.jhipster.tech/jdl-studio") === -1;
+  if (process.env.NODE_ENV === "production") {
+    return !window.location.href.includes("www.jhipster.tech/jdl-studio");
+  }
+  return window.location.href.includes("localhost:8080/jdl-studio/");
 }

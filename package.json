@@ -12,10 +12,12 @@
     "@types/react": "16.9.49",
     "@types/react-codemirror": "1.0.3",
     "@types/react-dom": "16.9.8",
+    "canvas": "2.6.1",
     "codemirror": "5.57.0",
     "dagre": "0.8.5",
     "jhipster-core": "7.3.4",
     "lodash.throttle": "4.1.1",
+    "miragejs": "0.1.40",
     "node-sass": "4.14.1",
     "nomnoml": "0.10.0",
     "react": "16.13.1",
@@ -26,6 +28,7 @@
     "react-scripts": "3.4.3",
     "reactjs-popup": "2.0.3",
     "redux": "4.0.5",
+    "redux-thunk": "2.3.0",
     "typescript": "3.7.5"
   },
   "scripts": {
@@ -50,8 +53,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "canvas": "^2.6.1"
   }
 }
