@@ -171,9 +171,9 @@ export function Header({
               id="signin"
               className="special"
               href="https://start.jhipster.tech/jdl-studio/"
-              title="Go to new JDL Studio with more features"
+              title="Go to stable JDL Studio with more features"
             >
-              Go to new JDL Studio
+              Go to stable JDL Studio
             </a>
           ) : null}
           {jhOnline.authenticated ? (
