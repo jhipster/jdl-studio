@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7dcc3eab290d06ca32b1e707d595bee6",
+    "revision": "bd977ce9a42ab5596b8839947a68e3e0",
     "url": "/jdl-studio/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/jdl-studio/static/css/2.dd21d29c.chunk.css"
   },
   {
-    "revision": "21a490e225bfee53b525",
+    "revision": "1cce5e87855274e3c93a",
     "url": "/jdl-studio/static/css/main.904bfdd1.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/jdl-studio/static/js/2.51d841b7.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "21a490e225bfee53b525",
-    "url": "/jdl-studio/static/js/main.1bd4b04a.chunk.js"
+    "revision": "1cce5e87855274e3c93a",
+    "url": "/jdl-studio/static/js/main.00ed94b5.chunk.js"
   },
   {
     "revision": "e9765bdcd07a45ec0d83",
