@@ -26,7 +26,7 @@
     "react-scripts": "3.4.3",
     "reactjs-popup": "2.0.3",
     "redux": "4.0.5",
-    "redux-thunk": "^2.3.0",
+    "redux-thunk": "2.3.0",
     "typescript": "3.7.5"
   },
   "scripts": {
@@ -52,7 +52,7 @@
     ]
   },
   "devDependencies": {
-    "canvas": "^2.6.1",
-    "miragejs": "^0.1.40"
+    "canvas": "2.6.1",
+    "miragejs": "0.1.40"
   }
 }

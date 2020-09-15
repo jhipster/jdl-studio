@@ -167,7 +167,7 @@ function buildStorage(locationHash, defaultSource = "") {
       return localStorage[STORAGE_KEY] || defaultSource;
     },
     save: function (source: string) {
-      localStorage[STORAGE_KEY] = source || defaultSource;
+      localStorage[STORAGE_KEY] = source;
     },
     moveToLocalStorage: function (txt) {},
     isReadonly: false,

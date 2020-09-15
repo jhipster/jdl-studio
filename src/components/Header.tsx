@@ -92,6 +92,10 @@ export function Header({
 
   const confirmCreateNewJdl = () => {};
 
+  const handleChangeJDLModel = (event) => {
+    setJDL(event.target.value)
+  }
+
   return (
     <>
       <header className={`${isLightMode ? "light-theme" : "dark-theme"}`}>
@@ -200,7 +204,7 @@ export function Header({
               <select
                 className="jdl-select"
                 value={jhOnline.jdlId}
-                onChange={(e) => setJDL(e.target.value)}
+                onChange={handleChangeJDLModel}
               >
                 <option value="">&lt;Create new JDL Model&gt;</option>
                 {jhOnline.jdls.map((jdl) => (
