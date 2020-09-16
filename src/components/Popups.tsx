@@ -61,6 +61,52 @@ export const ResetPopup = ({ open, closeModal, discard, className = "" }) => {
   );
 };
 
+export const SavePopup = ({ open, closeModal, saveJDL, className = "" }) => {
+  const [name, setName] = useState("");
+
+  const setFileName = (evt) => {
+    setName(evt.target.value);
+  };
+
+  const saveJDLFile = () => {
+    closeModal();
+    saveJDL(name);
+  };
+
+  return (
+    <Popup
+      open={open}
+      modal
+      closeOnDocumentClick={false}
+      onClose={closeModal}
+      className={className}
+    >
+      <div className={`${className} modal`}>
+        <div className="header">Save a new JDL Model</div>
+        <div className="content">
+          <p>Please give a name to your new JDL Model</p>
+          <input
+            className="upload"
+            placeholder="JDL name"
+            type="input"
+            id="jdlName"
+            value={name}
+            onChange={setFileName}
+          />
+        </div>
+        <div className="actions">
+          <button className="button" onClick={saveJDLFile}>
+            Save
+          </button>
+          <button className="button" onClick={closeModal}>
+            Dismiss
+          </button>
+        </div>
+      </div>
+    </Popup>
+  );
+};
+
 export const UploadPopup = ({ open, closeModal, setCode, className = "" }) => {
   const [file, setFiles] = useState(null);
 

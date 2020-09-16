@@ -53,5 +53,21 @@ entity Country {
           `,
       };
     });
+
+    this.post("/jdl", () => ({
+      id: "5492f5eb-3b80-40bf-abed-2d9583b6381f",
+      name: "test",
+      createdDate: "2020-09-14T13:10:44Z",
+      updatedDate: "2020-09-14T13:10:44Z",
+      isPublic: false,
+    }));
+
+    this.put("/jdl/:jdlId", (_, request) => ({
+      id: request.params.jdlId,
+      name: "test",
+      createdDate: "2020-09-14T13:10:44Z",
+      updatedDate: "2020-09-14T13:10:44Z",
+      isPublic: false,
+    }));
   },
 } as ServerConfig<AnyModels, AnyFactories>;

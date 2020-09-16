@@ -44,3 +44,12 @@ export const setFilename = (filename) => {
     imgBtn.download = filename + ".png";
   }
 };
+
+export const urlDecode = (encoded) => {
+  return decodeURIComponent(encoded.replace(/\+/g, " "));
+};
+
+export const getIdFromHash = (hash: string) => {
+  const parts = hash.split("/");
+  return parts[parts.indexOf("view") + 1];
+};

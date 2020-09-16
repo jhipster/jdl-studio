@@ -1,10 +1,16 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/anchor-is-valid, no-restricted-globals */
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import LineIcon from "react-lineicons";
 import logo from "../resources/logo-jhipster.svg";
 import { IRootState } from "../Store";
-import { initAuthentication, setJDL, loadJdl } from "./JhOnlineReducer";
+import {
+  initAuthentication,
+  setJDL,
+  loadJdl,
+  updateJDL,
+  setViewHash,
+} from "./JhOnlineReducer";
 import {
   setSidebar,
   setCode,
@@ -12,7 +18,7 @@ import {
   toggleRanker,
   toggleDirection,
 } from "./studio/StudioReducer";
-import { UploadPopup, ResetPopup, WarningPopup } from "./Popups";
+import { UploadPopup, ResetPopup, WarningPopup, SavePopup } from "./Popups";
 import {
   downloadFile,
   goToJHipsterOnline,
@@ -33,12 +39,14 @@ export function Header({
   setCode,
   setJDL,
   loadJdl,
+  updateJDL,
   setSidebar,
   toggleLightMode,
   toggleRanker,
   toggleDirection,
 }: IHeaderProp) {
   const [uploadPopup, setUploadPopup] = useState(false);
+  const [savePopup, setSavePopup] = useState(false);
   const [templatePopup, setTemplatePopup] = useState(false);
   const [template, setTemplate] = useState("");
 
@@ -49,10 +57,9 @@ export function Header({
   }, [jhOnline.authenticated, initAuthentication]);
 
   useEffect(() => {
-    if (!jhOnline.jdlId) {
-      location.hash = "/"; // eslint-disable-line no-restricted-globals
+    if (jhOnline.jdlId) {
+      loadJdl();
     }
-    loadJdl();
   }, [jhOnline.jdlId, loadJdl]);
 
   const toggleSidebar = (page: string) => () => {
@@ -65,6 +72,20 @@ export function Header({
 
   const closeUploadDialog = () => {
     setUploadPopup(false);
+  };
+
+  const openSaveDialog = () => {
+    if (jhOnline.jdlId) {
+      // save existing
+      updateJDL(jhOnline.jdlId, true);
+    } else {
+      // create new
+      setSavePopup(true);
+    }
+  };
+
+  const closeSaveDialog = () => {
+    setSavePopup(false);
   };
 
   const openTemplateDialog = (evt) => {
@@ -89,10 +110,9 @@ export function Header({
     downloadFile(evt, code);
   };
 
-  const confirmCreateNewJdl = () => {};
-
   const handleChangeJDLModel = (event) => {
     setJDL(event.target.value);
+    setViewHash(event.target.value);
   };
 
   return (
@@ -195,14 +215,10 @@ export function Header({
               </select>
               {jhOnline.startLoadingFlag ? (
                 <a>
-                  <LineIcon name="sync" />
+                  <LineIcon name="reload" />
                 </a>
               ) : (
-                <a
-                  title="Save JDL"
-                  className="link"
-                  onClick={confirmCreateNewJdl}
-                >
+                <a title="Save JDL" className="link" onClick={openSaveDialog}>
                   <LineIcon name="save" />
                 </a>
               )}
@@ -273,6 +289,12 @@ export function Header({
         setCode={setCode}
         className={`${isLightMode ? "light-theme" : "dark-theme"}`}
       />
+      <SavePopup
+        open={savePopup}
+        closeModal={closeSaveDialog}
+        saveJDL={updateJDL}
+        className={`${isLightMode ? "light-theme" : "dark-theme"}`}
+      />
       <ResetPopup
         open={templatePopup}
         closeModal={closeTemplateDialog}
@@ -298,6 +320,7 @@ const mapStateToProps = ({ studio, jhOnline }: IRootState) => ({
 const mapDispatchToProps = {
   setJDL,
   loadJdl,
+  updateJDL,
   setSidebar,
   setCode,
   toggleLightMode,

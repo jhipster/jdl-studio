@@ -152,7 +152,6 @@ function buildStorage(defaultSource = "") {
     save: function (source: string) {
       localStorage[STORAGE_KEY] = source;
     },
-    moveToLocalStorage: function (txt) {},
     isReadonly: false,
   };
 }
