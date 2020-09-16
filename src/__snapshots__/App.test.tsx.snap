@@ -4,6 +4,58 @@ exports[`renders default snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
+    <div
+      id="popup-root"
+    >
+      <div
+        class="popup-overlay dark-theme-overlay"
+        data-popup="modal"
+        data-testid="overlay"
+        style="position: fixed; top: 0px; bottom: 0px; left: 0px; right: 0px; display: flex; z-index: 999; pointer-events: auto;"
+        tabindex="-1"
+      >
+        <div
+          class="popup-content dark-theme-content"
+          id="popup-8"
+          role="dialog"
+          style="position: relative; margin: auto; pointer-events: auto;"
+        >
+          <div
+            class="dark-theme modal"
+          >
+            <div
+              class="header"
+            >
+              Warning!
+            </div>
+            <div
+              class="content"
+            >
+              <p>
+                You are using an experimental beta version of JDL Studio. Please use the stable version at
+                 
+                <a
+                  href="https://start.jhipster.tech/jdl-studio/"
+                >
+                  https://start.jhipster.tech/jdl-studio/
+                </a>
+                 
+                for more features and persistent storage
+              </p>
+            </div>
+            <div
+              class="actions"
+            >
+              <button
+                class="button"
+              >
+                It's OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div>
       <div
         class="wrap app"
@@ -35,137 +87,134 @@ Object {
             </a>
           </div>
           <div
-            class="tools center"
-          >
-            <a
-              class="link"
-              title="Toggle theme"
-            >
-              <i
-                class="lni lni-sun size-md "
-              />
-            </a>
-            <span
-              class="seperator"
-            >
-              <i>
-                |
-              </i>
-            </span>
-            <select
-              class="template-select"
-            >
-              <option
-                value=""
-              >
-                &lt;Select template&gt;
-              </option>
-              <option
-                value="default sample"
-              >
-                default sample
-              </option>
-              <option
-                value="simple monolith"
-              >
-                simple monolith
-              </option>
-              <option
-                value="simple microservice"
-              >
-                simple microservice
-              </option>
-            </select>
-            <a
-              class="link"
-              title="Cycle graph ranker strategy [current: tight-tree]"
-            >
-              <i
-                class="lni lni-grid-alt size-md "
-              />
-            </a>
-            <a
-              class="link"
-              title="Cycle graph direction [current: down]"
-            >
-              <i
-                class="lni lni-arrow-right size-md "
-              />
-            </a>
-          </div>
-          <div
             class="tools right"
           >
-            <a
-              class="link special"
-              id="signin"
-              title="Sign in"
+            <div
+              class="tools-inner"
             >
-              Please sign in for more features!
-            </a>
-            <a
-              class="link"
-              title="Go to the main JHipster Online page"
+              <a
+                class="link"
+                title="Toggle theme"
+              >
+                <i
+                  class="lni lni-sun size-md "
+                />
+              </a>
+              <a
+                class="link"
+                title="Cycle graph ranker strategy [current: tight-tree]"
+              >
+                <i
+                  class="lni lni-grid-alt size-md "
+                />
+              </a>
+              <a
+                class="link"
+                title="Cycle graph direction [current: down]"
+              >
+                <i
+                  class="lni lni-arrow-right size-md "
+                />
+              </a>
+              <span
+                class="seperator"
+              >
+                <i>
+                  |
+                </i>
+              </span>
+              <select
+                class="template-select"
+              >
+                <option
+                  value=""
+                >
+                  &lt;Select template&gt;
+                </option>
+                <option
+                  value="default sample"
+                >
+                  default sample
+                </option>
+                <option
+                  value="simple monolith"
+                >
+                  simple monolith
+                </option>
+                <option
+                  value="simple microservice"
+                >
+                  simple microservice
+                </option>
+              </select>
+            </div>
+            <div
+              class="tools-inner"
             >
-              <i
-                class="lni lni-home size-md "
+              <a
+                class="special"
+                href="https://start.jhipster.tech/jdl-studio/"
+                id="signin"
+                title="Go to stable JDL Studio with more features"
+              >
+                Go to stable JDL Studio
+              </a>
+              <span
+                class="seperator"
+              >
+                <i>
+                  |
+                </i>
+              </span>
+              <a
+                class="link"
+                download="app-jdl.png"
+                id="savebutton"
+                title="Download snapshot of this diagram"
+              >
+                <i
+                  class="lni lni-camera size-md "
+                />
+              </a>
+              <a
+                class="link"
+                download="app.jdl"
+                id="saveTextbutton"
+                title="Download this JDL source"
+              >
+                <i
+                  class="lni lni-download size-md "
+                />
+              </a>
+              <a
+                class="upload-dialog link"
+                id="uploadbutton"
+                title="Import text file of a JDL"
+              >
+                <i
+                  class="lni lni-upload size-md "
+                />
+              </a>
+              <a
+                class="link"
+                title="About JDL-Studio"
+              >
+                <i
+                  class="lni lni-question-circle size-md "
+                />
+              </a>
+              <a
+                class="link"
+                title="Language reference"
+              >
+                <i
+                  class="lni lni-book size-md "
+                />
+              </a>
+              <span
+                class="tooltip"
               />
-            </a>
-            <span
-              class="seperator"
-            >
-              <i>
-                |
-              </i>
-            </span>
-            <a
-              class="link"
-              download="app-jdl.png"
-              id="savebutton"
-              title="Download snapshot of this diagram"
-            >
-              <i
-                class="lni lni-camera size-md "
-              />
-            </a>
-            <a
-              class="link"
-              download="app.jdl"
-              id="saveTextbutton"
-              title="Download this JDL source"
-            >
-              <i
-                class="lni lni-download size-md "
-              />
-            </a>
-            <a
-              class="upload-dialog link"
-              id="uploadbutton"
-              title="Import text file of a JDL"
-            >
-              <i
-                class="lni lni-upload size-md "
-              />
-            </a>
-            <a
-              class="link"
-              title="About JDL-Studio"
-            >
-              <i
-                class="lni lni-question-circle size-md "
-              />
-            </a>
-            <a
-              class="link"
-              title="Language reference"
-            >
-              <i
-                class="lni lni-book size-md "
-              />
-            </a>
-            <span
-              class="tooltip"
-            />
+            </div>
           </div>
         </header>
         <div
@@ -641,137 +690,134 @@ Object {
           </a>
         </div>
         <div
-          class="tools center"
-        >
-          <a
-            class="link"
-            title="Toggle theme"
-          >
-            <i
-              class="lni lni-sun size-md "
-            />
-          </a>
-          <span
-            class="seperator"
-          >
-            <i>
-              |
-            </i>
-          </span>
-          <select
-            class="template-select"
-          >
-            <option
-              value=""
-            >
-              &lt;Select template&gt;
-            </option>
-            <option
-              value="default sample"
-            >
-              default sample
-            </option>
-            <option
-              value="simple monolith"
-            >
-              simple monolith
-            </option>
-            <option
-              value="simple microservice"
-            >
-              simple microservice
-            </option>
-          </select>
-          <a
-            class="link"
-            title="Cycle graph ranker strategy [current: tight-tree]"
-          >
-            <i
-              class="lni lni-grid-alt size-md "
-            />
-          </a>
-          <a
-            class="link"
-            title="Cycle graph direction [current: down]"
-          >
-            <i
-              class="lni lni-arrow-right size-md "
-            />
-          </a>
-        </div>
-        <div
           class="tools right"
         >
-          <a
-            class="link special"
-            id="signin"
-            title="Sign in"
+          <div
+            class="tools-inner"
           >
-            Please sign in for more features!
-          </a>
-          <a
-            class="link"
-            title="Go to the main JHipster Online page"
+            <a
+              class="link"
+              title="Toggle theme"
+            >
+              <i
+                class="lni lni-sun size-md "
+              />
+            </a>
+            <a
+              class="link"
+              title="Cycle graph ranker strategy [current: tight-tree]"
+            >
+              <i
+                class="lni lni-grid-alt size-md "
+              />
+            </a>
+            <a
+              class="link"
+              title="Cycle graph direction [current: down]"
+            >
+              <i
+                class="lni lni-arrow-right size-md "
+              />
+            </a>
+            <span
+              class="seperator"
+            >
+              <i>
+                |
+              </i>
+            </span>
+            <select
+              class="template-select"
+            >
+              <option
+                value=""
+              >
+                &lt;Select template&gt;
+              </option>
+              <option
+                value="default sample"
+              >
+                default sample
+              </option>
+              <option
+                value="simple monolith"
+              >
+                simple monolith
+              </option>
+              <option
+                value="simple microservice"
+              >
+                simple microservice
+              </option>
+            </select>
+          </div>
+          <div
+            class="tools-inner"
           >
-            <i
-              class="lni lni-home size-md "
+            <a
+              class="special"
+              href="https://start.jhipster.tech/jdl-studio/"
+              id="signin"
+              title="Go to stable JDL Studio with more features"
+            >
+              Go to stable JDL Studio
+            </a>
+            <span
+              class="seperator"
+            >
+              <i>
+                |
+              </i>
+            </span>
+            <a
+              class="link"
+              download="app-jdl.png"
+              id="savebutton"
+              title="Download snapshot of this diagram"
+            >
+              <i
+                class="lni lni-camera size-md "
+              />
+            </a>
+            <a
+              class="link"
+              download="app.jdl"
+              id="saveTextbutton"
+              title="Download this JDL source"
+            >
+              <i
+                class="lni lni-download size-md "
+              />
+            </a>
+            <a
+              class="upload-dialog link"
+              id="uploadbutton"
+              title="Import text file of a JDL"
+            >
+              <i
+                class="lni lni-upload size-md "
+              />
+            </a>
+            <a
+              class="link"
+              title="About JDL-Studio"
+            >
+              <i
+                class="lni lni-question-circle size-md "
+              />
+            </a>
+            <a
+              class="link"
+              title="Language reference"
+            >
+              <i
+                class="lni lni-book size-md "
+              />
+            </a>
+            <span
+              class="tooltip"
             />
-          </a>
-          <span
-            class="seperator"
-          >
-            <i>
-              |
-            </i>
-          </span>
-          <a
-            class="link"
-            download="app-jdl.png"
-            id="savebutton"
-            title="Download snapshot of this diagram"
-          >
-            <i
-              class="lni lni-camera size-md "
-            />
-          </a>
-          <a
-            class="link"
-            download="app.jdl"
-            id="saveTextbutton"
-            title="Download this JDL source"
-          >
-            <i
-              class="lni lni-download size-md "
-            />
-          </a>
-          <a
-            class="upload-dialog link"
-            id="uploadbutton"
-            title="Import text file of a JDL"
-          >
-            <i
-              class="lni lni-upload size-md "
-            />
-          </a>
-          <a
-            class="link"
-            title="About JDL-Studio"
-          >
-            <i
-              class="lni lni-question-circle size-md "
-            />
-          </a>
-          <a
-            class="link"
-            title="Language reference"
-          >
-            <i
-              class="lni lni-book size-md "
-            />
-          </a>
-          <span
-            class="tooltip"
-          />
+          </div>
         </div>
       </header>
       <div
