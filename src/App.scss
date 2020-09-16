@@ -83,37 +83,13 @@ header {
   background: rgb(40, 44, 52);
   box-shadow: 0px 0 10px rgba(0, 0, 0, 0.4);
 
-  .storage-status {
-    color: #fdf6e3;
-    opacity: 0.5;
-    font-style: italic;
-    margin-top: auto;
-    margin-bottom: auto;
-    text-align: center;
-    -webkit-order: 0;
-    -ms-flex-order: 0;
-    order: 0;
-    -webkit-flex: 0 1 auto;
-    -ms-flex: 0 1 auto;
-    flex: 0 1 auto;
-    -webkit-align-self: auto;
-    -ms-flex-item-align: auto;
-    align-self: auto;
-    a {
-      border: 2px solid rgba(255, 246, 223, 0.63);
-      padding: 0 5px;
-      border-radius: 4px;
-      font-style: normal;
-      opacity: 1;
-    }
-  }
-
   a.link {
     margin-left: 5px;
     margin-right: 5px;
   }
 
-  .tools {
+  .tools,
+  .tools-inner {
     font-family: Calibri, Helvetica, sans-serif;
     font-weight: bold;
     background: transparent;
@@ -140,6 +116,7 @@ header {
       outline: transparent;
       margin-left: 5px;
       margin-right: 5px;
+      max-width: 185px;
 
       > option {
         background: #282b30;
@@ -193,6 +170,29 @@ header {
     }
   }
 
+  .tools {
+    &.right {
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -webkit-flex-wrap: nowrap;
+      -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      -webkit-align-content: space-between;
+      -ms-flex-line-pack: justify;
+      align-content: space-between;
+      -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+      align-items: flex-start;
+    }
+  }
+
   &.light-theme {
     background: rgb(253, 246, 227);
     box-shadow: 0px 0 10px rgba(0, 0, 0, 0.28);
@@ -218,10 +218,21 @@ header {
   }
 }
 
-@media only screen and (max-width: 1080px) {
+@media only screen and (max-width: 1200px) {
   header {
-    .tools.center {
-      display: none;
+    height: 90px;
+    .tools {
+      &.right {
+        flex-direction: column-reverse;
+      }
+    }
+  }
+  .studio {
+    .code-mirror-editor {
+      .CodeMirror {
+        height: calc(100vh - 90px);
+        margin: 90px 0 20px 0;
+      }
     }
   }
 }

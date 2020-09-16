@@ -136,151 +136,161 @@ export function Header({
             JDL-Studio
           </a>
         </div>
-        <div className="tools center">
-          <a onClick={toggleLightMode} title="Toggle theme" className="link">
-            {isLightMode ? <LineIcon name="night" /> : <LineIcon name="sun" />}
-          </a>
-          <span className="seperator">
-            <i>|</i>
-          </span>
-          <select className="template-select" onChange={openTemplateDialog}>
-            <option value="">&lt;Select template&gt;</option>
-            {JDLtemplates.map((it) => (
-              <option value={it.key} key={it.key}>
-                {it.key}
-              </option>
-            ))}
-          </select>
-          <a
-            onClick={toggleRanker}
-            title={`Cycle graph ranker strategy [current: ${ranker}]`}
-            className="link"
-          >
-            {ranker === "longest-path" ? (
-              <LineIcon name="bricks" />
-            ) : (
-              <LineIcon name="grid-alt" />
-            )}
-          </a>
-          <a
-            onClick={toggleDirection}
-            title={`Cycle graph direction [current: ${direction}]`}
-            className="link"
-          >
-            {direction === "down" ? (
-              <LineIcon name="arrow-right" />
-            ) : (
-              <LineIcon name="arrow-down" />
-            )}
-          </a>
-        </div>
         <div className="tools right">
-          {jhOnline.insideJhOnline && !jhOnline.authenticated ? (
-            <a
-              id="signin"
-              className="link special"
-              onClick={goToJHipsterOnline}
-              title="Sign in"
-            >
-              Please sign in for more features!
-            </a>
-          ) : null}
-          {!jhOnline.insideJhOnline && !jhOnline.authenticated ? (
-            <a
-              id="signin"
-              className="special"
-              href="https://start.jhipster.tech/jdl-studio/"
-              title="Go to stable JDL Studio with more features"
-            >
-              Go to stable JDL Studio
-            </a>
-          ) : null}
-          {jhOnline.authenticated ? (
-            <>
-              <a title="Logged in as" className="special">
-                {jhOnline.username}
-              </a>
-
-              <select
-                className="jdl-select"
-                value={jhOnline.jdlId}
-                onChange={handleChangeJDLModel}
-              >
-                <option value="">&lt;Create new JDL Model&gt;</option>
-                {jhOnline.jdls.map((jdl) => (
-                  <option key={jdl.id} value={jdl.id}>
-                    {jdl.name}
-                  </option>
-                ))}
-              </select>
-              {jhOnline.startLoadingFlag ? (
-                <a>
-                  <LineIcon name="reload" />
-                </a>
+          <div className="tools-inner">
+            <a onClick={toggleLightMode} title="Toggle theme" className="link">
+              {isLightMode ? (
+                <LineIcon name="night" />
               ) : (
-                <a title="Save JDL" className="link" onClick={openSaveDialog}>
-                  <LineIcon name="save" />
-                </a>
+                <LineIcon name="sun" />
               )}
-              <a onClick={goToManageJdls} className="link" title="Manage JDLs">
-                <LineIcon name="cog" />
-              </a>
-            </>
-          ) : null}
-          {jhOnline.insideJhOnline ? (
-            <a
-              className="link"
-              onClick={goToJHipsterOnline}
-              title="Go to the main JHipster Online page"
-            >
-              <LineIcon name="home" />
             </a>
-          ) : null}
+            <a
+              onClick={toggleRanker}
+              title={`Cycle graph ranker strategy [current: ${ranker}]`}
+              className="link"
+            >
+              {ranker === "longest-path" ? (
+                <LineIcon name="bricks" />
+              ) : (
+                <LineIcon name="grid-alt" />
+              )}
+            </a>
+            <a
+              onClick={toggleDirection}
+              title={`Cycle graph direction [current: ${direction}]`}
+              className="link"
+            >
+              {direction === "down" ? (
+                <LineIcon name="arrow-right" />
+              ) : (
+                <LineIcon name="arrow-down" />
+              )}
+            </a>
+            <span className="seperator">
+              <i>|</i>
+            </span>
+            <select className="template-select" onChange={openTemplateDialog}>
+              <option value="">&lt;Select template&gt;</option>
+              {JDLtemplates.map((it) => (
+                <option value={it.key} key={it.key}>
+                  {it.key}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="tools-inner">
+            {jhOnline.insideJhOnline && !jhOnline.authenticated ? (
+              <a
+                id="signin"
+                className="link special"
+                onClick={goToJHipsterOnline}
+                title="Sign in"
+              >
+                Please sign in for more features!
+              </a>
+            ) : null}
+            {!jhOnline.insideJhOnline && !jhOnline.authenticated ? (
+              <a
+                id="signin"
+                className="special"
+                href="https://start.jhipster.tech/jdl-studio/"
+                title="Go to stable JDL Studio with more features"
+              >
+                Go to stable JDL Studio
+              </a>
+            ) : null}
+            {jhOnline.authenticated ? (
+              <>
+                <a title="Logged in as" className="special">
+                  {jhOnline.username}
+                </a>
 
-          <span className="seperator">
-            <i>|</i>
-          </span>
-          <a
-            id="savebutton"
-            download="app-jdl.png"
-            className="link"
-            title="Download snapshot of this diagram"
-            onClick={downloadImage}
-          >
-            <LineIcon name="camera" />
-          </a>
-          <a
-            id="saveTextbutton"
-            download="app.jdl"
-            title="Download this JDL source"
-            className="link"
-            onClick={downloadJDL}
-          >
-            <LineIcon name="download" />
-          </a>
-          <a
-            id="uploadbutton"
-            className="upload-dialog link"
-            title="Import text file of a JDL"
-            onClick={openUploadDialog}
-          >
-            <LineIcon name="upload" />
-          </a>
-          <a
-            onClick={toggleSidebar("about")}
-            title="About JDL-Studio"
-            className="link"
-          >
-            <LineIcon name="question-circle" />
-          </a>
-          <a
-            onClick={toggleSidebar("reference")}
-            title="Language reference"
-            className="link"
-          >
-            <LineIcon name="book" />
-          </a>
-          <span className="tooltip"></span>
+                <select
+                  className="jdl-select"
+                  value={jhOnline.jdlId}
+                  onChange={handleChangeJDLModel}
+                >
+                  <option value="">&lt;Create new JDL Model&gt;</option>
+                  {jhOnline.jdls.map((jdl) => (
+                    <option key={jdl.id} value={jdl.id}>
+                      {jdl.name}
+                    </option>
+                  ))}
+                </select>
+                {jhOnline.startLoadingFlag ? (
+                  <a>
+                    <LineIcon name="reload" />
+                  </a>
+                ) : (
+                  <a title="Save JDL" className="link" onClick={openSaveDialog}>
+                    <LineIcon name="save" />
+                  </a>
+                )}
+                <a
+                  onClick={goToManageJdls}
+                  className="link"
+                  title="Manage JDLs"
+                >
+                  <LineIcon name="cog" />
+                </a>
+              </>
+            ) : null}
+            {jhOnline.insideJhOnline ? (
+              <a
+                className="link"
+                onClick={goToJHipsterOnline}
+                title="Go to the main JHipster Online page"
+              >
+                <LineIcon name="home" />
+              </a>
+            ) : null}
+
+            <span className="seperator">
+              <i>|</i>
+            </span>
+            <a
+              id="savebutton"
+              download="app-jdl.png"
+              className="link"
+              title="Download snapshot of this diagram"
+              onClick={downloadImage}
+            >
+              <LineIcon name="camera" />
+            </a>
+            <a
+              id="saveTextbutton"
+              download="app.jdl"
+              title="Download this JDL source"
+              className="link"
+              onClick={downloadJDL}
+            >
+              <LineIcon name="download" />
+            </a>
+            <a
+              id="uploadbutton"
+              className="upload-dialog link"
+              title="Import text file of a JDL"
+              onClick={openUploadDialog}
+            >
+              <LineIcon name="upload" />
+            </a>
+            <a
+              onClick={toggleSidebar("about")}
+              title="About JDL-Studio"
+              className="link"
+            >
+              <LineIcon name="question-circle" />
+            </a>
+            <a
+              onClick={toggleSidebar("reference")}
+              title="Language reference"
+              className="link"
+            >
+              <LineIcon name="book" />
+            </a>
+            <span className="tooltip"></span>
+          </div>
         </div>
       </header>
       <UploadPopup
