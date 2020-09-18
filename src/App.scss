@@ -218,25 +218,6 @@ header {
   }
 }
 
-@media only screen and (max-width: 1200px) {
-  header {
-    height: 90px;
-    .tools {
-      &.right {
-        flex-direction: column-reverse;
-      }
-    }
-  }
-  .studio {
-    .code-mirror-editor {
-      .CodeMirror {
-        height: calc(100vh - 90px);
-        margin: 90px 0 20px 0;
-      }
-    }
-  }
-}
-
 .studio {
   .line-marker {
     background: rgba(220, 50, 47, 0.5);
@@ -520,6 +501,25 @@ header {
         button {
           border: 1px solid #d7d7d7;
         }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  header {
+    height: 90px;
+    .tools {
+      &.right {
+        flex-direction: column-reverse;
+      }
+    }
+  }
+  .studio {
+    .code-mirror-editor {
+      .CodeMirror {
+        height: calc(100vh - 90px);
+        margin: 90px 0 20px 0;
       }
     }
   }
