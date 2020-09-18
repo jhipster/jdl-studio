@@ -42,7 +42,7 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           commit-message: 'feat: update jdl-studio submodule'
-          author: 'JDL Studio <jdl-studio@no-reply.jhipster.tech>'
+          author: 'jhipster-bot <jhipster-bot@users.noreply.github.com>'
           branch: 'jdl-studio-update'
           title: 'Update jdl-studio Submodule'
           body: 'This is an automated pull request to update jdl-studio submodule to latest'
