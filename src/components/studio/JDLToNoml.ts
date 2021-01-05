@@ -204,13 +204,13 @@ function getCardinality(cardinality) {
   switch (cardinality) {
     case "one-to-many":
     case "OneToMany":
-      return "(1..*) -o";
+      return "o- (1..*)";
     case "OneToOne":
     case "one-to-one":
-      return "(1..1) -";
+      return "- (1..1)";
     case "ManyToOne":
     case "many-to-one":
-      return "(*..1) o-";
+      return "(1..*) -o";
     case "ManyToMany":
     case "many-to-many":
       return "(*..*) o-o";
