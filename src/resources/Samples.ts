@@ -10,9 +10,9 @@ entity Country {
 // an ignored comment
 /** not an ignored comment */
 entity Location {
-	streetAddress String,
-	postalCode String,
-	city String,
+	streetAddress String
+	postalCode String
+	city String
 	stateProvince String
 }
 
@@ -25,7 +25,7 @@ entity Department {
  * @author The JHipster team.
  */
 entity Task {
-	title String,
+	title String
 	description String
 }
 
@@ -36,24 +36,24 @@ entity Employee {
 	/**
 	* The firstname attribute.
 	*/
-	firstName String,
-	lastName String,
-	email String,
-	phoneNumber String,
-	hireDate Instant,
-	salary Long,
+	firstName String
+	lastName String
+	email String
+	phoneNumber String
+	hireDate Instant
+	salary Long
 	commissionPct Long
 }
 
 entity Job {
-	jobTitle String,
-	minSalary Long,
+	jobTitle String
+	minSalary Long
 	maxSalary Long
 }
 
 entity JobHistory {
-	startDate Instant,
-	endDate Instant,
+	startDate Instant
+	endDate Instant
 	language Language
 }
 
@@ -79,7 +79,7 @@ relationship ManyToMany {
 
 // defining multiple OneToMany relationships with comments
 relationship OneToMany {
-	Employee to Job{employee},
+	Employee to Job{employee}
 	/**
 	* A relationship
 	*/
@@ -96,8 +96,8 @@ relationship ManyToOne {
 
 // defining multiple oneToOne relationships
 relationship OneToOne {
-	JobHistory{job} to Job,
-	JobHistory{department} to Department,
+	JobHistory{job} to Job
+	JobHistory{department} to Department
 	JobHistory{employee} to Employee
 }
 
@@ -125,12 +125,12 @@ export const JDLtemplates = [
     val: `
 application {
   config {
-    baseName myApp,
-    applicationType monolith,
-    packageName com.myapp,
-    authenticationType jwt,
-    prodDatabaseType mysql,
-    clientFramework angular
+    baseName myApp
+    applicationType monolith
+    packageName com.myapp
+    authenticationType jwt
+    prodDatabaseType mysql
+    clientFramework angularX
   }
   entities *
 }
@@ -140,20 +140,20 @@ entity A {}
 entity B {}
 
 relationship OneToMany {
-  Foo to Bar
+  A to B
 }
-    `,
+`,
   },
   {
     key: "simple microservice",
     val: `
 application {
   config {
-    baseName myApp,
-    applicationType gateway,
-    packageName com.myapp,
-    authenticationType jwt,
-    prodDatabaseType mysql,
+    baseName myApp
+    applicationType gateway
+    packageName com.myapp
+    authenticationType jwt
+    prodDatabaseType mysql
     clientFramework react
   }
   entities *
@@ -161,22 +161,22 @@ application {
 
 application {
   config {
-    baseName myApp1,
-    applicationType microservice,
-    packageName com.myapp,
-    authenticationType jwt,
-    prodDatabaseType mysql,
+    baseName myApp1
+    applicationType microservice
+    packageName com.myapp
+    authenticationType jwt
+    prodDatabaseType mysql
   }
   entities A, B
 }
 
 application {
   config {
-    baseName myApp2,
-    applicationType microservice,
-    packageName com.myapp,
-    authenticationType jwt,
-    prodDatabaseType mysql,
+    baseName myApp2
+    applicationType microservice
+    packageName com.myapp
+    authenticationType jwt
+    prodDatabaseType mysql
   }
   entities C
 }
@@ -192,6 +192,6 @@ entity D {}
 relationship OneToMany {
   A to B
 }
-    `,
+`,
   },
 ];
