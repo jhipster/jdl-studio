@@ -17,13 +17,15 @@ if [ -z "$(git status --porcelain)" ]; then
     mv build/* $TMP_LOC || exit
 
     echo ">> Checkout and clean $DEPLOY_BRANCH branch"
-    git checkout $DEPLOY_BRANCH || exit
+    git fetch && git checkout $DEPLOY_BRANCH || exit
     find -mindepth 1 -depth -print0 | grep -vEzZ '(.github(/|$)|node_modules(/|$)|.tmp(/|$)|.git(/|$)|/\.gitignore$|/\LICENSE.txt$|/\README.md$)' | xargs -0 rm -rvf || exit
 
     echo ">> Move app form temp & publish to GitHub"
     mv $TMP_LOC/* . || exit
 
     now=$(date)
+    git config user.name github-actions || exit
+    git config user.email github-actions@github.com || exit
     git add --all || exit
     git commit -am "Updated app on $now" || exit
     git push origin $DEPLOY_BRANCH --force || exit
