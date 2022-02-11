@@ -18,7 +18,7 @@
     "jhipster-core": "7.3.4",
     "lodash.throttle": "4.1.1",
     "miragejs": "0.1.40",
-    "node-sass": "4.14.1",
+    "node-sass": "7.0.0",
     "nomnoml": "0.10.0",
     "react": "16.13.1",
     "react-codemirror2": "7.2.1",
