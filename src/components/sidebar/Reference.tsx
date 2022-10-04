@@ -281,7 +281,7 @@ export const Reference = () => (
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="http://www.jhipster.tech/jdl/"
+          href="http://www.jhipster.tech/jdl/intro"
         >
           JDL
         </a>{" "}
