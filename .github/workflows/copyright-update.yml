@@ -38,7 +38,7 @@ jobs:
       # Checkout
       - uses: actions/checkout@v3
         with:
-          ref: main
+          ref: src
           fetch-depth: 0
       # Update the copyright headers
       - name: Find and Replace
