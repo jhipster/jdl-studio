@@ -1,6 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import App from "./App";
 import { store } from "./Store";
 

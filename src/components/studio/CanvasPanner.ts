@@ -28,7 +28,8 @@ export class CanvasPanner {
 
     var mouseMove = (e: MouseEvent) => {
       if (isVec(mouseDownPoint)) {
-        this.offset = nomnoml.skanaar.vector.diff(
+        // nomnoml doesn't provide proper type definitions
+        this.offset = (nomnoml as any).skanaar.vector.diff(
           { x: e.pageX, y: e.pageY },
           mouseDownPoint
         );
@@ -41,14 +42,15 @@ export class CanvasPanner {
       element.style.width = "40%";
     };
 
-    var magnify = (e: MouseWheelEvent) => {
+    var magnify = (e: WheelEvent) => {
       this.zoomLevel = Math.min(10, this.zoomLevel - (e.deltaY < 0 ? -1 : 1));
       onChange();
     };
 
     var mouseDown = (e: MouseEvent) => {
       element.style.width = "100%";
-      mouseDownPoint = nomnoml.skanaar.vector.diff(
+      // nomnoml doesn't provide proper type definitions
+      mouseDownPoint = (nomnoml as any).skanaar.vector.diff(
         { x: e.pageX, y: e.pageY },
         this.offset
       );

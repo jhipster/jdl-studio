@@ -2,28 +2,32 @@ import React, { useState } from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
+// due to https://github.com/yjose/reactjs-popup/issues/315
+const warningPopupBody: any = (className) => (close) =>
+  (
+    <div className={`${className} modal`}>
+      <div className="header">Warning!</div>
+      <div className="content">
+        <p>
+          You are using an experimental beta version of JDL Studio. Please use
+          the stable version at{" "}
+          <a href="https://start.jhipster.tech/jdl-studio/">
+            https://start.jhipster.tech/jdl-studio/
+          </a>{" "}
+          for more features and persistent storage
+        </p>
+      </div>
+      <div className="actions">
+        <button className="button" onClick={close}>
+          It's OK
+        </button>
+      </div>
+    </div>
+  );
+
 export const WarningPopup = ({ open, className = "" }) => (
   <Popup open={open} modal closeOnDocumentClick={true} className={className}>
-    {(close) => (
-      <div className={`${className} modal`}>
-        <div className="header">Warning!</div>
-        <div className="content">
-          <p>
-            You are using an experimental beta version of JDL Studio. Please use
-            the stable version at{" "}
-            <a href="https://start.jhipster.tech/jdl-studio/">
-              https://start.jhipster.tech/jdl-studio/
-            </a>{" "}
-            for more features and persistent storage
-          </p>
-        </div>
-        <div className="actions">
-          <button className="button" onClick={close}>
-            It's OK
-          </button>
-        </div>
-      </div>
-    )}
+    {warningPopupBody(className)}
   </Popup>
 );
 
