@@ -1,14 +1,18 @@
-import nomnoml from "nomnoml";
+import * as nomnoml from "nomnoml";
 
 export interface Vec {
   x: number;
   y: number;
 }
 
+function diff(a: Vec, b: Vec): Vec {
+  return { x: a.x - b.x, y: a.y - b.y };
+}
+
 export type Throttler = (
   func: (arg: any) => void,
   timespan: number,
-  opts?: any
+  opts?: any,
 ) => (arg: any) => void;
 
 export class CanvasPanner {
@@ -19,7 +23,7 @@ export class CanvasPanner {
   constructor(
     element: HTMLElement,
     private onChange: () => void,
-    throttle: Throttler
+    throttle: Throttler,
   ) {
     var mouseDownPoint: Vec | boolean = false;
     function isVec(value: Vec | boolean): value is Vec {
@@ -28,10 +32,7 @@ export class CanvasPanner {
 
     var mouseMove = (e: MouseEvent) => {
       if (isVec(mouseDownPoint)) {
-        this.offset = nomnoml.skanaar.vector.diff(
-          { x: e.pageX, y: e.pageY },
-          mouseDownPoint
-        );
+        this.offset = diff({ x: e.pageX, y: e.pageY }, mouseDownPoint);
         onChange();
       }
     };
@@ -41,16 +42,16 @@ export class CanvasPanner {
       element.style.width = "40%";
     };
 
-    var magnify = (e: MouseWheelEvent) => {
+    var magnify = (e: WheelEvent) => {
       this.zoomLevel = Math.min(10, this.zoomLevel - (e.deltaY < 0 ? -1 : 1));
       onChange();
     };
 
     var mouseDown = (e: MouseEvent) => {
       element.style.width = "100%";
-      mouseDownPoint = nomnoml.skanaar.vector.diff(
+      mouseDownPoint = diff(
         { x: e.pageX, y: e.pageY },
-        this.offset
+        this.offset,
       );
     };
 

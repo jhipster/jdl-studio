@@ -1,7 +1,7 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`renders default snapshot 1`] = `
-Object {
+{
   "asFragment": [Function],
   "baseElement": <body>
     <div
@@ -76,7 +76,7 @@ Object {
               <img
                 alt="JHipster logo"
                 class="jhi-logo"
-                src="logo-jhipster.svg"
+                src="/src/resources/logo-jhipster.svg"
               />
             </a>
             <a
@@ -225,12 +225,14 @@ Object {
           />
           <div
             class="line-marker"
+            style=""
           />
           <div
             class="react-codemirror2 code-mirror-editor"
           >
             <div
               class="CodeMirror cm-s-solarized cm-s-dark"
+              translate="no"
             >
               <div
                 style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 0px;"
@@ -239,15 +241,15 @@ Object {
                   autocapitalize="off"
                   autocorrect="off"
                   spellcheck="false"
-                  style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"
-                  tabindex="0"
+                  style="position: absolute; bottom: -1em; padding: 0px; width: 1px; height: 1em; min-height: 1em; outline-color: none; outline-style: none; outline-width: initial;"
+                  tabindex=""
+                  wrap="off"
                 />
               </div>
               <div
                 class="CodeMirror-vscrollbar"
                 cm-not-content="true"
                 style="display: block; bottom: 0px;"
-                tabindex="-1"
               >
                 <div
                   style="min-width: 1px; height: 166px;"
@@ -257,7 +259,6 @@ Object {
                 class="CodeMirror-hscrollbar"
                 cm-not-content="true"
                 style="display: block; right: 0px; left: 0px;"
-                tabindex="-1"
               >
                 <div
                   style="height: 100%; min-height: 1px; width: 53px;"
@@ -288,7 +289,7 @@ Object {
                     >
                       <div
                         role="presentation"
-                        style="position: relative; outline: none;"
+                        style="position: relative; outline-color: none; outline-style: none; outline-width: initial;"
                       >
                         <div
                           class="CodeMirror-measure"
@@ -309,7 +310,6 @@ Object {
                           >
                             <span
                               role="presentation"
-                              style="padding-right: .1px;"
                             >
                               <span
                                 cm-text=""
@@ -335,7 +335,7 @@ Object {
                   </div>
                 </div>
                 <div
-                  style="position: absolute; height: 50px; width: 1px; border-bottom: 0px solid transparent;"
+                  style="position: absolute; height: 50px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent;"
                 />
                 <div
                   class="CodeMirror-gutters"
@@ -354,7 +354,7 @@ Object {
           <span
             class="error-tooltip"
           >
-            Cannot set property 'font' of null
+            canvas.getContext is not a function
           </span>
           <div
             class="canvas-tools"
@@ -484,7 +484,7 @@ Object {
             <img
               alt="interaction tutorial"
               class="invert"
-              src="interaction-tutorial.png"
+              src="/src/resources/interaction-tutorial.png"
             />
             <p>
               Downloaded image files will be given the filename in the
@@ -679,7 +679,7 @@ Object {
             <img
               alt="JHipster logo"
               class="jhi-logo"
-              src="logo-jhipster.svg"
+              src="/src/resources/logo-jhipster.svg"
             />
           </a>
           <a
@@ -828,12 +828,14 @@ Object {
         />
         <div
           class="line-marker"
+          style=""
         />
         <div
           class="react-codemirror2 code-mirror-editor"
         >
           <div
             class="CodeMirror cm-s-solarized cm-s-dark"
+            translate="no"
           >
             <div
               style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 0px;"
@@ -842,15 +844,15 @@ Object {
                 autocapitalize="off"
                 autocorrect="off"
                 spellcheck="false"
-                style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"
-                tabindex="0"
+                style="position: absolute; bottom: -1em; padding: 0px; width: 1px; height: 1em; min-height: 1em; outline-color: none; outline-style: none; outline-width: initial;"
+                tabindex=""
+                wrap="off"
               />
             </div>
             <div
               class="CodeMirror-vscrollbar"
               cm-not-content="true"
               style="display: block; bottom: 0px;"
-              tabindex="-1"
             >
               <div
                 style="min-width: 1px; height: 166px;"
@@ -860,7 +862,6 @@ Object {
               class="CodeMirror-hscrollbar"
               cm-not-content="true"
               style="display: block; right: 0px; left: 0px;"
-              tabindex="-1"
             >
               <div
                 style="height: 100%; min-height: 1px; width: 53px;"
@@ -891,7 +892,7 @@ Object {
                   >
                     <div
                       role="presentation"
-                      style="position: relative; outline: none;"
+                      style="position: relative; outline-color: none; outline-style: none; outline-width: initial;"
                     >
                       <div
                         class="CodeMirror-measure"
@@ -912,7 +913,6 @@ Object {
                         >
                           <span
                             role="presentation"
-                            style="padding-right: .1px;"
                           >
                             <span
                               cm-text=""
@@ -938,7 +938,7 @@ Object {
                 </div>
               </div>
               <div
-                style="position: absolute; height: 50px; width: 1px; border-bottom: 0px solid transparent;"
+                style="position: absolute; height: 50px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent;"
               />
               <div
                 class="CodeMirror-gutters"
@@ -957,7 +957,7 @@ Object {
         <span
           class="error-tooltip"
         >
-          Cannot set property 'font' of null
+          canvas.getContext is not a function
         </span>
         <div
           class="canvas-tools"
@@ -1087,7 +1087,7 @@ Object {
           <img
             alt="interaction tutorial"
             class="invert"
-            src="interaction-tutorial.png"
+            src="/src/resources/interaction-tutorial.png"
           />
           <p>
             Downloaded image files will be given the filename in the

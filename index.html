@@ -16,15 +16,15 @@
     <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-status-bar-style" content="#282C34" />
 
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="/src/favicon.ico" />
+    <link rel="shortcut icon" href="/src/favicon.ico" />
 
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo-jhipster.svg" />
+    <link rel="apple-touch-icon" href="/src/resources/logo-jhipster.svg" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="manifest" href="/src/manifest.json" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -37,6 +37,7 @@
     <title>JDL-Studio</title>
   </head>
   <body>
+    <!-- <script>window.global = window;</script> -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
@@ -49,6 +50,7 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script type="module" src="/src/index.tsx"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4L9RJVPGJT"></script>
     <script>
     window.dataLayer = window.dataLayer || [];

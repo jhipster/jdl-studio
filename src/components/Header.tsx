@@ -342,4 +342,5 @@ const mapDispatchToProps = {
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+// using any due to a weird type error
+export default connect(mapStateToProps, mapDispatchToProps)(Header as any);

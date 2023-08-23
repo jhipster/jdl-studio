@@ -1,5 +1,16 @@
 import CodeMirror from "codemirror";
 
+import {
+  relationshipTypes,
+  unaryOptions,
+  applicationOptions,
+  binaryOptions,
+  deploymentOptions,
+  fieldTypes,
+  reservedKeywords,
+  validations,
+} from "generator-jhipster/jdl";
+
 const constructs = [
   `application {
   config {
@@ -25,163 +36,91 @@ const constructs = [
 
 }`,
 ];
+
+const unaryOptionKeys = Object.values(unaryOptions).reduce(
+  (acc: Array<string>, cur) => {
+    if (cur && typeof cur === "string") {
+      return acc.concat([cur]);
+    } else return acc;
+  },
+  [],
+);
+const applicationOptionKeys = Object.values(
+  applicationOptions.OptionNames,
+) as string[];
+
+// get all values from the the objects inside the applicationOptions.OptionValues object
+const applicationOptionValues = Object.values(
+  applicationOptions.OptionValues,
+).reduce((acc: Array<string>, cur) => {
+  // check if value is object and not array
+  if (cur && typeof cur === "object" && !Array.isArray(cur)) {
+    return acc.concat(Object.values(cur));
+  } else return acc;
+}, []);
+
+const binaryOptionKeys: string[] = [
+  ...(Object.values(binaryOptions.Options) as string[]),
+  "paginate",
+];
+const binaryOptionValues = Object.values(binaryOptions.Values).reduce(
+  (acc: Array<string>, cur) => {
+    // check if value is object and not array
+    if (cur && typeof cur === "object" && !Array.isArray(cur)) {
+      return acc.concat(Object.values(cur));
+    } else return acc;
+  },
+  [],
+);
+
+const deploymentTypes = Object.values(deploymentOptions.DeploymentTypes).reduce(
+  (acc: Array<string>, cur) => {
+    if (cur && typeof cur === "string" && !Array.isArray(cur)) {
+      return acc.concat(cur);
+    } else return acc;
+  },
+  [],
+);
+const deploymentOptionKeys = Object.keys(deploymentOptions.Options);
+const deploymentOptionValues = Object.values(deploymentOptions.Options).reduce(
+  (acc: Array<string>, cur) => {
+    // check if value is object and not array
+    if (cur && typeof cur === "object" && !Array.isArray(cur)) {
+      return acc.concat(Object.values(cur));
+    } else return acc;
+  },
+  [],
+);
+
+const fieldTypeValues = [
+  ...Object.values(fieldTypes.BlobTypes),
+  ...Object.values(fieldTypes.CommonDBTypes),
+  ...Object.values(fieldTypes.RelationalOnlyDBTypes),
+] as string[];
+
+const relationShipOptions = ["builtInEntity"];
+const relationShipTypeValues: string[] = Object.values(relationshipTypes);
+
+// const reservedWords = Object.values(reservedKeywords).reduce(
+//   (acc: Array<string>, cur) => {
+//     if (cur && Array.isArray(cur)) {
+//       return acc.concat(cur);
+//     } else return acc;
+//   },
+//   [],
+// );
+
+const validationKeys = validations.SUPPORTED_VALIDATION_RULES;
+
 const mainKeywords = [
   "application",
   "deployment",
   "entity",
   "enum",
   "relationship",
-  "paginate",
-  "dto",
-  "service",
-  "skipClient",
-  "skipServer",
-  "search",
-  "angularSuffix",
-  "filter",
 ];
-const relationshipKws = ["OneToOne", "OneToMany", "ManyToOne", "ManyToMany"];
 const appInnerKws = ["config", "entities"];
-const validationKws = [
-  "required",
-  "minlength",
-  "maxlength",
-  "min",
-  "max",
-  "minbytes",
-  "maxbytes",
-  "pattern",
-  "unique",
-];
 const generalKws = ["with", "all", "except", "to"];
-const paginationKws = ["pagination", "pager", "infinite-scroll"];
-const dtoKws = ["mapstruct"];
-const serviceKws = ["serviceClass", "serviceImpl"];
-const searchKws = ["ElasticSearch"];
-const apptypeKws = [
-  "microservice",
-  "gateway",
-  "monolith",
-  "uaa",
-  "reactive",
-  "reactive-micro",
-];
-const typeKws = [
-  "String",
-  "Integer",
-  "Long",
-  "BigDecimal",
-  "Float",
-  "Double",
-  "Boolean",
-  "LocalDate",
-  "ZonedDateTime",
-  "Instant",
-  "Blob",
-  "AnyBlob",
-  "ImageBlob",
-];
-const appKeysKws = [
-  "baseName",
-  "applicationType",
-  "authenticationType",
-  "buildTool",
-  "cacheProvider",
-  "clientFramework",
-  "clientPackageManager",
-  "databaseType",
-  "devDatabaseType",
-  "enableHibernateCache",
-  "enableSwaggerCodegen",
-  "enableTranslation",
-  "jhiPrefix",
-  "languages",
-  "messageBroker",
-  "nativeLanguage",
-  "packageName",
-  "prodDatabaseType",
-  "searchEngine",
-  "serviceDiscoveryType",
-  "skipClient",
-  "skipServer",
-  "serverPort",
-  "skipUserManagement",
-  "testFrameworks",
-  "uaaBaseName",
-  "useSass",
-  "clientTheme",
-  "websocket",
-];
-const deploymentKeysKws = [
-  "deploymentType",
-  "gatewayType",
-  "monitoring",
-  "directoryPath",
-  "appsFolders",
-  "clusteredDbApps",
-  "consoleOptions",
-  "serviceDiscoveryType",
-  "dockerRepositoryName",
-  "dockerPushCommand",
-  "kubernetesNamespace",
-  "kubernetesServiceType",
-  "ingressDomain",
-  "istio",
-  "istioRoute",
-  "enableRancherLoadBalancing",
-  "openshiftNamespace",
-  "storageType",
-];
-const specialValueKws = [
-  "en",
-  "no",
-  "true",
-  "sql",
-  "mongodb",
-  "couchbase",
-  "cassandra",
-  "h2Disk",
-  "h2Memory",
-  "mysql",
-  "mariadb",
-  "postgresql",
-  "oracle",
-  "mssql",
-  "gatling",
-  "cucumber",
-  "protractor",
-  "angularX",
-  "react",
-  "eureka",
-  "consul",
-  "jwt",
-  "oauth2",
-  "session",
-  "ehcache",
-  "hazelcast",
-  "infinispan",
-  "memcached",
-  "maven",
-  "gradle",
-  "docker-compose",
-  "kubernetes",
-  "openshift",
-  "rancher-compose",
-  "zuul",
-  "traefik",
-  "prometheus",
-  "elk",
-  "curator",
-  "zipkin",
-  "LoadBalancer",
-  "NodePort",
-  "Ingress",
-  "manualInjection",
-  "autoInjection",
-  "ephemeral",
-  "persistent",
-  "default",
-];
 
 CodeMirror.defineMode("jdl", function () {
   const words = {};
@@ -191,33 +130,39 @@ CodeMirror.defineMode("jdl", function () {
     }
   }
 
+  // define("reserved", reservedWords);
+
+  // types
+  define(
+    "special",
+    generalKws.concat(
+      fieldTypeValues,
+      binaryOptionValues,
+      applicationOptionValues,
+      deploymentTypes,
+      deploymentOptionValues,
+    ),
+  );
+
+  // types
+  define("attribute", applicationOptionKeys);
+  define("attribute", deploymentOptionKeys);
+
+  define("attribute2", unaryOptionKeys);
+  define("attribute2", binaryOptionKeys);
+  define("attribute2", relationShipOptions);
+
+  // types
+  define("qualifier", validationKeys);
+  define("qualifier", generalKws);
+
   // relationships
-  define("relationship", relationshipKws);
+  define("relationship", relationShipTypeValues);
   // App inner keywords
   define("relationship", appInnerKws);
 
   // Keywords
   define("keyword", mainKeywords);
-
-  // types
-  define("attribute", appKeysKws);
-  define("attribute", deploymentKeysKws);
-  define("attribute", typeKws);
-
-  // types
-  define("qualifier", validationKws);
-
-  // app types
-  define("keyword", apptypeKws);
-
-  // types
-  define("special", generalKws.concat(
-    paginationKws,
-    serviceKws,
-    dtoKws,
-    searchKws,
-    specialValueKws
-  ));
 
   function tokenBase(stream, state) {
     if (stream.eatSpace()) return null;
@@ -299,17 +244,19 @@ CodeMirror.defineMode("jdl", function () {
 });
 const keywords = mainKeywords.concat(
   constructs,
-  typeKws,
-  relationshipKws,
-  validationKws,
+  fieldTypeValues,
+  relationShipOptions,
+  relationShipTypeValues,
+  validationKeys,
   generalKws,
-  paginationKws,
-  dtoKws,
-  serviceKws,
-  apptypeKws,
-  appKeysKws,
-  deploymentKeysKws,
-  specialValueKws
+  unaryOptionKeys,
+  relationShipOptions,
+  binaryOptionKeys,
+  binaryOptionValues,
+  deploymentTypes,
+  applicationOptionKeys,
+  deploymentOptionKeys,
+  applicationOptionValues,
 );
 // @ts-ignore
 CodeMirror.commands.autocomplete = function (cm) {

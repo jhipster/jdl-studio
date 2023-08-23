@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import throttle from "lodash.throttle";
 
 // nomnoml dependencies
-import nomnoml from "nomnoml";
+import * as nomnoml from "nomnoml";
 // code mirror dependencies
 import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
@@ -106,10 +106,10 @@ export class Studio extends React.PureComponent<IStudioProp> {
 
   renderJDL = (val = this.props.code) => {
     try {
-      const canvas = this.canvasRef.current;
+      const canvas = this.canvasRef.current as HTMLCanvasElement;
       const nomlVal = val ? jdlToNoml(val) : "[No JDL content, start writing]";
       const finalVal = this.getDefaultDirectives(this.props) + nomlVal;
-      const model = nomnoml.draw(canvas, finalVal, this.panner.zoom());
+      const model: any = nomnoml.draw(canvas, finalVal, this.panner.zoom());
       setFilename(model.config.title);
       this.panner.positionCanvas(canvas);
     } catch (e) {

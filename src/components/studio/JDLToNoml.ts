@@ -1,4 +1,4 @@
-import { parse } from "jhipster-core/lib/dsl/api";
+import { parse } from "generator-jhipster/jdl";
 
 function validJDL(line) {
   var ok = line[0] !== "#";
@@ -40,6 +40,7 @@ export function jdlToNoml(jdlString: string): string {
     .trim();
 
   const JDL = parse(pureDiagramCode);
+
   let nomlEntities: NomlEntity[] = [];
   const allEntityNames = JDL.entities.map((it) => it.name);
   let unProcessedEntities: string[] = [...allEntityNames];
@@ -55,8 +56,8 @@ export function jdlToNoml(jdlString: string): string {
           app.entities.excluded,
           JDL.options.microservice,
           app.config.baseName,
-          allEntityNames
-        )
+          allEntityNames,
+        ),
       );
       unProcessedEntities = unProcessed;
       return {
@@ -78,7 +79,7 @@ export function jdlToNoml(jdlString: string): string {
     const [processed] = processEntities(
       JDL,
       unProcessedEntities,
-      unProcessedEntities
+      unProcessedEntities,
     );
     // parse remaining entities
     nomlEntities = [...nomlEntities, ...processed];
@@ -91,7 +92,7 @@ export function jdlToNoml(jdlString: string): string {
 function processEntities(
   JDL,
   unProcessed,
-  filter: string[] = []
+  filter: string[] = [],
 ): [NomlEntity[], string[]] {
   const out: NomlEntity[] = [];
   const allEnumNames = JDL.enums.map((it) => it.name);
@@ -169,7 +170,7 @@ function findActualEntities(
   excluded: string[],
   msOptions: { [key: string]: MsOption },
   appName: string,
-  entities: string[]
+  entities: string[],
 ): string[] {
   let include = included;
   if (include.includes("*")) {

@@ -66,6 +66,8 @@ If you want to contribute to the project more info is available in [CONTRIBUTING
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). There are two important GIT branches. `src` branch holds the source code and all development needs to be done against that branch. `gh-pages` branch holds the deployable static site that is built from `src`.
 
+Use `npm i --legacy-peer-deps` when installing to avoid peer dependency conflicts
+
 ## Deploy to production
 
 In order to deploy to production run `npm run deploy`, this will build the `src` branch and move the assets to the gh-pages branch and push it to GitHub, it will update the `https://www.jhipster.tech/jdl-studio/` version and will create a PR to update the `https://start.jhipster.tech`
