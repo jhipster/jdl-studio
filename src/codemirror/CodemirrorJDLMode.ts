@@ -9,6 +9,7 @@ import {
   fieldTypes,
   reservedKeywords,
   validations,
+  // @ts-ignore
 } from "generator-jhipster/jdl";
 
 const constructs = [

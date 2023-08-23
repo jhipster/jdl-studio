@@ -1,3 +1,4 @@
+// @ts-ignore
 import { parse } from "generator-jhipster/jdl";
 
 function validJDL(line) {

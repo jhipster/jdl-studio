@@ -6,7 +6,7 @@ if [ -z "$(git status --porcelain)" ]; then
     DEPLOY_BRANCH=gh-pages
     SRC_BRANCH=src
 
-    /bin/rm -rf build || exit
+    /bin/rm -rf dist || exit
     /bin/rm -rf $TMP_LOC || exit
 
     echo ">> Building app"
@@ -14,7 +14,7 @@ if [ -z "$(git status --porcelain)" ]; then
 
     echo ">> Move build assets to temp folder"
     mkdir --parents $TMP_LOC || exit
-    mv build/* $TMP_LOC || exit
+    mv dist/* $TMP_LOC || exit
 
     echo ">> Checkout and clean $DEPLOY_BRANCH branch"
     git fetch && git checkout $DEPLOY_BRANCH || exit
