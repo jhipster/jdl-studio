@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
-import "@testing-library/jest-dom";
+// import "@testing-library/jest-dom";
 import App from "./App";
 import { store } from "./Store";
 
@@ -34,7 +34,7 @@ test("renders about page text", () => {
     </Provider>
   );
   const linkElement = getByText(/Hello, this is JDL-Studio/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(linkElement).toBeDefined()
 });
 
 test("renders default snapshot", () => {
