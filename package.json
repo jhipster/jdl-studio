@@ -47,7 +47,7 @@
     "test:no-watch": "vitest run",
     "test:coverage": "vitest run --coverage",
     "serve": "vite preview",
-    "deploy": "CI=true npm test:no-watch && ./deploy.sh"
+    "deploy": "CI=true npm run test:no-watch && ./deploy.sh"
   },
   "eslintConfig": {
     "extends": "react-app"
