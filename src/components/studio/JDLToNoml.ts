@@ -39,7 +39,8 @@ export function jdlToNoml(jdlString: string): string {
     .join("\n")
     .trim();
 
-  const JDL = JdlLib.parse(pureDiagramCode);
+  const JDL = parse(pureDiagramCode);
+
   let nomlEntities: NomlEntity[] = [];
   const allEntityNames = JDL.entities.map((it) => it.name);
   let unProcessedEntities: string[] = [...allEntityNames];
