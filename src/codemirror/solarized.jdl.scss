@@ -34,17 +34,19 @@ http://ethanschoonover.com/solarized/img/solarized-palette.png
 .cm-s-solarized.cm-s-dark {
   color: #abb2bf;
   background-color: transparent;
+  font-weight: 300;
 }
 .cm-s-solarized.cm-s-light {
   background-color: transparent;
   color: #657b83;
+  font-weight: 300;
 }
 
 .cm-s-solarized .CodeMirror-widget {
   text-shadow: none;
 }
 
-.cm-s-solarized .cm-keyword { color: #c678dd; font-style: italic ; font-weight: bold}
+.cm-s-solarized .cm-keyword { color: #c678dd; font-style: italic; font-weight: bold; }
 .cm-s-solarized .cm-atom { color: #d33682; }
 .cm-s-solarized .cm-number { color: #d33682; }
 .cm-s-solarized .cm-def { color: #61afef; }
@@ -66,8 +68,8 @@ http://ethanschoonover.com/solarized/img/solarized-palette.png
 .cm-s-solarized .cm-builtin { color: #d33682; }
 .cm-s-solarized .cm-bracket { color: #abb2bf; }
 .cm-s-solarized .CodeMirror-matchingbracket { font-weight: bold; color: #61afef !important }
-.cm-s-solarized .CodeMirror-nonmatchingbracket { color: #dc322f; }
-.cm-s-solarized .cm-tag { color: #93a1a1 }
+.cm-s-solarized .CodeMirror-nonmatchingbracket { color: #dc322f; font-weight: bold; }
+.cm-s-solarized .cm-tag { color: #93a1a1; }
 .cm-s-solarized .cm-attribute {  color: #2aa198; }
 .cm-s-solarized .cm-header { color: #586e75; }
 .cm-s-solarized .cm-quote { color: #93a1a1; }
@@ -146,6 +148,7 @@ http://ethanschoonover.com/solarized/img/solarized-palette.png
 .cm-s-solarized .CodeMirror-linenumber {
   color: #586e75;
   padding: 0 5px;
+
 }
 .cm-s-solarized .CodeMirror-guttermarker-subtle { color: #586e75; }
 .cm-s-solarized.cm-s-dark .CodeMirror-guttermarker { color: #ddd; }
