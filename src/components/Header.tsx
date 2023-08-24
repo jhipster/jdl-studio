@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import LineIcon from "react-lineicons";
-import logo from "../resources/logo-jhipster.svg";
+import logo from "../resources/logo-jhipster.svg?raw";
 import { IRootState } from "../Store";
 import {
   initAuthentication,
@@ -126,7 +126,11 @@ export function Header({
             rel="noopener noreferrer"
             className="logo-img"
           >
-            <img className="jhi-logo" src={logo} alt="JHipster logo" />
+            <img
+              className="jhi-logo"
+              src={"data:image/svg+xml;base64," + btoa(logo)}
+              alt="JHipster logo"
+            />
           </a>
           <a
             className="logo link"
