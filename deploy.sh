@@ -27,7 +27,7 @@ if [ -z "$(git status --porcelain)" ]; then
     git config user.name github-actions || exit
     git config user.email github-actions@github.com || exit
     git add --all || exit
-    git commit -am "Updated app on $now" || exit
+    git commit -am "Updated app on $now" –allow-empty || exit
     git push origin $DEPLOY_BRANCH --force || exit
 
     echo ">> $now: Published changes to GitHub"
