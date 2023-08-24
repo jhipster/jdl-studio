@@ -1,42 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
-   xmlnsDc="http://purl.org/dc/elements/1.1/"
-   xmlnsCc="http://creativecommons.org/ns#"
-   xmlnsRdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlnsSvg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlnsSodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlnsInkscape="http://www.inkscape.org/namespaces/inkscape"
    width="41.650581mm"
    height="22.737143mm"
-   viewBox="0 0 41.650581 22.737144"
-   version="1.1"
-   id="svg4558"
-   inkscapeVersion="0.92.4 5da689c313, 2019-01-14"
-   sodipodiDocname="bowtiew.svg">
-
-  <g
-     inkscapeLabel="Layer 1"
-     inkscapeGroupmode="layer"
-     id="layer1"
-     transform="translate(91.128861,-31.631428)">
-    <g
-       transform="matrix(0.26458333,0,0,0.26458333,-86.128653,31.84938)"
-       id="g4554">
+   viewBox="0 0 41.650581 22.737144">
+  <g transform="translate(91.128861,-31.631428)">
+    <g transform="matrix(0.26458333,0,0,0.26458333,-86.128653,31.84938)">
       <path
          style="fill:#3474ab"
-         inkscapeConnector-curvature="0"
-         id="path24"
-         d="M 69.88,38.18 C 69.88,38.18 10.53,3.74 5.4,25.16 0.27,46.58 -5.5,62.86 10.31,65.87 26.12,68.88 69.88,38.18 69.88,38.18 Z"
-         class="b" />
+         d="M 69.88,38.18 C 69.88,38.18 10.53,3.74 5.4,25.16 0.27,46.58 -5.5,62.86 10.31,65.87 26.12,68.88 69.88,38.18 69.88,38.18 Z"/>
       <path
          style="fill:#4289c7"
-         inkscapeConnector-curvature="0"
-         id="path26"
-         d="m 59.62,33 c 17,-8.8 50.68,-23.88 54.53,-7.91 5.18,21.49 11,37.84 -4.79,40.91 -11.08,2.15 -36,-12.38 -49.82,-21.2 -0.02,-10.44 0.1,-1.51 0.08,-11.8 z"
-         class="c" />
+         d="m 59.62,33 c 17,-8.8 50.68,-23.88 54.53,-7.91 5.18,21.49 11,37.84 -4.79,40.91 -11.08,2.15 -36,-12.38 -49.82,-21.2 -0.02,-10.44 0.1,-1.51 0.08,-11.8 z"/>
     </g>
   </g>
 </svg>
+
