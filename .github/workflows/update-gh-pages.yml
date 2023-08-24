@@ -24,8 +24,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: NPM install
-        run: npm i
+        run: npm i --legacy-peer-deps
       - name: NPM deploy
         run: npm run deploy
