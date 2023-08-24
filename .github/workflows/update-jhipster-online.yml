@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout jhipster-online with submodules
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           repository: 'jhipster/jhipster-online'
           submodules: 'true'
