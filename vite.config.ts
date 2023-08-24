@@ -13,9 +13,7 @@ export default defineConfig({
     svgrPlugin(),
     nodePolyfills({
       // To exclude specific polyfills, add them to this list.
-      exclude: [
-        "fs", // Excludes the polyfill for `fs` and `node:fs`.
-      ],
+      exclude: [],
       // Whether to polyfill specific globals.
       globals: {
         // Buffer: true, // can also be 'build', 'dev', or false
