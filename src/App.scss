@@ -194,7 +194,7 @@ header {
   }
 
   &.light-theme {
-    background: rgb(253, 246, 227);
+    background: rgb(0, 174, 255);
     box-shadow: 0px 0 10px rgba(0, 0, 0, 0.28);
     .tools {
       i {
@@ -342,7 +342,7 @@ header {
 
   &.light-theme {
     .code-mirror-editor {
-      background: #fdf6e3;
+      background: rgb(0, 174, 255);
       color: #657b83;
       // this is a codemirror class
       .CodeMirror-linenumber {
@@ -350,7 +350,7 @@ header {
       }
     }
     .line-numbers {
-      background: #eee8d5;
+      background: rgb(0, 174, 255);
       color: #d4cebd;
     }
     .error-tooltip {
@@ -424,7 +424,7 @@ header {
   }
 
   &.light-theme {
-    background-color: rgb(253, 246, 227);
+    background-color: rgb(0, 174, 255);
     box-shadow: -3px 0 6px rgba(0, 0, 0, 0.28);
     .content {
       color: #586e75;

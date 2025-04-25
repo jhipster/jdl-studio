@@ -1,0 +1,75 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  NODE_VERSION: "16" # Match your project's Node.js requirement
+  CI: "true"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+# Install dependencies once and reuse across jobs
+install_dependencies:
+  stage: .pre
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+  only:
+    - merge_requests
+    - main
+    - master
+
+unit_tests:
+  stage: test
+  script:
+    - npm run test:no-watch
+  artifacts:
+    when: always
+    reports:
+      junit: junit.xml
+    paths:
+      - coverage/
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+  only:
+    - merge_requests
+    - main
+    - master
+
+coverage_tests:
+  stage: test
+  script:
+    - npm run test:coverage
+  artifacts:
+    paths:
+      - coverage/
+  only:
+    - main
+    - master
+
+build_project:
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+  only:
+    - main
+    - master
+
+deploy_production:
+  stage: deploy
+  script:
+    - ./deploy.sh
+  environment:
+    name: production
+    url: https://www.jhipster.tech/jdl-studio/
+  only:
+    - main
+    - tags
