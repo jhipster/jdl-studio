@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "@testing-library/react": "14.0.0",
-    "@testing-library/user-event": "14.4.3",
+    "@testing-library/react": "12.1.5",
+    "@testing-library/user-event": "13.5.0",
     "@types/codemirror": "5.60.8",
     "@types/node": "20.5.1",
     "@types/react": "18.2.20",
@@ -20,7 +20,8 @@
     "vite-plugin-node-polyfills": "^0.11.3",
     "vite-plugin-svgr": "^3.2.0",
     "vite-tsconfig-paths": "^4.2.0",
-    "vitest": "^0.34.2"
+    "vitest": "^0.34.6",
+    "@vitest/coverage-v8": "0.34.6"
   },
   "dependencies": {
     "canvas": "2.11.2",
@@ -30,9 +31,9 @@
     "lodash.throttle": "4.1.1",
     "miragejs": "0.1.47",
     "nomnoml": "1.6.2",
-    "react": "^18.0.0",
+    "react": "^16.14.0",
     "react-codemirror2": "7.2.1",
-    "react-dom": "^18.0.0",
+    "react-dom": "^16.14.0",
     "react-lineicons": "3.0.0",
     "react-redux": "8.1.2",
     "reactjs-popup": "2.0.5",
