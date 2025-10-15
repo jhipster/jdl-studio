@@ -13,7 +13,7 @@
     "@types/react-dom": "18.2.7",
     "@vitejs/plugin-react": "^4.0.4",
     "c8": "^8.0.1",
-    "happy-dom": "^15.10.2",
+    "happy-dom": "^20.0.2",
     "sass": "^1.66.1",
     "typescript": "5.1.6",
     "vite": "^7.0.7",
