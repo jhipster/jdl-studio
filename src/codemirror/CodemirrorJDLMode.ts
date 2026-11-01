@@ -185,13 +185,15 @@ CodeMirror.defineMode("jdl", function () {
     let lastCh = stream.string.charAt(stream.start - 1);
     let startCh = stream.string.trim().charAt(0);
     if (
-      stream.match("//") ||
-      ch === "/" ||
+      (ch === "/" && (stream.eat("/") || stream.eat("*"))) ||
       lastCh + ch === "/*" ||
       startCh === "*"
     ) {
       stream.skipToEnd();
       return "comment";
+    }
+    if (ch === "/" && stream.match(/^(?:\\.|[^\\/])+\//)) {
+      return "string";
     }
 
     if (ch === "+" || ch === "=") {
