@@ -99,7 +99,7 @@ function processEntities(
   const allEnumNames = JDL.enums.map((it) => it.name);
   const enumsInApp: string[] = [];
   JDL.entities.forEach((entity) => {
-    if (filter.length > 0 && !filter.includes(entity.name)) {
+    if (!filter.includes(entity.name)) {
       return;
     }
     out.push({
@@ -146,9 +146,9 @@ function processEntities(
   });
   JDL.relationships.forEach((rel) => {
     if (
-      filter.length > 0 &&
-      (![...filter, "User"].includes(rel.from.name) ||
-        ![...filter, "User"].includes(rel.to.name))
+      filter.length === 0 ||
+      ![...filter, "User"].includes(rel.from.name) ||
+      ![...filter, "User"].includes(rel.to.name)
     ) {
       return;
     }
