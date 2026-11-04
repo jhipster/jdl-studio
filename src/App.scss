@@ -219,6 +219,15 @@ header {
 }
 
 .studio {
+  // Line number (gutter) colors. Override these custom properties to customize
+  // the editor gutter, for example:
+  //   .studio { --jdl-line-number-color: #f8f8f2; }
+  // The light theme overrides them further down in this file.
+  --jdl-line-number-color: #93a1a1;
+  --jdl-line-number-error-color: #e6edf3;
+  --jdl-line-number-background: rgb(32, 36, 45);
+  --jdl-line-number-error-background: rgba(220, 50, 47, 0.3);
+
   .line-marker {
     background: rgba(220, 50, 47, 0.5);
     position: absolute;
@@ -235,13 +244,18 @@ header {
     left: 0;
     width: 40px;
     height: 100%;
-    background: rgb(32, 36, 45);
-    color: #d4cebd;
+    background: var(--jdl-line-number-background);
 
     &.error {
-      background: rgba(220, 50, 47, 0.3) !important;
+      background: var(--jdl-line-number-error-background) !important;
       z-index: 4;
     }
+  }
+
+  // The error overlay is painted on top of the editor, so line numbers need a
+  // brighter color to remain readable against the tinted background.
+  .line-numbers.error ~ .code-mirror-editor .CodeMirror-linenumber {
+    color: var(--jdl-line-number-error-color);
   }
 
   .code-mirror-editor {
@@ -269,7 +283,7 @@ header {
       transition: opacity 0.3s;
       // this is a codemirror class
       .CodeMirror-linenumber {
-        color: #3e4350;
+        color: var(--jdl-line-number-color);
         padding-left: 5px;
       }
       .CodeMirror-sizer {
@@ -341,17 +355,13 @@ header {
   }
 
   &.light-theme {
+    --jdl-line-number-color: #52656b;
+    --jdl-line-number-error-color: #002b36;
+    --jdl-line-number-background: #eee8d5;
+
     .code-mirror-editor {
       background: #fdf6e3;
       color: #657b83;
-      // this is a codemirror class
-      .CodeMirror-linenumber {
-        color: #d4cebd;
-      }
-    }
-    .line-numbers {
-      background: #eee8d5;
-      color: #d4cebd;
     }
     .error-tooltip {
       background: #eee8d5;

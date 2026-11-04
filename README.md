@@ -29,6 +29,26 @@ The JDL-Studio web application is a simple editor with a live preview. It is pur
 
 The canvas can be panned and zoomed by dragging and scrolling in the right hand third of the canvas. Downloaded image files will be given the filename in the `#title` directive.
 
+### Theming
+
+The editor follows the light/dark toggle in the header. The line numbers (gutter) can be customized with CSS custom properties:
+
+```css
+/* Defaults, override them to taste. */
+.studio {
+  --jdl-line-number-color: #93a1a1;
+  --jdl-line-number-error-color: #e6edf3;
+  --jdl-line-number-background: rgb(32, 36, 45);
+  --jdl-line-number-error-background: rgba(220, 50, 47, 0.3);
+}
+
+.studio.light-theme {
+  --jdl-line-number-color: #52656b;
+  --jdl-line-number-error-color: #002b36;
+  --jdl-line-number-background: #eee8d5;
+}
+```
+
 ### syntax
 
 The JDL syntax is explained [here](http://www.jhipster.tech//jdl)
